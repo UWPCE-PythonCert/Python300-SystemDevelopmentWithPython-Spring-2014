@@ -144,6 +144,8 @@ Student Presentations
 
 ## Special topics: lambda, decorators, properties... (already covered enough?)
 
+## unicode
+
 ## Relational databases, SQL, Object-relational mappers
 
 ## Desktop GUIs: wxPython
