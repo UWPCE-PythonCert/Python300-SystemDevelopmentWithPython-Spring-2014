@@ -59,9 +59,9 @@ Use PyChecker and/or PyLint and/or PyFlakes
 
 ## Typical class:
 
-Each class will involve a lecture interseresed with in-class exercises about the lecture topic. 
+Each class will involve a lecture interspersed with in-class exercises about the lecture topic. 
 
-Beginning the third week, the final hour or so of the class will consist of a coce reviewo f students work-in-progress.
+Beginning the fourth week, the final hour or so of the class will consist of a code reviews of students' work-in-progress.
 
 In addition, as we work with you on your projects, we will highlight for the class interesting problems and their solutions that come up in class.
 
