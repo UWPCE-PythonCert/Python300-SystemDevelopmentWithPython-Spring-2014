@@ -87,7 +87,7 @@ April 1st
 #### Topics 
 - Debugging (print, pdb/ipdb, winpdb, eclipse)
 - logging
-- "advanced OO" (__new()__, super(), mixins, type, metaclasses, abc module)
+- "advanced OO" (\__new()__, super(), mixins, type, metaclasses, abc module)
 - weak references
 
 -- Joseph
