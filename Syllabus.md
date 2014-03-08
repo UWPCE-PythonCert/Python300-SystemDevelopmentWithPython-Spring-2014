@@ -35,7 +35,7 @@ Courses in this program are arranged sequentially.  To recieve the certificate, 
 
 ## The class project:
 
-Each student will develop a substantial project throughout the class. It can be an individual project, or a group project with a small group from the class (3-4 students). We suggest that you consider a group project -- it will give you a chance to practice developing with others, as well as give you a built-in way to get code review, folks to bounce ideas off of, etc.
+Each student will develop a substantial project throughout the class. It can be an individual project, or a group project with a small group from the class (2-4 students). We suggest that you consider a group project -- it will give you a chance to practice developing with others, as well as give you a built-in way to get code review, folks to bounce ideas off of, etc.
 
 ### Requirements:
 
@@ -73,6 +73,7 @@ In addition, as we work with you on your projects, we will highlight for the cla
 March 25th
 
 #### Topics 
+- packaging
 - unit testing (coverage)
 - documentation (docstrings, sphinx)
 - PEP-8 (pylint/pychecker/pyflakes)
@@ -82,6 +83,7 @@ March 25th
 
 ### Week 2
 April 1st
+(proposals due)
 #### Topics 
 - Debugging (print, pdb/ipdb, winpdb, eclipse)
 - logging
