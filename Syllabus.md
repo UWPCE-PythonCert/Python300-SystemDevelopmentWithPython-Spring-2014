@@ -1,8 +1,8 @@
 # UW Certificate Program in  Programming in Python 
 
-Python 100
+Python 300
 Spring, 2014 
-March-25 through May 27th, Tuesday, 6 PM 
+March 25 through May 27th, Tuesday, 6 PM 
 
 ## Brief Course Description
 
@@ -51,7 +51,7 @@ You should set it up with good package structure -- ready to share and/or deploy
 
 Write some docs: Sphinx!
 
-Confirm to PEP8 (unless you have a company style instead)
+Conform to PEP8 (unless you have a company style instead)
 
 Use PyChecker and/or PyLint and/or PyFlakes
 
@@ -72,57 +72,78 @@ In addition, as we work with you on your projects, we will highlight for the cla
 ### Week 1
 March 25th
 
-Topics TBA
+#### Topics 
+- unit testing (coverage)
+- documentation (docstrings, sphinx)
+- PEP-8 (pylint/pychecker/pyflakes)
+- unicode
 
 -- Chris
 
 ### Week 2
 April 1st
-
-Topics TBA
+#### Topics 
+- Debugging (print, pdb/ipdb, winpdb, eclipse)
+- logging
+- "advanced OO" (__new()__, super(), mixins, type, metaclasses, abc module)
+- weak references
 
 -- Joseph
 
 ### Week 3
 April 8th
 
-Topics TBA
-
+#### Topics
+- numpy, scipy, pandas, matplotlib, ipython/notebook, ...
+- datetime,time,pytz
+ 
 -- Chris
 
 ### Week 4
 
 April 15th
 
-Topics TBA
+#### Topics 
+- Databases (DB-API w/ sqlite, postgres, mysql)
+- ORM (?)
+- code reviews begin
 
 -- Joseph
 
 ### Week 5
 April 22nd
 
-Topics TBA
+#### Topics 
+- non-relational DBs (zdb, Riak, MongoDB, couchDB, BSDdb) (Chris?)
+- serialization review / XML (Joseph?)
+- Lambda functions / functional programming / functools
+- use immutable kwargs in function definition
+- itertools
 
--- Chris
+-- Joseph (Chris out of town)
 
 ### Week 6
 April 29th
 
-Topics TBA
+#### Topics 
+- C extensions( C API, ctypes, cython)
 
--- Joseph
+-- Chris/Joseph
 
 ### Week 7
 May 6th 
 
-Topics TBA
+#### Topics 
+- profiling
+- threading/multiprocessing
 
 -- Joseph
 
 ### Week 8
 May 13th
 
-Topics TBA
+#### Topics 
+- GUI programming: wxPython, pyQT, tkinter, (GTK, pygame?)    
 
 -- Chris
 
@@ -139,54 +160,6 @@ May 27th
 Student Presentations
 
 -- Joseph and Chris
-
-## Possible  Topics:
-
-## Special topics: lambda, decorators, properties... (already covered enough?)
-
-## unicode
-
-## Relational databases, SQL, Object-relational mappers
-
-## Desktop GUIs: wxPython
-
-## Performance / Profiling
-
-## Threading / Multiprocessing
-
-## Advanced OO: `__new()__`, `super()`, mixins, etc. 
-
-## Intro to Numerical Computation: numpy, the "scipy stack"
-
-## Non relational databases
-
-### Debugging
-
-### Unit testing (already covered enough?)
-
-### Leveraging C libraries / writing extensions:
- C API
- ctypes
- cython
-
-### Iterators and generators (covered?)
-
-### Decorators (covered?)
-(writing your own, not just using them...)
-
-### Lambda functions (covered?)
-
-### Context managers, the with statement
-
-### Persistence / Serialization: (covered?)
-pickle, shelve, JSON, CSV, XML, BSDdb
-
-### Desktop GUIs:
-tkInter
-wxPython
-pyGTK
-pyQT / pySide
-
 
 ## Student Resources
 The following link includes student handbooks, services, and policies, and other important information: http://www.pce.uw.edu/resource.aspx .
