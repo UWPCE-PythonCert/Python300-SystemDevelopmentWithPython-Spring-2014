@@ -7,7 +7,11 @@
 Unicode in Python 2
 ===================
 
-Contents:
+A quick run-down of Unicode, its use in Python 2, and some of the gotchas that arise.
+
+ - Chris Barker
+
+.. Contents:
 
 .. toctree::
    :maxdepth: 2
@@ -16,11 +20,38 @@ What the heck is Unicode anyway?
 =================================
 
 * First there was chaos...
-* Then there was ASCII -- and all was good
-  . (for English speakers, anyway)
 
+  * Different machines used different encodings
+
+* Then there was ASCII -- and all was good (7 bit), 127 characters
+
+  * (for English speakers, anyway)
+
+* But each vendor used the top half (127-255) for different things.
+
+  * MacRoman, Windows 1252, etc... 
+
+  * There is now "latin-1", but still a lot of old files around
+
+* Non-Western European languages required totally incompatible 1-byte encodings
+
+* No way to mix languages with different alphabets.
+
+
+Enter Unicode
 =================================
 
+The Unicode idea is pretty simple:
+  
+  * one "code point" for all characters in all languages
+
+But how do you express that in bytes?
+  * Early days: we can fit all the code points in a two byte integer (65536 characters)
+  * Turns out that didn't work -- now need 32 bit integer to hold all of unicode "raw" (UTC-4)
+
+Enter "encodings":
+  * An encoding is a way to map specific bytes to a code point.
+  * Each code point can have one or more bytes.
 
 
 Unicode
@@ -43,18 +74,8 @@ If it's on disk or on a network, it's bytes
 
 Python provides some abstractions to make it easier to deal with bytes
 
-Unicode
-=================================
-
 Unicode is a biggie
 
-strings vs unicode 
-
-``str()`` vs. ``bytes()`` vs. ``unicode()`` 
-
-(and bytearray)
-
-python 2.x vs 3.x
 
 
 (actually, dealing with numbers rather than bytes is big -- but we take that for granted)
@@ -67,9 +88,36 @@ Strings are sequences of bytes
 
 Unicode strings are sequences of platonic characters
 
+It's almost one code point per character -- but there are complications with combined characters: accents, etc.)
+
 Platonic characters cannot be written to disk or network!
 
-(ANSI -- one character == one byte -- so easy!)
+(ANSI: one character == one byte -- so easy!)
+
+
+strings vs unicode 
+====================
+
+Python 2 has two types that let you work with text:
+
+
+ * ``str``
+ * ``unicode`` 
+
+And two ways to work with binary data:
+ * ``str``
+ * ``bytes()``  (and ``bytearray``)
+ * but:
+::
+
+   In [86]: str is bytes
+   Out[86]: True
+
+``bytes`` is there for py3 compatibility - -but it's good for making your intentions clear, too.
+
+python2 vs python3
+===================
+
 
 Unicode
 ========
@@ -97,6 +145,7 @@ Unicode
 	unicode()
 	codecs.encode()
 	codecs.decode()
+	codecs.open() # very handy!
 
 Unicode
 ========
@@ -229,7 +278,7 @@ Py3 has two distict concepts:
   * "text" -- uses the unicode object
   * "binary data" -- used bytes or bytearray
 
-Everyting that's about text is unicode.
+Everything that's about text is unicode.
 
 Everything that requires binary data uses bytes.
 

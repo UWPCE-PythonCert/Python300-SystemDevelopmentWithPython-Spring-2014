@@ -50,7 +50,12 @@
 
 <h1>Unicode in Python 2</h1>
 
-<p>Contents:</p>
+<p>A quick run-down of Unicode, its use in Python 2, and some of the gotchas that arise.</p>
+<blockquote>
+<div><ul class="simple">
+<li>Chris Barker</li>
+</ul>
+</div></blockquote>
 <div class="toctree-wrapper compound">
 <ul class="simple">
 </ul>
@@ -65,16 +70,56 @@
 <h2>What the heck is Unicode anyway?</h2>
 
 <ul class="simple">
-<li>First there was chaos...</li>
-<li>Then there was ASCII -- and all was good
-. (for English speakers, anyway)</li>
+<li>First there was chaos...<ul>
+<li>Different machines used different encodings</li>
+</ul>
+</li>
+<li>Then there was ASCII -- and all was good (7 bit), 127 characters<ul>
+<li>(for English speakers, anyway)</li>
+</ul>
+</li>
+<li>But each vendor used the top half (127-255) for different things.<ul>
+<li>MacRoman, Windows 1252, etc...</li>
+<li>There is now &quot;latin-1&quot;, but still a lot of old files around</li>
+</ul>
+</li>
+<li>Non-Western European languages required totally incompatible 1-byte encodings</li>
+<li>No way to mix languages with different alphabets.</li>
 </ul>
 
 
 
 
-</article><hr class="docutils" />
+</article>
+<article class="slide level-2" id="enter-unicode">
 
+<h2>Enter Unicode</h2>
+
+<p>The Unicode idea is pretty simple:</p>
+<blockquote>
+<div><ul class="simple">
+<li>one &quot;code point&quot; for all characters in all languages</li>
+</ul>
+</div></blockquote>
+<dl class="docutils">
+<dt>But how do you express that in bytes?</dt>
+<dd><ul class="first last simple">
+<li>Early days: we can fit all the code points in a two byte integer (65536 characters)</li>
+<li>Turns out that didn't work -- now need 32 bit integer to hold all of unicode &quot;raw&quot; (UTC-4)</li>
+</ul>
+</dd>
+<dt>Enter &quot;encodings&quot;:</dt>
+<dd><ul class="first last simple">
+<li>An encoding is a way to map specific bytes to a code point.</li>
+<li>Each code point can have one or more bytes.</li>
+</ul>
+</dd>
+</dl>
+
+
+
+
+</article>
 <article class="slide level-2" id="unicode">
 
 <h2>Unicode</h2>
@@ -95,6 +140,8 @@ Positively Must Know About Unicode and Character Sets (No Excuses!)</p>
 <p>Everything is Bytes</p>
 <p>If it's on disk or on a network, it's bytes</p>
 <p>Python provides some abstractions to make it easier to deal with bytes</p>
+<p>Unicode is a biggie</p>
+<p>(actually, dealing with numbers rather than bytes is big -- but we take that for granted)</p>
 
 
 
@@ -104,31 +151,55 @@ Positively Must Know About Unicode and Character Sets (No Excuses!)</p>
 
 <h2>Unicode</h2>
 
-<p>Unicode is a biggie</p>
-<p>strings vs unicode</p>
-<p><tt class="docutils literal"><span class="pre">str()</span></tt> vs. <tt class="docutils literal"><span class="pre">bytes()</span></tt> vs. <tt class="docutils literal"><span class="pre">unicode()</span></tt></p>
-<p>(and bytearray)</p>
-<p>python 2.x vs 3.x</p>
-<p>(actually, dealing with numbers rather than bytes is big -- but we take that for granted)</p>
+<p>Strings are sequences of bytes</p>
+<p>Unicode strings are sequences of platonic characters</p>
+<p>It's almost one code point per character -- but there are complications with combined characters: accents, etc.)</p>
+<p>Platonic characters cannot be written to disk or network!</p>
+<p>(ANSI: one character == one byte -- so easy!)</p>
+
+
+
+
+</article>
+<article class="slide level-2" id="strings-vs-unicode">
+
+<h2>strings vs unicode</h2>
+
+<p>Python 2 has two types that let you work with text:</p>
+<blockquote>
+<div><ul class="simple">
+<li><tt class="docutils literal"><span class="pre">str</span></tt></li>
+<li><tt class="docutils literal"><span class="pre">unicode</span></tt></li>
+</ul>
+</div></blockquote>
+<dl class="docutils">
+<dt>And two ways to work with binary data:</dt>
+<dd><ul class="first last simple">
+<li><tt class="docutils literal"><span class="pre">str</span></tt></li>
+<li><tt class="docutils literal"><span class="pre">bytes()</span></tt>  (and <tt class="docutils literal"><span class="pre">bytearray</span></tt>)</li>
+<li>but:</li>
+</ul>
+</dd>
+</dl>
+<div class="highlight-python"><pre>In [86]: str is bytes
+Out[86]: True</pre>
+</div>
+<p><tt class="docutils literal"><span class="pre">bytes</span></tt> is there for py3 compatibility - -but it's good for making your intentions clear, too.</p>
+
+
+
+
+</article>
+<article class="slide level-2" id="python2-vs-python3">
+
+<h2>python2 vs python3</h2>
+
 
 
 
 
 </article>
 <article class="slide level-2" id="id3">
-
-<h2>Unicode</h2>
-
-<p>Strings are sequences of bytes</p>
-<p>Unicode strings are sequences of platonic characters</p>
-<p>Platonic characters cannot be written to disk or network!</p>
-<p>(ANSI -- one character == one byte -- so easy!)</p>
-
-
-
-
-</article>
-<article class="slide level-2" id="id4">
 
 <h2>Unicode</h2>
 
@@ -142,7 +213,7 @@ Positively Must Know About Unicode and Character Sets (No Excuses!)</p>
 
 
 </article>
-<article class="slide level-2" id="id5">
+<article class="slide level-2" id="id4">
 
 <h2>Unicode</h2>
 
@@ -154,6 +225,7 @@ Positively Must Know About Unicode and Character Sets (No Excuses!)</p>
 <span class="nb">unicode</span><span class="p">()</span>
 <span class="n">codecs</span><span class="o">.</span><span class="n">encode</span><span class="p">()</span>
 <span class="n">codecs</span><span class="o">.</span><span class="n">decode</span><span class="p">()</span>
+<span class="n">codecs</span><span class="o">.</span><span class="n">open</span><span class="p">()</span> <span class="c"># very handy!</span>
 </pre></div>
 </div>
 
@@ -161,7 +233,7 @@ Positively Must Know About Unicode and Character Sets (No Excuses!)</p>
 
 
 </article>
-<article class="slide level-2" id="id6">
+<article class="slide level-2" id="id5">
 
 <h2>Unicode</h2>
 
@@ -204,7 +276,7 @@ Out[18]: '\xff\xfet\x00h\x00i\x00s\x00'</pre>
 
 
 </article>
-<article class="slide level-2" id="id7">
+<article class="slide level-2" id="id6">
 
 <h2>Unicode</h2>
 
@@ -237,7 +309,7 @@ Out[2]: 'ascii'</pre>
 <p><a class="reference external" href="http://en.wikipedia.org/wiki/Comparison_of_Unicode_encodings">http://en.wikipedia.org/wiki/Comparison_of_Unicode_encodings</a></p>
 <p>But only a couple you are likely to need:</p>
 <ul class="simple">
-<li>utf-8 <a href="#id8"><span class="problematic" id="id9">*</span></a>nix (ascii compatible)</li>
+<li>utf-8 <a href="#id7"><span class="problematic" id="id8">*</span></a>nix (ascii compatible)</li>
 <li>utf-16 * (Windows)</li>
 </ul>
 <p>trick: 'latin-1' can hold and round-trip any binary data.</p>
@@ -268,7 +340,7 @@ first 127 characters are the same</li>
 
 
 </article>
-<article class="slide level-2" id="id10">
+<article class="slide level-2" id="id9">
 
 <h2>Unicode</h2>
 
@@ -322,7 +394,7 @@ Out[10]: [u'hello_unicode.py', u'text.utf16', u'text.utf32']</p>
 </ul>
 </dd>
 </dl>
-<p>Everyting that's about text is unicode.</p>
+<p>Everything that's about text is unicode.</p>
 <p>Everything that requires binary data uses bytes.</p>
 <p>It's all much cleaner.</p>
 
