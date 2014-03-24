@@ -115,14 +115,11 @@ And two ways to work with binary data:
 
 ``bytes`` is there for py3 compatibility - -but it's good for making your intentions clear, too.
 
-python2 vs python3
-===================
-
 
 Unicode
 ========
 
-the ``unicode`` object lets you work with characters
+The ``unicode`` object lets you work with characters
 
 It has all the same methods as the string object.
 
@@ -132,31 +129,40 @@ It has all the same methods as the string object.
 
 (sometimes this feels backwards...)
 
-Unicode
-========
+Using unicode in Py2
+=====================
 
-::
+Built in functions::
 
-	import codecs
 	ord()
 	chr()
 	unichr()
 	str()
 	unicode()
+
+The codecs module::
+
+	import codecs
 	codecs.encode()
 	codecs.decode()
 	codecs.open() # very handy!
 
-Unicode
-========
+Encoding and Decoding
+======================
 
-::
+Encoding::
 
 	In [17]: u"this".encode('utf-8')
 	Out[17]: 'this'
 
 	In [18]: u"this".encode('utf-16')
 	Out[18]: '\xff\xfet\x00h\x00i\x00s\x00'
+
+Decoding::
+
+    In [99]: print '\xff\xfe."+"x\x00\xb2\x00'.decode('utf-16')
+    ∮∫x²
+
 
 
 Unicode Literals
@@ -179,28 +185,48 @@ One example:
 
 (demo: ``code\hello_unicode.py``)
 
-Unicode
-========
+Using Unicode
+==============
 
-Use unicode objects in all your code
+Use ``unicode`` objects in all your code
 
-decode on input
+Decode on input
 
-encode on output
+Encode on output
 
 Many packages do this for you:
     XML processing, databases, ...
 
-Gotcha:
+**Gotcha:**
 
 Python has a default encoding (usually ascii)::
-
-  In [1]: import sys
 
   In [2]: sys.getdefaultencoding()
   Out[2]: 'ascii'
 
-(``sys.getfilesystemencoding()``)
+The default encoding will get used in unexpected places!
+
+Using unicode everywhere
+============================
+
+Python 2.6 and above have a nice feature to make it easier to use unicdoe everywhere::
+
+    from __future__ import unicode_literals
+
+After running that line, the `u''` is assumed::
+    
+    In [1]: s = "this is a regular py2 string"
+
+    In [2]: print type(s)
+    <type 'str'>
+
+	In [3]: from __future__ import unicode_literals
+
+	In [4]: s = "this is now a unicode string"
+
+	In [5]: type(s)
+	Out[5]: unicode
+
 
 Encodings
 ===========
@@ -213,15 +239,18 @@ http://en.wikipedia.org/wiki/Comparison_of_Unicode_encodings
 
 But only a couple you are likely to need:
 
-* utf-8 *nix (ascii compatible)
-* utf-16 * (Windows)
+* utf-8  (``*nix``)
+* utf-16  (Windows)
 
-trick: 'latin-1' can hold and round-trip any binary data.
+and of course, still the one-bytes ones.
+
+* ASCII
+* Latin-1
 
 UTF-8
 ======
 
-Probably the one you'll use most -- most common in internet protocols (xml, JSON, etc.)
+Probably the one you'll use most -- most common in Internet protocols (xml, JSON, etc.)
 
 Nice properties:
 
@@ -236,9 +265,60 @@ Gotchas:
 
 * ASCII compatible means in may work with default encoding in tests -- but then blow up with real data...
 
+UTF-16
+=======
 
-Unicode
+Kind of like UTF-8, except it uses at least 16bits (2 bytes) for each character: not ASCII compatible.
+
+But is still needs more than two bytes for some code points, so you still can't process
+
+In C/C++ held in a "wide char" or "wide string".
+
+MS Windows uses UTF-16, as does (I think) Java.
+
+UTF-16 criticism
+=================
+
+Lot of criticism on the net about UTF-16 -- it's kind of the worst of both worlds:
+  * You can't assume every character is the same number of bytes
+  * It takes up more memory than UTF-8
+
+`UTF Considered Harmful <http://programmers.stackexchange.com/questions/102205/should-utf-16-be-considered-harmful>`_
+
+But to be fair:
+
+Early versions of Unicode: everything fit into two bytes (65536 code points). MS and Java were fairly early adopters, and it seemed simple enough to just use 2 bytes per character.
+
+When it turned out that 4 bytes were really needed, they were kind of stuck in the middle.
+
+Latin-1
+========
+
+**NOT Unicode**:
+  a 1-byte per char encoding.
+
+ * Superset of ASCII suitable for Western European languages.
+
+ * The most common one-byte per char encoding for European text.
+
+ * Nice property -- every byte value from 0 to 255 is a valid character
+
+Latin-1 (cont)
 ==========
+
+ * You will never get an UnicodeDecodeError if you try to decode arbitrary bytes with latin-1.
+
+ * And it can "round-trip" through a unicode object.
+
+ * Useful is you don't know the encoding -- at least it won't raise an Exception
+
+ * Useful if you need to work with combined text+binary data.
+
+(``\code\latin1_test.py``)
+
+
+Unicode Docs
+=============
 
 Python Docs Unicode HowTo:
 
@@ -251,16 +331,17 @@ http://docs.python.org/howto/unicode.html
 	for line in f:
 	    print repr(line)
 
+
 Encodings Built-in to Python:
   http://docs.python.org/2/library/codecs.html#standard-encodings
+
 
 Gotchas in Python 2
 ====================
 
-Exception messages
-
 file names, etc:
-  if you pass in unicode, you get unicode::
+
+If you pass in unicode, you get unicode::
 
   In [9]: os.listdir('./')
   Out[9]: ['hello_unicode.py', 'text.utf16', 'text.utf32']
@@ -269,14 +350,31 @@ file names, etc:
   Out[10]: [u'hello_unicode.py', u'text.utf16', u'text.utf32']
 
 
+Gotchas in Python 2
+====================
+
+Exception messages:
+ 
+ * Py2 Exceptions use str when they print messages.
+ 
+ * But what if you pass in a unicode object?
+
+   * It is encoded with the default encoding.
+
+ * ``UnicodeDecodeError`` Inside an Exception????
+
+ NOPE: it swallows it instead.
+
+(demo: ``code\exception_test.py``)
+
 Unicode in Python 3
 ====================
 
 The "string" object is unicode.
 
-Py3 has two distict concepts:
-  * "text" -- uses the unicode object
-  * "binary data" -- used bytes or bytearray
+Py3 has two distinct concepts:
+  * "text" -- uses the str object (which is always unicode!)
+  * "binary data" -- uses bytes or bytearray
 
 Everything that's about text is unicode.
 
@@ -290,20 +388,23 @@ Unicode LAB
 
 * Find some nifty non-ascii characters you might use.
    Create a unicode object with them in two different ways.
+
 * In the "code" dir for this topic, there are two files::
 
     text.utf16
     text.utf32
 
 read the contents into unicode objects
+
 * write some of the text from the first exercise to file.
+
 * item read that file back in.
 
 
 reference: http://inamidst.com/stuff/unidata/
 
 
-NOTE: if your terminal does not support unicode -- you'll get an error trying to print. Try a different terminal or IDE, or google for a solution
+.. NOTE: if your terminal does not support unicode -- you'll get an error trying to print. Try a different terminal or IDE, or google for a solution
 
 
 

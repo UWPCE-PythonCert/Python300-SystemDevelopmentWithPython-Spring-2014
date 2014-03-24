@@ -190,20 +190,11 @@ Out[86]: True</pre>
 
 
 </article>
-<article class="slide level-2" id="python2-vs-python3">
-
-<h2>python2 vs python3</h2>
-
-
-
-
-
-</article>
 <article class="slide level-2" id="id3">
 
 <h2>Unicode</h2>
 
-<p>the <tt class="docutils literal"><span class="pre">unicode</span></tt> object lets you work with characters</p>
+<p>The <tt class="docutils literal"><span class="pre">unicode</span></tt> object lets you work with characters</p>
 <p>It has all the same methods as the string object.</p>
 <p>&quot;encoding&quot; is converting from a unicode object to bytes</p>
 <p>&quot;decoding&quot; is converting from bytes to a unicode object</p>
@@ -213,16 +204,20 @@ Out[86]: True</pre>
 
 
 </article>
-<article class="slide level-2" id="id4">
+<article class="slide level-2" id="using-unicode-in-py2">
 
-<h2>Unicode</h2>
+<h2>Using unicode in Py2</h2>
 
-<div class="highlight-python"><div class="highlight"><pre><span class="kn">import</span> <span class="nn">codecs</span>
-<span class="nb">ord</span><span class="p">()</span>
+<p>Built in functions:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="nb">ord</span><span class="p">()</span>
 <span class="nb">chr</span><span class="p">()</span>
 <span class="nb">unichr</span><span class="p">()</span>
 <span class="nb">str</span><span class="p">()</span>
 <span class="nb">unicode</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>The codecs module:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="kn">import</span> <span class="nn">codecs</span>
 <span class="n">codecs</span><span class="o">.</span><span class="n">encode</span><span class="p">()</span>
 <span class="n">codecs</span><span class="o">.</span><span class="n">decode</span><span class="p">()</span>
 <span class="n">codecs</span><span class="o">.</span><span class="n">open</span><span class="p">()</span> <span class="c"># very handy!</span>
@@ -233,15 +228,20 @@ Out[86]: True</pre>
 
 
 </article>
-<article class="slide level-2" id="id5">
+<article class="slide level-2" id="encoding-and-decoding">
 
-<h2>Unicode</h2>
+<h2>Encoding and Decoding</h2>
 
+<p>Encoding:</p>
 <div class="highlight-python"><pre>In [17]: u"this".encode('utf-8')
 Out[17]: 'this'
 
 In [18]: u"this".encode('utf-16')
 Out[18]: '\xff\xfet\x00h\x00i\x00s\x00'</pre>
+</div>
+<p>Decoding:</p>
+<div class="highlight-python"><pre>In [99]: print '\xff\xfe."+"x\x00\xb2\x00'.decode('utf-16')
+∮∫x²</pre>
 </div>
 
 
@@ -276,25 +276,49 @@ Out[18]: '\xff\xfet\x00h\x00i\x00s\x00'</pre>
 
 
 </article>
-<article class="slide level-2" id="id6">
+<article class="slide level-2" id="using-unicode">
 
-<h2>Unicode</h2>
+<h2>Using Unicode</h2>
 
-<p>Use unicode objects in all your code</p>
-<p>decode on input</p>
-<p>encode on output</p>
+<p>Use <tt class="docutils literal"><span class="pre">unicode</span></tt> objects in all your code</p>
+<p>Decode on input</p>
+<p>Encode on output</p>
 <dl class="docutils">
 <dt>Many packages do this for you:</dt>
 <dd>XML processing, databases, ...</dd>
 </dl>
-<p>Gotcha:</p>
+<p><strong>Gotcha:</strong></p>
 <p>Python has a default encoding (usually ascii):</p>
-<div class="highlight-python"><pre>In [1]: import sys
-
-In [2]: sys.getdefaultencoding()
+<div class="highlight-python"><pre>In [2]: sys.getdefaultencoding()
 Out[2]: 'ascii'</pre>
 </div>
-<p>(<tt class="docutils literal"><span class="pre">sys.getfilesystemencoding()</span></tt>)</p>
+<p>The default encoding will get used in unexpected places!</p>
+
+
+
+
+</article>
+<article class="slide level-2" id="using-unicode-everywhere">
+
+<h2>Using unicode everywhere</h2>
+
+<p>Python 2.6 and above have a nice feature to make it easier to use unicdoe everywhere:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="kn">from</span> <span class="nn">__future__</span> <span class="kn">import</span> <span class="n">unicode_literals</span>
+</pre></div>
+</div>
+<p>After running that line, the <cite>u''</cite> is assumed:</p>
+<div class="highlight-python"><pre>In [1]: s = "this is a regular py2 string"
+
+In [2]: print type(s)
+&lt;type 'str'&gt;
+
+    In [3]: from __future__ import unicode_literals
+
+    In [4]: s = "this is now a unicode string"
+
+    In [5]: type(s)
+    Out[5]: unicode</pre>
+</div>
 
 
 
@@ -309,10 +333,14 @@ Out[2]: 'ascii'</pre>
 <p><a class="reference external" href="http://en.wikipedia.org/wiki/Comparison_of_Unicode_encodings">http://en.wikipedia.org/wiki/Comparison_of_Unicode_encodings</a></p>
 <p>But only a couple you are likely to need:</p>
 <ul class="simple">
-<li>utf-8 <a href="#id7"><span class="problematic" id="id8">*</span></a>nix (ascii compatible)</li>
-<li>utf-16 * (Windows)</li>
+<li>utf-8  (<tt class="docutils literal"><span class="pre">*nix</span></tt>)</li>
+<li>utf-16  (Windows)</li>
 </ul>
-<p>trick: 'latin-1' can hold and round-trip any binary data.</p>
+<p>and of course, still the one-bytes ones.</p>
+<ul class="simple">
+<li>ASCII</li>
+<li>Latin-1</li>
+</ul>
 
 
 
@@ -322,7 +350,7 @@ Out[2]: 'ascii'</pre>
 
 <h2>UTF-8</h2>
 
-<p>Probably the one you'll use most -- most common in internet protocols (xml, JSON, etc.)</p>
+<p>Probably the one you'll use most -- most common in Internet protocols (xml, JSON, etc.)</p>
 <p>Nice properties:</p>
 <ul class="simple">
 <li>ASCII compatible
@@ -340,9 +368,81 @@ first 127 characters are the same</li>
 
 
 </article>
-<article class="slide level-2" id="id9">
+<article class="slide level-2" id="utf-16">
 
-<h2>Unicode</h2>
+<h2>UTF-16</h2>
+
+<p>Kind of like UTF-8, except it uses at least 16bits (2 bytes) for each character: not ASCII compatible.</p>
+<p>But is still needs more than two bytes for some code points, so you still can't process</p>
+<p>In C/C++ held in a &quot;wide char&quot; or &quot;wide string&quot;.</p>
+<p>MS Windows uses UTF-16, as does (I think) Java.</p>
+
+
+
+
+</article>
+<article class="slide level-2" id="utf-16-criticism">
+
+<h2>UTF-16 criticism</h2>
+
+<dl class="docutils">
+<dt>Lot of criticism on the net about UTF-16 -- it's kind of the worst of both worlds:</dt>
+<dd><ul class="first last simple">
+<li>You can't assume every character is the same number of bytes</li>
+<li>It takes up more memory than UTF-8</li>
+</ul>
+</dd>
+</dl>
+<p><a class="reference external" href="http://programmers.stackexchange.com/questions/102205/should-utf-16-be-considered-harmful">UTF Considered Harmful</a></p>
+<p>But to be fair:</p>
+<p>Early versions of Unicode: everything fit into two bytes (65536 code points). MS and Java were fairly early adopters, and it seemed simple enough to just use 2 bytes per character.</p>
+<p>When it turned out that 4 bytes were really needed, they were kind of stuck in the middle.</p>
+
+
+
+
+</article>
+<article class="slide level-2" id="latin-1">
+
+<h2>Latin-1</h2>
+
+<dl class="docutils">
+<dt><strong>NOT Unicode</strong>:</dt>
+<dd><blockquote class="first">
+<div>a 1-byte per char encoding.</div></blockquote>
+<ul class="last simple">
+<li>Superset of ASCII suitable for Western European languages.</li>
+<li>The most common one-byte per char encoding for European text.</li>
+<li>Nice property -- every byte value from 0 to 255 is a valid character</li>
+</ul>
+</dd>
+</dl>
+
+
+
+
+</article>
+<article class="slide level-2" id="latin-1-cont">
+
+<h2>Latin-1 (cont)</h2>
+
+<blockquote>
+<div><ul class="simple">
+<li>You will never get an UnicodeDecodeError if you try to decode arbitrary bytes with latin-1.</li>
+<li>And it can &quot;round-trip&quot; through a unicode object.</li>
+<li>Useful is you don't know the encoding -- at least it won't raise an Exception</li>
+<li>Useful if you need to work with combined text+binary data.</li>
+</ul>
+</div></blockquote>
+<p>(<tt class="docutils literal"><span class="pre">\code\latin1_test.py</span></tt>)</p>
+
+
+
+
+</article>
+<article class="slide level-2" id="unicode-docs">
+
+<h2>Unicode Docs</h2>
 
 <p>Python Docs Unicode HowTo:</p>
 <p><a class="reference external" href="http://docs.python.org/howto/unicode.html">http://docs.python.org/howto/unicode.html</a></p>
@@ -366,16 +466,36 @@ first 127 characters are the same</li>
 
 <h2>Gotchas in Python 2</h2>
 
-<p>Exception messages</p>
-<dl class="docutils">
-<dt>file names, etc:</dt>
-<dd><p class="first">if you pass in unicode, you get unicode:</p>
-<p>In [9]: os.listdir('./')
-Out[9]: ['hello_unicode.py', 'text.utf16', 'text.utf32']</p>
-<p class="last">In [10]: os.listdir(u'./')
-Out[10]: [u'hello_unicode.py', u'text.utf16', u'text.utf32']</p>
-</dd>
-</dl>
+<p>file names, etc:</p>
+<p>If you pass in unicode, you get unicode:</p>
+<div class="highlight-python"><pre>In [9]: os.listdir('./')
+Out[9]: ['hello_unicode.py', 'text.utf16', 'text.utf32']
+
+In [10]: os.listdir(u'./')
+Out[10]: [u'hello_unicode.py', u'text.utf16', u'text.utf32']</pre>
+</div>
+
+
+
+
+</article>
+<article class="slide level-2" id="id4">
+
+<h2>Gotchas in Python 2</h2>
+
+<p>Exception messages:</p>
+<blockquote>
+<div><ul class="simple">
+<li>Py2 Exceptions use str when they print messages.</li>
+<li>But what if you pass in a unicode object?<ul>
+<li>It is encoded with the default encoding.</li>
+</ul>
+</li>
+<li><tt class="docutils literal"><span class="pre">UnicodeDecodeError</span></tt> Inside an Exception????</li>
+</ul>
+<p>NOPE: it swallows it instead.</p>
+</div></blockquote>
+<p>(demo: <tt class="docutils literal"><span class="pre">code\exception_test.py</span></tt>)</p>
 
 
 
@@ -387,10 +507,10 @@ Out[10]: [u'hello_unicode.py', u'text.utf16', u'text.utf32']</p>
 
 <p>The &quot;string&quot; object is unicode.</p>
 <dl class="docutils">
-<dt>Py3 has two distict concepts:</dt>
+<dt>Py3 has two distinct concepts:</dt>
 <dd><ul class="first last simple">
-<li>&quot;text&quot; -- uses the unicode object</li>
-<li>&quot;binary data&quot; -- used bytes or bytearray</li>
+<li>&quot;text&quot; -- uses the str object (which is always unicode!)</li>
+<li>&quot;binary data&quot; -- uses bytes or bytearray</li>
 </ul>
 </dd>
 </dl>
@@ -420,11 +540,12 @@ Out[10]: [u'hello_unicode.py', u'text.utf16', u'text.utf32']</p>
 </div>
 </li>
 </ul>
-<p>read the contents into unicode objects
-* write some of the text from the first exercise to file.
-* item read that file back in.</p>
+<p>read the contents into unicode objects</p>
+<ul class="simple">
+<li>write some of the text from the first exercise to file.</li>
+<li>item read that file back in.</li>
+</ul>
 <p>reference: <a class="reference external" href="http://inamidst.com/stuff/unidata/">http://inamidst.com/stuff/unidata/</a></p>
-<p>NOTE: if your terminal does not support unicode -- you'll get an error trying to print. Try a different terminal or IDE, or google for a solution</p>
 
 
 
