@@ -209,7 +209,7 @@ The default encoding will get used in unexpected places!
 Using unicode everywhere
 ============================
 
-Python 2.6 and above have a nice feature to make it easier to use unicdoe everywhere::
+Python 2.6 and above have a nice feature to make it easier to use unicode everywhere::
 
     from __future__ import unicode_literals
 
@@ -220,12 +220,12 @@ After running that line, the `u''` is assumed::
     In [2]: print type(s)
     <type 'str'>
 
-	In [3]: from __future__ import unicode_literals
+    In [3]: from __future__ import unicode_literals
 
-	In [4]: s = "this is now a unicode string"
+    In [4]: s = "this is now a unicode string"
 
-	In [5]: type(s)
-	Out[5]: unicode
+    In [5]: type(s)
+    Out[5]: unicode
 
 
 Encodings
