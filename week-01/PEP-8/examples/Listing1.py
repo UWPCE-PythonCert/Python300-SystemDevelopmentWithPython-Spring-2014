@@ -59,3 +59,19 @@ pizza = Pizza()
 print type(food) == type(pizza)
 print isinstance(food, Food)
 print isinstance(pizza, Food)
+
+# create a larger Cyclomatic complexity, error triggered with
+# flake8 --max-complexity=5
+def f(x):
+    if x is 1:
+        return x
+    elif x is 2:
+        return x
+    elif x is 3:
+        return x
+    elif x is 4:
+        return x
+    elif x is 5:
+        return x
+
+print f()

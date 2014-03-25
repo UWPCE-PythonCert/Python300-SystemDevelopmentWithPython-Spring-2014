@@ -79,6 +79,10 @@ Serving HTTP on 0.0.0.0 port 8000 ...
             <li>Maximum line length of 79 characters
             <li>This is an easy one to let run away early.   If 79 characters is too short, find a line length your team can agree on and stick to it as specified in PEP-8 
         </ul>
+    </section>
+
+    <section class="slide">
+        <h2>PEP-8 recommendations (continued)</h2>
         <ul>
             <li><a target="_blank" href="http://legacy.python.org/dev/peps/pep-0008/#source-file-encoding">http://legacy.python.org/dev/peps/pep-0008/#source-file-encoding</a>
             <li>The default encoding in Python 2 is ASCII, in Python 3 it is UTF-8.
@@ -121,6 +125,17 @@ Serving HTTP on 0.0.0.0 port 8000 ...
             </li>
             <li>avoid wildcard imports to keep the namespace clean for both humans and automated tools
         </ul>
+    </section>
+
+    <section class="slide">
+        <h2>PEP-8 recommendations (continued)</h2>
+            <p>public and non-public class members
+            <ul>
+                <li>When in doubt make an attribute non-public
+                <li>A non-public attribute has two leading underscores and no trailing underscores, which triggers Python's name mangling
+                <li>property access should be cheap
+                <li>add public names in a module to __all__
+                <li>When comparing with singletons such as None, use "x is None", not "x == None" (I break this all the time)
     </section>
 
     <section class="slide">
