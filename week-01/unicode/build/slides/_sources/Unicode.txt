@@ -209,23 +209,22 @@ The default encoding will get used in unexpected places!
 Using unicode everywhere
 ============================
 
-Python 2.6 and above have a nice feature to make it easier to use unicdoe everywhere::
+Python 2.6 and above have a nice feature to make it easier to use unicode everywhere::
 
     from __future__ import unicode_literals
 
-After running that line, the `u''` is assumed::
+After running that line, the ``u''`` is assumed::
     
     In [1]: s = "this is a regular py2 string"
-
     In [2]: print type(s)
     <type 'str'>
 
-	In [3]: from __future__ import unicode_literals
+    In [3]: from __future__ import unicode_literals
+    In [4]: s = "this is now a unicode string"
+    In [5]: type(s)
+    Out[5]: unicode
 
-	In [4]: s = "this is now a unicode string"
-
-	In [5]: type(s)
-	Out[5]: unicode
+NOTE: You can still get py2 strings from other sources!
 
 
 Encodings
@@ -254,9 +253,10 @@ Probably the one you'll use most -- most common in Internet protocols (xml, JSON
 
 Nice properties:
 
-* ASCII compatible
-  first 127 characters are the same
+* ASCII compatible: first 127 characters are the same
+
 * Any ascii string is a utf-8 string
+
 * compact for mostly-english text.
 
 Gotchas:
@@ -304,13 +304,13 @@ Latin-1
  * Nice property -- every byte value from 0 to 255 is a valid character
 
 Latin-1 (cont)
-==========
+===============
 
  * You will never get an UnicodeDecodeError if you try to decode arbitrary bytes with latin-1.
 
  * And it can "round-trip" through a unicode object.
 
- * Useful is you don't know the encoding -- at least it won't raise an Exception
+ * Useful if you don't know the encoding -- at least it won't raise an Exception
 
  * Useful if you need to work with combined text+binary data.
 
@@ -324,7 +324,7 @@ Python Docs Unicode HowTo:
 
 http://docs.python.org/howto/unicode.html
 
-"Reading Unicode from a file is therefore simple:"::
+"Reading Unicode from a file is therefore simple" ::
 
 	import codecs
 	f = codecs.open('unicode.rst', encoding='utf-8')
@@ -348,6 +348,12 @@ If you pass in unicode, you get unicode::
 
   In [10]: os.listdir(u'./')
   Out[10]: [u'hello_unicode.py', u'text.utf16', u'text.utf32']
+
+Python deals with the file system encoding for you...
+
+But: some more obscure calls don't support unicode filenames:
+
+``os.statvfs()`` (http://bugs.python.org/issue18695)
 
 
 Gotchas in Python 2
@@ -382,30 +388,77 @@ Everything that requires binary data uses bytes.
 
 It's all much cleaner.
 
+(by the way, the recent implementations are very efficient...)
 
-Unicode LAB
-==============
+Basic Unicode LAB
+==================
 
 * Find some nifty non-ascii characters you might use.
    Create a unicode object with them in two different ways.
 
-* In the "code" dir for this topic, there are two files::
+* Read the contents into unicode objects:
 
-    text.utf16
-    text.utf32
+ |   ``code/ICanEatGlass.utf16.txt``
+ |   ``code/ICanEatGlass.utf8.txt``
 
-read the contents into unicode objects
-
-* write some of the text from the first exercise to file.
-
-* item read that file back in.
-
+* write some of the text from the first exercise to file -- read that file back in.
 
 reference: http://inamidst.com/stuff/unidata/
 
+NOTE: if your terminal does not support unicode -- you'll get an error trying to print. Try a different terminal or IDE, or google for a solution
 
-.. NOTE: if your terminal does not support unicode -- you'll get an error trying to print. Try a different terminal or IDE, or google for a solution
+Challenge Unicode LAB
+======================
 
+We saw this earlier::
 
+	In [38]: u'to \N{INFINITY} and beyond!'.decode('utf-8')
+	---------------------------------------------------------------------------
+	UnicodeEncodeError                        Traceback (most recent call last)
+	<ipython-input-38-7f87d44dfcfa> in <module>()
+	----> 1 u'to \N{INFINITY} and beyond!'.decode('utf-8')
 
+	/Library/Frameworks/Python.framework/Versions/2.7/lib/python2.7/encodings/utf_8.pyc in decode(input, errors)
+	     14 
+	     15 def decode(input, errors='strict'):
+	---> 16     return codecs.utf_8_decode(input, errors, True)
+	     17 
+	     18 class IncrementalEncoder(codecs.IncrementalEncoder):
+
+	UnicodeEncodeError: 'ascii' codec can't encode character u'\u221e' in position 3: ordinal not in range(128)
+
+.. nextslide::
+
+But why would you **decode** a unicode object?
+
+And it should be a no-op -- why the exception?
+
+And why 'ascii'? I specified 'utf-8'!
+
+It's there for backward compatibility
+
+What's happening under the hood::
+
+    u'to \N{INFINITY} and beyond!'.encode().decode('utf-8')
+
+It encodes with the default encoding (ascii), then decodes
+
+In this case, it barfs on attempting to encode to 'ascii'
+
+.. nextslide::
+
+So never call decode on a unicode object!
+
+But what if someone passes one into a function of yours that's expecting a py2 string?
+
+Type checking and converting -- yeach!
+
+Read:
+
+http://axialcorps.com/2014/03/20/unicode-str/
+
+See if you can figure out the decorators:
+ | ``code/unicodify.py``
+
+(Aren't you glad I didn't ask you to write that yourself?)
 
