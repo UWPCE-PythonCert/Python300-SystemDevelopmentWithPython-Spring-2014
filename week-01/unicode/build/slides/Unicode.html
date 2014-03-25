@@ -302,23 +302,21 @@ Out[2]: 'ascii'</pre>
 
 <h2>Using unicode everywhere</h2>
 
-<p>Python 2.6 and above have a nice feature to make it easier to use unicdoe everywhere:</p>
+<p>Python 2.6 and above have a nice feature to make it easier to use unicode everywhere:</p>
 <div class="highlight-python"><div class="highlight"><pre><span class="kn">from</span> <span class="nn">__future__</span> <span class="kn">import</span> <span class="n">unicode_literals</span>
 </pre></div>
 </div>
-<p>After running that line, the <cite>u''</cite> is assumed:</p>
+<p>After running that line, the <tt class="docutils literal"><span class="pre">u''</span></tt> is assumed:</p>
 <div class="highlight-python"><pre>In [1]: s = "this is a regular py2 string"
-
 In [2]: print type(s)
 &lt;type 'str'&gt;
 
-    In [3]: from __future__ import unicode_literals
-
-    In [4]: s = "this is now a unicode string"
-
-    In [5]: type(s)
-    Out[5]: unicode</pre>
+In [3]: from __future__ import unicode_literals
+In [4]: s = "this is now a unicode string"
+In [5]: type(s)
+Out[5]: unicode</pre>
 </div>
+<p>NOTE: You can still get py2 strings from other sources!</p>
 
 
 
@@ -353,8 +351,7 @@ In [2]: print type(s)
 <p>Probably the one you'll use most -- most common in Internet protocols (xml, JSON, etc.)</p>
 <p>Nice properties:</p>
 <ul class="simple">
-<li>ASCII compatible
-first 127 characters are the same</li>
+<li>ASCII compatible: first 127 characters are the same</li>
 <li>Any ascii string is a utf-8 string</li>
 <li>compact for mostly-english text.</li>
 </ul>
@@ -430,7 +427,7 @@ first 127 characters are the same</li>
 <div><ul class="simple">
 <li>You will never get an UnicodeDecodeError if you try to decode arbitrary bytes with latin-1.</li>
 <li>And it can &quot;round-trip&quot; through a unicode object.</li>
-<li>Useful is you don't know the encoding -- at least it won't raise an Exception</li>
+<li>Useful if you don't know the encoding -- at least it won't raise an Exception</li>
 <li>Useful if you need to work with combined text+binary data.</li>
 </ul>
 </div></blockquote>
@@ -446,7 +443,7 @@ first 127 characters are the same</li>
 
 <p>Python Docs Unicode HowTo:</p>
 <p><a class="reference external" href="http://docs.python.org/howto/unicode.html">http://docs.python.org/howto/unicode.html</a></p>
-<p>&quot;Reading Unicode from a file is therefore simple:&quot;:</p>
+<p>&quot;Reading Unicode from a file is therefore simple&quot;</p>
 <div class="highlight-python"><div class="highlight"><pre><span class="kn">import</span> <span class="nn">codecs</span>
 <span class="n">f</span> <span class="o">=</span> <span class="n">codecs</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="s">&#39;unicode.rst&#39;</span><span class="p">,</span> <span class="n">encoding</span><span class="o">=</span><span class="s">&#39;utf-8&#39;</span><span class="p">)</span>
 <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="n">f</span><span class="p">:</span>
@@ -474,6 +471,9 @@ Out[9]: ['hello_unicode.py', 'text.utf16', 'text.utf32']
 In [10]: os.listdir(u'./')
 Out[10]: [u'hello_unicode.py', u'text.utf16', u'text.utf32']</pre>
 </div>
+<p>Python deals with the file system encoding for you...</p>
+<p>But: some more obscure calls don't support unicode filenames:</p>
+<p><tt class="docutils literal"><span class="pre">os.statvfs()</span></tt> (<a class="reference external" href="http://bugs.python.org/issue18695">http://bugs.python.org/issue18695</a>)</p>
 
 
 
@@ -517,14 +517,15 @@ Out[10]: [u'hello_unicode.py', u'text.utf16', u'text.utf32']</pre>
 <p>Everything that's about text is unicode.</p>
 <p>Everything that requires binary data uses bytes.</p>
 <p>It's all much cleaner.</p>
+<p>(by the way, the recent implementations are very efficient...)</p>
 
 
 
 
 </article>
-<article class="slide level-2" id="unicode-lab">
+<article class="slide level-2" id="basic-unicode-lab">
 
-<h2>Unicode LAB</h2>
+<h2>Basic Unicode LAB</h2>
 
 <ul>
 <li><dl class="first docutils">
@@ -533,19 +534,86 @@ Out[10]: [u'hello_unicode.py', u'text.utf16', u'text.utf32']</pre>
 </dd>
 </dl>
 </li>
-<li><p class="first">In the &quot;code&quot; dir for this topic, there are two files:</p>
-<div class="highlight-python"><div class="highlight"><pre><span class="n">text</span><span class="o">.</span><span class="n">utf16</span>
-<span class="n">text</span><span class="o">.</span><span class="n">utf32</span>
-</pre></div>
-</div>
+<li><p class="first">Read the contents into unicode objects:</p>
 </li>
 </ul>
-<p>read the contents into unicode objects</p>
+<blockquote>
+<div><div class="line-block">
+<div class="line"><tt class="docutils literal"><span class="pre">code/ICanEatGlass.utf16.txt</span></tt></div>
+<div class="line"><tt class="docutils literal"><span class="pre">code/ICanEatGlass.utf8.txt</span></tt></div>
+</div>
+</div></blockquote>
 <ul class="simple">
-<li>write some of the text from the first exercise to file.</li>
-<li>item read that file back in.</li>
+<li>write some of the text from the first exercise to file -- read that file back in.</li>
 </ul>
 <p>reference: <a class="reference external" href="http://inamidst.com/stuff/unidata/">http://inamidst.com/stuff/unidata/</a></p>
+<p>NOTE: if your terminal does not support unicode -- you'll get an error trying to print. Try a different terminal or IDE, or google for a solution</p>
+
+
+
+
+</article>
+<article class="slide level-2" id="challenge-unicode-lab">
+
+<h2>Challenge Unicode LAB</h2>
+
+<p>We saw this earlier:</p>
+<div class="highlight-python"><pre>In [38]: u'to \N{INFINITY} and beyond!'.decode('utf-8')
+---------------------------------------------------------------------------
+UnicodeEncodeError                        Traceback (most recent call last)
+&lt;ipython-input-38-7f87d44dfcfa&gt; in &lt;module&gt;()
+----&gt; 1 u'to \N{INFINITY} and beyond!'.decode('utf-8')
+
+/Library/Frameworks/Python.framework/Versions/2.7/lib/python2.7/encodings/utf_8.pyc in decode(input, errors)
+     14
+     15 def decode(input, errors='strict'):
+---&gt; 16     return codecs.utf_8_decode(input, errors, True)
+     17
+     18 class IncrementalEncoder(codecs.IncrementalEncoder):
+
+UnicodeEncodeError: 'ascii' codec can't encode character u'\u221e' in position 3: ordinal not in range(128)</pre>
+</div>
+
+
+
+
+</article>
+<article class="slide level-2" id="id5">
+
+<h2>Challenge Unicode LAB</h2>
+
+<p>But why would you <strong>decode</strong> a unicode object?</p>
+<p>And it should be a no-op -- why the exception?</p>
+<p>And why 'ascii'? I specified 'utf-8'!</p>
+<p>It's there for backward compatibility</p>
+<p>What's happening under the hood:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="s">u&#39;to </span><span class="se">\N{INFINITY}</span><span class="s"> and beyond!&#39;</span><span class="o">.</span><span class="n">encode</span><span class="p">()</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="s">&#39;utf-8&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>It encodes with the default encoding (ascii), then decodes</p>
+<p>In this case, it barfs on attempting to encode to 'ascii'</p>
+
+
+
+
+</article>
+<article class="slide level-2" id="id6">
+
+<h2>Challenge Unicode LAB</h2>
+
+<p>So never call decode on a unicode object!</p>
+<p>But what if someone passes one into a function of yours that's expecting a py2 string?</p>
+<p>Type checking and converting -- yeach!</p>
+<p>Read:</p>
+<p><a class="reference external" href="http://axialcorps.com/2014/03/20/unicode-str/">http://axialcorps.com/2014/03/20/unicode-str/</a></p>
+<dl class="docutils">
+<dt>See if you can figure out the decorators:</dt>
+<dd><div class="first last line-block">
+<div class="line"><tt class="docutils literal"><span class="pre">code/unicodify.py</span></tt></div>
+</div>
+</dd>
+</dl>
+<p>(Aren't you glad I didn't ask you to write that yourself?)</p>
 
 
 
