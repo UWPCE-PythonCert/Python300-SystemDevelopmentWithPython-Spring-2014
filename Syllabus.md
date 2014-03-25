@@ -75,9 +75,9 @@ March 25th
 #### Topics 
 - packaging
 - unit testing (coverage)
-- documentation (docstrings, sphinx)
 - PEP-8 (pylint/pychecker/pyflakes)
 - unicode
+- documentation (docstrings, sphinx)
 
 -- Chris
 
