@@ -1,0 +1,304 @@
+
+<!DOCTYPE html>
+
+
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Documentation &mdash; Documentation</title>
+    
+    <link rel="stylesheet" href="_static/basic.css" type="text/css" />
+    <link rel="stylesheet" href="_static/styles.css" type="text/css" />
+    <link rel="stylesheet" href="_static/single.css" type="text/css" />
+    
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '',
+        VERSION:     '2014.03.25',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="_static/common.js"></script>
+    
+    <script type="text/javascript" src="_static/slides.js"></script>
+    <script type="text/javascript" src="_static/sync.js"></script>
+    <script type="text/javascript" src="_static/controller.js"></script>
+    <script type="text/javascript" src="_static/init.js"></script>
+    
+    
+    <link rel="top" title="Documentation" href="index.html" /> 
+  </head>
+  <body>
+
+<section
+   id="slide_container"
+   class='slides layout-regular'>
+
+
+  
+<article class="slide level-1" id="documentation">
+
+<h1>Documentation</h1>
+
+<p>A (very) quick run down of how to document your python package.</p>
+<ul class="simple">
+<li>Chris Barker</li>
+</ul>
+
+
+
+
+</article>
+<article class="slide level-2" id="why">
+
+<h2>Why</h2>
+
+<p>Documentation is a key part of software development.</p>
+<p>You'll be glad you have it, even if you are the only one that uses your code.</p>
+<p>If you are writing a package you want others to use -- documentation can make all the difference</p>
+<p>And there are some nice tools for documenting Python code.</p>
+<p>There is even a hosting service:</p>
+<blockquote>
+<div><ul class="simple">
+<li><a class="reference external" href="http://readthedocs.org">http://readthedocs.org</a></li>
+</ul>
+</div></blockquote>
+
+
+
+
+</article>
+<article class="slide level-2" id="sphinx">
+
+<h2>Sphinx</h2>
+
+<p>Sphinx is a documentation system build specifically for documenting Python itself:</p>
+<p><a class="reference external" href="http://spinx-doc.org">http://spinx-doc.org</a></p>
+<p>But it's also useful for any sort of structured documentation -- and is sometimes used for non-code projects.</p>
+<dl class="docutils">
+<dt>It Produces:</dt>
+<dd><ul class="first last simple">
+<li>HTML (multiple styles available)</li>
+<li>PDF(via LaTeX)</li>
+<li>ePub</li>
+<li>man pages</li>
+<li>plain text</li>
+</ul>
+</dd>
+</dl>
+
+
+
+
+</article>
+<article class="slide level-2" id="extendability">
+
+<h2>Extendability</h2>
+
+<dl class="docutils">
+<dt>Sphinx has an extension architecture for adding special functionality:</dt>
+<dd><ul class="first simple">
+<li>Hieroglyph (It is used for these slides...)</li>
+<li>Matplotlib added some nice stuff:</li>
+</ul>
+<blockquote>
+<div><ul class="simple">
+<li><a class="reference external" href="http://matplotlib.org">http://matplotlib.org</a></li>
+</ul>
+</div></blockquote>
+<ul class="last simple">
+<li>Math</li>
+<li>Embedded ASCII art</li>
+<li>Embedding Excel spreadsheets</li>
+<li>Unlimited possibilities</li>
+</ul>
+</dd>
+</dl>
+
+
+
+
+</article>
+<article class="slide level-2" id="automatic-documentation">
+
+<h2>Automatic Documentation</h2>
+
+<p>One of the great features of Sphinx:</p>
+<p>It can extract docstrings from your code and build docs from them.</p>
+<p>Includes cross referencing of modules and classes, etc.</p>
+<p>This keeps your code and docs in sync, and encourages you to have nice docstrings.</p>
+<p>It's a bit tricky to get it all set up though :-(</p>
+
+
+
+
+</article>
+<article class="slide level-2" id="documentation-for-the-documentation-system">
+
+<h2>Documentation for the Documentation System</h2>
+
+<p>Sphinx is, of course, documented with sphinx itself.</p>
+<dl class="docutils">
+<dt>Its tutorial is pretty good, but can be a little confusing (particularly the autodoc stuff)</dt>
+<dd><ul class="first last simple">
+<li><a class="reference external" href="http://sphinx-doc.org/tutorial.html">http://sphinx-doc.org/tutorial.html</a></li>
+</ul>
+</dd>
+</dl>
+<p>So here are a couple other resources (and many more out there):</p>
+<dl class="docutils">
+<dt>Basic getting started tutorial:</dt>
+<dd><ul class="first last simple">
+<li><a class="reference external" href="https://pythonhosted.org/an_example_pypi_project/sphinx.html">https://pythonhosted.org/an_example_pypi_project/sphinx.html</a></li>
+</ul>
+</dd>
+<dt>Tutorial focused on getting autodoc set up:</dt>
+<dd><ul class="first last simple">
+<li><a class="reference external" href="http://codeandchaos.wordpress.com/2012/07/30/sphinx-autodoc-tutorial-for-dummies/">http://codeandchaos.wordpress.com/2012/07/30/sphinx-autodoc-tutorial-for-dummies/</a></li>
+</ul>
+</dd>
+</dl>
+
+
+
+
+</article>
+<article class="slide level-2" id="restructuredtext">
+
+<h2>reStructuredText</h2>
+
+<p>reStructuredText is the markup language used for Sphinx.</p>
+<p>Developed (adapted, really) for Python documentation.</p>
+<p>It's a plain text, easy to read and write markup.</p>
+<dl class="docutils">
+<dt>Like many similar markup languages (Markdown, etc.)</dt>
+<dd><ul class="first last simple">
+<li>designed to be easy to read and write</li>
+<li>makes sense in plain text</li>
+<li>looks a lot like what you might write in plain text anyway.</li>
+</ul>
+</dd>
+</dl>
+<p>So it's suitable for use both as plain text and for fancier formatting (i.e. docstrings)</p>
+<p>But more extensible than most others -- so good for sphinx</p>
+
+
+
+
+</article>
+<article class="slide level-2" id="id1">
+
+<h2>reStructuredText</h2>
+
+<div class="highlight-python"><pre>============================
+This is the top level header
+============================
+
+And now some normal text
+
+And a level-2 header
+=====================
+
+more text: **this** is bold.
+And ``this`` is code.
+
+::
+
+  #And now a code block
+  for i in range(10):
+      do_something_interesting(i)</pre>
+</div>
+
+
+
+
+</article>
+<article class="slide level-2" id="restructuredtext-documentation-sources">
+
+<h2>reStructuredText documentation sources</h2>
+
+<p>RST directives:</p>
+<div class="highlight-python"><pre>.. toctree::
+   :maxdepth: 2</pre>
+</div>
+<p><tt class="docutils literal"><span class="pre">toctree</span></tt> is a reStructuredText directive:
+Directives can have arguments, options and content</p>
+<p>Some docs to get started:</p>
+<blockquote>
+<div><ul class="simple">
+<li><a class="reference external" href="http://docutils.sourceforge.net/rst.html">http://docutils.sourceforge.net/rst.html</a></li>
+<li><a class="reference external" href="http://docutils.sourceforge.net/docs/user/rst/quickstart.html">http://docutils.sourceforge.net/docs/user/rst/quickstart.html</a></li>
+</ul>
+</div></blockquote>
+
+
+
+
+</article>
+<article class="slide level-2" id="sphinx-directives-for-docstrings">
+
+<h2>Sphinx Directives for docstrings</h2>
+
+<div class="highlight-python"><div class="highlight"><pre><span class="k">def</span> <span class="nf">a_function</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="n">c</span><span class="o">=</span><span class="s">&#39;fred&#39;</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    computes something which I would describe here.</span>
+
+<span class="sd">    :param a: the first input value</span>
+<span class="sd">    :type a:  int</span>
+
+<span class="sd">    :param b: the second input value</span>
+<span class="sd">    :type b: float</span>
+
+<span class="sd">    :param c=&#39;fred&#39;: a string flag</span>
+<span class="sd">    :type c: str</span>
+
+<span class="sd">    :returns: a useless string</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">compute_something</span><span class="p">(</span><span class="n">a</span><span class="p">,</span><span class="n">b</span><span class="p">,</span><span class="n">c</span><span class="p">)</span>
+</pre></div>
+</div>
+
+
+
+
+</article>
+<article class="slide level-2" id="lab">
+
+<h2>LAB:</h2>
+
+<p>Set up a Sphinx project to document the package in:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">code</span><span class="o">/</span><span class="n">Capitalize</span>
+</pre></div>
+</div>
+<p>Put it in:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">code</span><span class="o">/</span><span class="n">Capitalize</span><span class="o">/</span><span class="n">doc</span>
+</pre></div>
+</div>
+<p>Set it up to autodoc</p>
+<p>Clean up the docstrings so that autodoc works well.</p>
+<p>(Or do it for your code!)</p>
+<p><a class="reference external" href="http://codeandchaos.wordpress.com/2012/07/30/sphinx-autodoc-tutorial-for-dummies/">http://codeandchaos.wordpress.com/2012/07/30/sphinx-autodoc-tutorial-for-dummies/</a></p>
+
+
+
+
+</article>
+
+</section>
+
+<section id="slide_notes">
+
+</section>
+
+  </body>
+</html>
