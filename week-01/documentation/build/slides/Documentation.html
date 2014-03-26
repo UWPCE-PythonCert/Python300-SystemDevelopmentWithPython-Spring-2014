@@ -148,8 +148,26 @@
 <h2>Documentation for the Documentation System</h2>
 
 <p>Sphinx is, of course, documented with sphinx itself.</p>
-<p>Its tutorial is pretty good, but can be a little confusing (particularly the autodoc stuff)</p>
+<dl class="docutils">
+<dt>Its tutorial is pretty good, but can be a little confusing (particularly the autodoc stuff)</dt>
+<dd><ul class="first last simple">
+<li><a class="reference external" href="http://sphinx-doc.org/tutorial.html">http://sphinx-doc.org/tutorial.html</a></li>
+</ul>
+</dd>
+</dl>
 <p>So here are a couple other resources (and many more out there):</p>
+<dl class="docutils">
+<dt>Basic getting started tutorial:</dt>
+<dd><ul class="first last simple">
+<li><a class="reference external" href="https://pythonhosted.org/an_example_pypi_project/sphinx.html">https://pythonhosted.org/an_example_pypi_project/sphinx.html</a></li>
+</ul>
+</dd>
+<dt>Tutorial focused on getting autodoc set up:</dt>
+<dd><ul class="first last simple">
+<li><a class="reference external" href="http://codeandchaos.wordpress.com/2012/07/30/sphinx-autodoc-tutorial-for-dummies/">http://codeandchaos.wordpress.com/2012/07/30/sphinx-autodoc-tutorial-for-dummies/</a></li>
+</ul>
+</dd>
+</dl>
 
 
 
@@ -160,23 +178,116 @@
 <h2>reStructuredText</h2>
 
 <p>reStructuredText is the markup language used for Sphinx.</p>
-<p>Also originally developed (adapted, really) for Python documentation.</p>
+<p>Developed (adapted, really) for Python documentation.</p>
 <p>It's a plain text, easy to read and write markup.</p>
 <dl class="docutils">
-<dt>Like many similar markup languages (Markdown, wiki markup)</dt>
+<dt>Like many similar markup languages (Markdown, etc.)</dt>
 <dd><ul class="first last simple">
 <li>designed to be easy to read and write</li>
-<li>makes sense in palin text</li>
+<li>makes sense in plain text</li>
 <li>looks a lot like what you might write in plain text anyway.</li>
 </ul>
 </dd>
 </dl>
 <p>So it's suitable for use both as plain text and for fancier formatting (i.e. docstrings)</p>
+<p>But more extensible than most others -- so good for sphinx</p>
+
+
+
+
+</article>
+<article class="slide level-2" id="id1">
+
+<h2>reStructuredText</h2>
+
+<div class="highlight-python"><pre>============================
+This is the top level header
+============================
+
+And now some normal text
+
+And a level-2 header
+=====================
+
+more text: **this** is bold.
+And ``this`` is code.
+
+::
+
+  #And now a code block
+  for i in range(10):
+      do_something_interesting(i)</pre>
+</div>
+
+
+
+
+</article>
+<article class="slide level-2" id="restructuredtext-documentation-sources">
+
+<h2>reStructuredText documentation sources</h2>
+
+<p>RST directives:</p>
+<div class="highlight-python"><pre>.. toctree::
+   :maxdepth: 2</pre>
+</div>
+<p><tt class="docutils literal"><span class="pre">toctree</span></tt> is a reStructuredText directive:
+Directives can have arguments, options and content</p>
+<p>Some docs to get started:</p>
 <blockquote>
 <div><ul class="simple">
 <li><a class="reference external" href="http://docutils.sourceforge.net/rst.html">http://docutils.sourceforge.net/rst.html</a></li>
+<li><a class="reference external" href="http://docutils.sourceforge.net/docs/user/rst/quickstart.html">http://docutils.sourceforge.net/docs/user/rst/quickstart.html</a></li>
 </ul>
 </div></blockquote>
+
+
+
+
+</article>
+<article class="slide level-2" id="sphinx-directives-for-docstrings">
+
+<h2>Sphinx Directives for docstrings</h2>
+
+<div class="highlight-python"><div class="highlight"><pre><span class="k">def</span> <span class="nf">a_function</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="n">c</span><span class="o">=</span><span class="s">&#39;fred&#39;</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    computes something which I would describe here.</span>
+
+<span class="sd">    :param a: the first input value</span>
+<span class="sd">    :type a:  int</span>
+
+<span class="sd">    :param b: the second input value</span>
+<span class="sd">    :type b: float</span>
+
+<span class="sd">    :param c=&#39;fred&#39;: a string flag</span>
+<span class="sd">    :type c: str</span>
+
+<span class="sd">    :returns: a useless string</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">compute_something</span><span class="p">(</span><span class="n">a</span><span class="p">,</span><span class="n">b</span><span class="p">,</span><span class="n">c</span><span class="p">)</span>
+</pre></div>
+</div>
+
+
+
+
+</article>
+<article class="slide level-2" id="lab">
+
+<h2>LAB:</h2>
+
+<p>Set up a Sphinx project to document the package in:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">code</span><span class="o">/</span><span class="n">Capitalize</span>
+</pre></div>
+</div>
+<p>Put it in:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">code</span><span class="o">/</span><span class="n">Capitalize</span><span class="o">/</span><span class="n">doc</span>
+</pre></div>
+</div>
+<p>Set it up to autodoc</p>
+<p>Clean up the docstrings so that autodoc works well.</p>
+<p>(Or do it for your code!)</p>
+<p><a class="reference external" href="http://codeandchaos.wordpress.com/2012/07/30/sphinx-autodoc-tutorial-for-dummies/">http://codeandchaos.wordpress.com/2012/07/30/sphinx-autodoc-tutorial-for-dummies/</a></p>
 
 
 
