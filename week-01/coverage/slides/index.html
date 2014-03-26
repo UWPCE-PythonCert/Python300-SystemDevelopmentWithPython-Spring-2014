@@ -236,6 +236,12 @@ unittest.TextTestRunner(verbosity=2).run(suite)
     <pre><code>
     $ nosetests
     </code></pre>
+    <p><a target="_blank" href="https://nose.readthedocs.org/en/latest/finding_tests.html">https://nose.readthedocs.org/en/latest/finding_tests.html</a>
+    <p style="text-size:.5em">*defined as self.testMatch = re.compile(r'(?:^|[\\b_\\.%s-])[Tt]est' % os.sep)</p>
+    </section>
+
+    <section class="slide">
+        <h2>nose plugins</h2>
     <p>Many plugins exist for nose, such as code coverage:
     <pre><code>
     $ nosetests --with-coverage
@@ -251,28 +257,66 @@ unittest.TextTestRunner(verbosity=2).run(suite)
     $ nosetests --processes=5
     </code></pre>
 
-    <p><a target="_blank" href="https://nose.readthedocs.org/en/latest/finding_tests.html">https://nose.readthedocs.org/en/latest/finding_tests.html</a>
-    <p style="text-size:.5em">*defined as self.testMatch = re.compile(r'(?:^|[\\b_\\.%s-])[Tt]est' % os.sep)</p>
+    </section>
+    
+    <section class="slide">
+        <h2>running coverage </h2>
+           <p>To run coverage on your test suite:
+        <pre><code>
+coverage run my_program.py arg1 arg2 
+</code></pre>
+        <p>This generates a .coverage file.  To analyze it on the console:
+        <pre><code>
+coverage report 
+</code></pre>
+        <p>Else generate an HTML report in the current directory:
+        <pre><code>
+coverage html 
+</code></pre>
+p
+        <p>To find out coverage across the standard library, add -L:
+        <pre><code>
+  -L, --pylib           Measure coverage even inside the Python installed
+                        library, which isn't done by default.
+</code></pre>
+
+
+    </section>
+    <section class="slide">
+        <h2>branch coverage </h2>
+            <p>consider the following code:
+<pre><code>
+x = False  # 1
+if x:      # 2
+    print "in branch"  # 3
+print "out of branch"  # 4
+</code></pre>
+            <p>We want to make sure the branch is being bypassed correctly in the False case
+            <p>Track which branch destinations were not visited with the --branch option to run
+<pre><code>
+coverage run --branch myprog.py
+</code></pre>
+        <p><a target="_blank" href="http://nedbatchelder.com/code/coverage/branch.html">http://nedbatchelder.com/code/coverage/branch.html</a>
     </section>
 
     <section class="slide">
         <h2>Doctests</h2>
         <p>Tests placed in docstrings to demonstrate usage of a component to a human in a machine testable way</p>
     <pre><code>
-    def square(x):
-        """Squares x.
+def square(x):
+    """Squares x.
 
-        >>> square(2)
-        4
-        >>> square(-2)
-        4
-        """
+    >>> square(2)
+    4
+    >>> square(-2)
+    4
+    """
 
-        return x * x
+    return x * x
 
-    if __name__ == '__main__':
-        import doctest
-        doctest.testmod()
+if __name__ == '__main__':
+    import doctest
+    doctest.testmod()
 
 
     </code></pre>
