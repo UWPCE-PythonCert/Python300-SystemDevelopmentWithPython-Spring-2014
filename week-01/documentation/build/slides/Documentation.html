@@ -1,0 +1,193 @@
+
+<!DOCTYPE html>
+
+
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Documentation &mdash; Documentation</title>
+    
+    <link rel="stylesheet" href="_static/basic.css" type="text/css" />
+    <link rel="stylesheet" href="_static/styles.css" type="text/css" />
+    <link rel="stylesheet" href="_static/single.css" type="text/css" />
+    
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '',
+        VERSION:     '2014.03.25',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="_static/common.js"></script>
+    
+    <script type="text/javascript" src="_static/slides.js"></script>
+    <script type="text/javascript" src="_static/sync.js"></script>
+    <script type="text/javascript" src="_static/controller.js"></script>
+    <script type="text/javascript" src="_static/init.js"></script>
+    
+    
+    <link rel="top" title="Documentation" href="index.html" /> 
+  </head>
+  <body>
+
+<section
+   id="slide_container"
+   class='slides layout-regular'>
+
+
+  
+<article class="slide level-1" id="documentation">
+
+<h1>Documentation</h1>
+
+<p>A (very) quick run down of how to document your python package.</p>
+<ul class="simple">
+<li>Chris Barker</li>
+</ul>
+
+
+
+
+</article>
+<article class="slide level-2" id="why">
+
+<h2>Why</h2>
+
+<p>Documentation is a key part of software development.</p>
+<p>You'll be glad you have it, even if you are the only one that uses your code.</p>
+<p>If you are writing a package you want others to use -- documentation can make all the difference</p>
+<p>And there are some nice tools for documenting Python code.</p>
+<p>There is even a hosting service:</p>
+<blockquote>
+<div><ul class="simple">
+<li><a class="reference external" href="http://readthedocs.org">http://readthedocs.org</a></li>
+</ul>
+</div></blockquote>
+
+
+
+
+</article>
+<article class="slide level-2" id="sphinx">
+
+<h2>Sphinx</h2>
+
+<p>Sphinx is a documentation system build specifically for documenting Python itself:</p>
+<p><a class="reference external" href="http://spinx-doc.org">http://spinx-doc.org</a></p>
+<p>But it's also useful for any sort of structured documentation -- and is sometimes used for non-code projects.</p>
+<dl class="docutils">
+<dt>It Produces:</dt>
+<dd><ul class="first last simple">
+<li>HTML (multiple styles available)</li>
+<li>PDF(via LaTeX)</li>
+<li>ePub</li>
+<li>man pages</li>
+<li>plain text</li>
+</ul>
+</dd>
+</dl>
+
+
+
+
+</article>
+<article class="slide level-2" id="extendability">
+
+<h2>Extendability</h2>
+
+<dl class="docutils">
+<dt>Sphinx has an extension architecture for adding special functionality:</dt>
+<dd><ul class="first simple">
+<li>Hieroglyph (It is used for these slides...)</li>
+<li>Matplotlib added some nice stuff:</li>
+</ul>
+<blockquote>
+<div><ul class="simple">
+<li><a class="reference external" href="http://matplotlib.org">http://matplotlib.org</a></li>
+</ul>
+</div></blockquote>
+<ul class="last simple">
+<li>Math</li>
+<li>Embedded ASCII art</li>
+<li>Embedding Excel spreadsheets</li>
+<li>Unlimited possibilities</li>
+</ul>
+</dd>
+</dl>
+
+
+
+
+</article>
+<article class="slide level-2" id="automatic-documentation">
+
+<h2>Automatic Documentation</h2>
+
+<p>One of the great features of Sphinx:</p>
+<p>It can extract docstrings from your code and build docs from them.</p>
+<p>Includes cross referencing of modules and classes, etc.</p>
+<p>This keeps your code and docs in sync, and encourages you to have nice docstrings.</p>
+<p>It's a bit tricky to get it all set up though :-(</p>
+
+
+
+
+</article>
+<article class="slide level-2" id="documentation-for-the-documentation-system">
+
+<h2>Documentation for the Documentation System</h2>
+
+<p>Sphinx is, of course, documented with sphinx itself.</p>
+<p>Its tutorial is pretty good, but can be a little confusing (particularly the autodoc stuff)</p>
+<p>So here are a couple other resources (and many more out there):</p>
+
+
+
+
+</article>
+<article class="slide level-2" id="restructuredtext">
+
+<h2>reStructuredText</h2>
+
+<p>reStructuredText is the markup language used for Sphinx.</p>
+<p>Also originally developed (adapted, really) for Python documentation.</p>
+<p>It's a plain text, easy to read and write markup.</p>
+<dl class="docutils">
+<dt>Like many similar markup languages (Markdown, wiki markup)</dt>
+<dd><ul class="first last simple">
+<li>designed to be easy to read and write</li>
+<li>makes sense in palin text</li>
+<li>looks a lot like what you might write in plain text anyway.</li>
+</ul>
+</dd>
+</dl>
+<p>So it's suitable for use both as plain text and for fancier formatting (i.e. docstrings)</p>
+<blockquote>
+<div><ul class="simple">
+<li><a class="reference external" href="http://docutils.sourceforge.net/rst.html">http://docutils.sourceforge.net/rst.html</a></li>
+</ul>
+</div></blockquote>
+
+
+
+
+</article>
+
+</section>
+
+<section id="slide_notes">
+
+</section>
+
+  </body>
+</html>
