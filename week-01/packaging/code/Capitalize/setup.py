@@ -19,7 +19,7 @@ setup(
     packages=['capitalize',
               'capitalize/test'],
     scripts=['bin/cap_script',],
-    icense='LICENSE.txt',
+    license='LICENSE.txt',
     description='Not very useful capitalizing module and script',
     long_description=open('README.txt').read(),
 )
