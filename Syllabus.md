@@ -73,11 +73,9 @@ In addition, as we work with you on your projects, we will highlight for the cla
 March 25th
 
 #### Topics 
-- packaging
-- unit testing (coverage)
-- unicode
-- PEP-8 (pylint/pychecker/pyflakes)
-- documentation (docstrings, sphinx)
+- packaging: Chris
+- unit testing (coverage): Joseph
+- unicode: Chris
 
 -- Chris
 
@@ -85,10 +83,12 @@ March 25th
 April 1st
 (proposals due)
 #### Topics 
-- Debugging (print, pdb/ipdb, winpdb, eclipse)
-- logging
+- PEP-8 (pylint/pychecker/pyflakes): Joseph
+- documentation (docstrings, sphinx): Chris
+- Debugging (print, pdb/ipdb, winpdb, eclipse): Joseph
+- logging: Joseph
 - "advanced OO" (\__new()__, super(), mixins, type, metaclasses, abc module)
-- weak references
+- weak references: Chris
 
 -- Joseph
 
