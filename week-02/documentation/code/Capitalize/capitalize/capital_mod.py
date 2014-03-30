@@ -1,8 +1,21 @@
 #!/usr/bin/env python
 
 """
-A really simple module, just to demonstrate disutils
+A really simple module, just to demonstrate packaging
 """
+
+def capitalize_line(instr):
+    """
+    capitalizes the input string 
+
+    :param instr: the string to capitalize it should be a single line.
+    :type instr: string
+
+    :returns: a capitalized version of instr
+    """
+
+    return " ".join( word.capitalize() for word in instr.split() )
+
 
 def capitalize(infilename, outfilename):
     """
@@ -17,7 +30,7 @@ def capitalize(infilename, outfilename):
     outfile = open(outfilename, 'w')
 
     for line in infile:
-        outfile.write( " ".join( [word.capitalize() for word in line.split() ] ) )
+        outfile.write(capitalize_line(line))
         outfile.write("\n")
     
     return None
