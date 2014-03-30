@@ -18,7 +18,7 @@ def test_init():
 
 def test_capitalize_line():
     line =     "this is a Line to capitalize"
-    expected = "This Is A Line To Capitalize"
+    expected = "This Is A Line To Caapitalize"
 
     assert capital_mod.capitalize_line(line) == expected
 
