@@ -25,6 +25,16 @@ def capitalize(infilename, outfilename):
     note: very primitive -- it will mess some files up!
 
     this is called by the capitalize script
+
+    :param infilename: The file name you want to process
+    :type infilename: string
+
+    :param outfilename: the name of the new file that will be created
+    :type outfilename: string
+    
+    :returns: None
+
+    :raises: IOError if infilename doesn't exist.
     """
     infile = open(infilename, 'U')
     outfile = open(outfilename, 'w')
