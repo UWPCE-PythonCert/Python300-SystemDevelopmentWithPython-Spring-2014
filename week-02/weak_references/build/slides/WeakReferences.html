@@ -1,0 +1,401 @@
+
+<!DOCTYPE html>
+
+
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Python Memory Management and Weak References &mdash; Weak References</title>
+    
+    <link rel="stylesheet" href="_static/basic.css" type="text/css" />
+    <link rel="stylesheet" href="_static/styles.css" type="text/css" />
+    <link rel="stylesheet" href="_static/single.css" type="text/css" />
+    
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '',
+        VERSION:     '2014.03.31',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="_static/common.js"></script>
+    
+    <script type="text/javascript" src="_static/slides.js"></script>
+    <script type="text/javascript" src="_static/sync.js"></script>
+    <script type="text/javascript" src="_static/controller.js"></script>
+    <script type="text/javascript" src="_static/init.js"></script>
+    
+    
+    <link rel="top" title="Weak References" href="index.html" /> 
+  </head>
+  <body>
+
+<section
+   id="slide_container"
+   class='slides layout-regular'>
+
+
+  
+<article class="slide level-1" id="python-memory-management-and-weak-references">
+
+<h1>Python Memory Management and Weak References</h1>
+
+<p>Chris Barker</p>
+<p><tt class="docutils literal"><span class="pre">PythonCHB&#64;gmail.com</span></tt></p>
+<p><tt class="docutils literal"><span class="pre">https://github.com/PythonCHB</span></tt></p>
+
+
+
+
+</article>
+<article class="slide level-2" id="memory-management">
+
+<h2>Memory Management</h2>
+
+<blockquote>
+<div><ul class="simple">
+<li>You don't want python objects that are no longer in use taking up memory.</li>
+<li>You don't want to keep track of all that yourself.</li>
+<li>Most &quot;scripting languages&quot; or &quot;virtual machines&quot; have some sort of automated memory management</li>
+</ul>
+</div></blockquote>
+<p>Many ways to do &quot;Garbage Collection&quot;</p>
+
+
+
+
+</article>
+<article class="slide level-2" id="reference-counting">
+
+<h2>Reference Counting</h2>
+
+<dl class="docutils">
+<dt>How memory is managed is not part of the Python Language spec:</dt>
+<dd><ul class="first last simple">
+<li>Jython uses the JVM</li>
+<li>Iron Python uses the CLR
+- Both are garbage collected</li>
+<li>PyPy uses: ????</li>
+</ul>
+</dd>
+<dt>The CPython interpreter uses a reference counting scheme:</dt>
+<dd><ul class="first last simple">
+<li>every time there is a new reference to a Python object, its reference count is increased</li>
+<li>every time a reference is deleted -- the count is decreased</li>
+<li>when the reference count goes to zero: the object is deleted (memory freed)</li>
+</ul>
+</dd>
+</dl>
+
+
+
+
+</article>
+<article class="slide level-2" id="what-makes-a-reference">
+
+<h2>What makes a reference?</h2>
+
+<ul>
+<li><p class="first">binding to a name:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">x</span> <span class="o">=</span> <span class="n">an_object</span>
+</pre></div>
+</div>
+</li>
+<li><p class="first">putting it in a container:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">l</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">an_object</span><span class="p">)</span>
+</pre></div>
+</div>
+</li>
+<li><p class="first">passing it to a function:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">func</span><span class="p">(</span><span class="n">an_object</span><span class="p">)</span>
+</pre></div>
+</div>
+</li>
+</ul>
+<p>Most of the time, you don't need to think about this at all.</p>
+
+
+
+
+</article>
+<article class="slide level-2" id="how-do-i-see-what-s-going-on">
+
+<h2>How do I see what's going on?</h2>
+
+<div class="highlight-python"><div class="highlight"><pre><span class="kn">import</span> <span class="nn">sys</span>
+<span class="n">sys</span><span class="o">.</span><span class="n">getrefcount</span><span class="p">(</span><span class="nb">object</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>NOTE: This will always return one more than you'd expect, as passing the object to the function increases its refcount by one:</p>
+<div class="highlight-python"><pre>In [5]: a = []
+
+In [6]: sys.getrefcount(a)
+Out[6]: 2</pre>
+</div>
+<p>[The Heisenberg Uncertainty Principle: you can't observer it without altering it]</p>
+
+
+
+
+</article>
+<article class="slide level-2" id="playing-with-references">
+
+<h2>Playing with References</h2>
+
+<div class="highlight-python"><pre>In [7]: a = []
+
+In [8]: sys.getrefcount(a)
+Out[8]: 2
+
+In [9]: b = a
+
+In [10]: sys.getrefcount(a)
+Out[10]: 3
+
+In [11]: l = [1,2,3,a]
+
+In [12]: sys.getrefcount(a)
+Out[12]: 4</pre>
+</div>
+
+
+
+
+</article>
+<article class="slide level-2" id="id1">
+
+<h2>Playing with References</h2>
+
+<div class="highlight-python"><pre>In [13]: del b
+
+In [14]: sys.getrefcount(a)
+Out[14]: 3
+
+
+In [15]: del l
+
+In [16]: sys.getrefcount(a)
+Out[16]: 2</pre>
+</div>
+
+
+
+
+</article>
+<article class="slide level-2" id="id2">
+
+<h2>Playing with References</h2>
+
+<div class="highlight-python"><pre># function local variables
+
+    In [17]: def test(x):
+       ....:     print "x has a refcount of:", sys.getrefcount(x)
+       ....:
+
+    In [18]: sys.getrefcount(a)
+    Out[18]: 2
+
+    In [19]: test(a)
+    x has a refcount of: 4
+
+    In [20]: sys.getrefcount(a)
+    Out[20]: 2</pre>
+</div>
+
+
+
+
+</article>
+<article class="slide level-2" id="id3">
+
+<h2>Playing with References</h2>
+
+<div class="highlight-python"><pre>In [21]: x = 3
+
+In [22]: sys.getrefcount(x)
+Out[22]: 428</pre>
+</div>
+<p>WHOA!!</p>
+<p>(hint: interning....)</p>
+
+
+
+
+</article>
+<article class="slide level-2" id="the-power-of-reference-counting">
+
+<h2>The Power of Reference Counting</h2>
+
+<ul>
+<li><p class="first">You don't need to think about it most of the time.</p>
+</li>
+<li><p class="first">Code that creates objects doesn't need to delete them</p>
+</li>
+<li><dl class="first docutils">
+<dt>Objects get deleted right away</dt>
+<dd><p class="first last">. They get &quot;cleaned up&quot; (files, for instance)</p>
+</dd>
+</dl>
+</li>
+</ul>
+
+
+
+
+</article>
+<article class="slide level-2" id="the-limits-of-reference-counting">
+
+<h2>The Limits of Reference Counting</h2>
+
+
+
+
+
+</article>
+<article class="slide level-3" id="circular-references">
+
+<h3>Circular references</h3>
+
+<p>If a python object references another object that references the first object: You have a circular reference:</p>
+<div class="highlight-python"><pre>In [11]: l1 = [1,]
+
+In [12]: l2 = [2,]
+
+In [13]: l1.append(l2)
+
+In [14]: l2.append(l1)
+
+In [15]: l1
+Out[15]: [1, [2, [...]]]
+
+In [16]: l2
+Out[16]: [2, [1, [...]]]
+
+In [17]: l1[1]
+Out[17]: [2, [1, [...]]]
+
+In [18]: l1[1][1]
+Out[18]: [1, [2, [...]]]
+
+In [19]: l1[1][1][1]
+Out[19]: [2, [1, [...]]]
+
+In [20]: l1[1][1][1][1]
+Out[20]: [1, [2, [...]]]
+
+In [21]: l1[1][1][1][1]
+Out[21]: [1, [2, [...]]]
+
+In [22]: sys.getrefcount(l1)
+Out[22]: 15</pre>
+</div>
+
+
+
+
+</article>
+<article class="slide level-2" id="the-garbage-collector">
+
+<h2>The Garbage Collector</h2>
+
+<p>As of Python 2.0 -- a garbage collector was added.</p>
+<p>It can find and clean up &quot;unreachable&quot; references.</p>
+<p>It is turned on by default:</p>
+<div class="highlight-python"><pre>In [1]: import gc
+
+In [2]: gc.isenabled()
+Out[2]: True</pre>
+</div>
+<p>or you can force it:</p>
+<div class="highlight-python"><pre>In [4]: gc.collect()
+Out[4]: 64</pre>
+</div>
+<p>But it can be slow, and doesn't always work!</p>
+
+
+
+
+</article>
+<article class="slide level-2" id="examples">
+
+<h2>Examples</h2>
+
+<p>Example in iPython notebook:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">code</span><span class="o">/</span><span class="n">CircularReferenceExample</span><span class="o">.</span><span class="n">ipynb</span>
+</pre></div>
+</div>
+<p>You can also run:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">circular</span><span class="o">.</span><span class="n">py</span>
+</pre></div>
+</div>
+<p>And:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">memcount</span><span class="o">.</span><span class="n">py</span>
+</pre></div>
+</div>
+<dl class="docutils">
+<dt><tt class="docutils literal"><span class="pre">mem_check.py</span></tt> is code that reports process memory use</dt>
+<dd>-- only <a href="#id4"><span class="problematic" id="id5">*</span></a>nix for now -- sorry!</dd>
+</dl>
+
+
+
+
+</article>
+<article class="slide level-2" id="weak-references">
+
+<h2>Weak References</h2>
+
+<p>For times when you don't want to keep objects alive, Python provides &quot;weak references&quot;.</p>
+<p>You saw this in the examples.</p>
+<p>Three ways to use them:</p>
+<ul class="simple">
+<li>The built-in containers:
+- <tt class="docutils literal"><span class="pre">WeakKeyDictionary</span></tt>
+- <tt class="docutils literal"><span class="pre">WeakValueDictionary</span></tt>
+- <tt class="docutils literal"><span class="pre">WeakSet</span></tt></li>
+<li><tt class="docutils literal"><span class="pre">Proxy</span></tt> objects
+- act much like regular references -- client code doesn't know the difference</li>
+<li><tt class="docutils literal"><span class="pre">WeakRef</span></tt> objects
+- When you want to control what happens when the referenced object is gone.</li>
+</ul>
+
+
+
+
+</article>
+<article class="slide level-2" id="exercise">
+
+<h2>Exercise</h2>
+
+<p>Build a &quot;weak cache&quot;:</p>
+<p>For large objects that are expensive to create:</p>
+<ul class="simple">
+<li>Use a WeakValueDictionay to hold references to (probably large) objects.</li>
+<li>When the client requests an object that doesn't exist -- one is created, returned, and cached (weakly).</li>
+<li>If the object is in the cache, it is returned.</li>
+<li>when not other references exist to the object, it is NOT retained by the cache.</li>
+</ul>
+
+
+
+
+</article>
+
+</section>
+
+<section id="slide_notes">
+
+</section>
+
+  </body>
+</html>
