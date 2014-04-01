@@ -1,0 +1,17 @@
+DEBUG:root:debug level message
+WARNING:root:debug level message
+DEBUG:root:debug level message
+WARNING:root:debug level message
+INFO:root:worker called
+2014-04-01 14:35:09,737 debug level message
+2014-04-01 14:35:09,737 debug level message
+2014-04-01 14:35:09,737 worker called
+2014-04-01 14:35:09,737 test complete
+2014-04-01 14:35:41,562 debug level message
+2014-04-01 14:35:41,562 debug level message
+2014-04-01 14:35:41,562 worker called
+2014-04-01 14:35:41,562 test complete
+2014-04-01 14:48:29,124 debug level message
+2014-04-01 14:48:29,124 debug level message
+2014-04-01 14:48:29,124 worker called
+2014-04-01 14:48:29,125 test complete
