@@ -135,7 +135,8 @@ Serving HTTP on 0.0.0.0 port 8000 ...
                 <li>A non-public attribute has two leading underscores and no trailing underscores, which triggers Python's name mangling
                 <li>property access should be cheap
                 <li>add public names in a module to __all__
-                <li>When comparing with singletons such as None, use "x is None", not "x == None" (I break this all the time)
+                <li>When comparing with singletons such as None, use "x is None", not "x == None".  
+<a target="_blank" href="http://jaredgrubb.blogspot.com/2009/04/python-is-none-vs-none.html">why?</a>
     </section>
 
     <section class="slide">
@@ -143,7 +144,7 @@ Serving HTTP on 0.0.0.0 port 8000 ...
         <ul>
             <li><a target="_blank" href="http://pychecker.sourceforge.net/">PyChecker</a> - searches for bugs and style issues.   Not currently in PyPI, install from sourceforge 
             <li><a target="_blank" href="https://pypi.python.org/pypi/pyflakes">pyflakes</a> - searches for bugs, but without importing modules 
-            <li><a target="_blank" href="http://www.pylint.org/">Pylint</a> - style guide, searches for bug
+            <li><a target="_blank" href="http://www.pylint.org/">Pylint</a> - style guide, searches for bugs
             <li><a target="_blank" href="https://pypi.python.org/pypi/pep8">pep8</a> - tests conformance to PEP-8 
             <li><a target="_blank" href="https://pypi.python.org/pypi/flake8">flake8</a> combines pyflakes, pep8, and mccabe, a code complexity analyzer 
         </ul>
@@ -151,11 +152,13 @@ Serving HTTP on 0.0.0.0 port 8000 ...
 
     <section class="slide">
         <h2>pychecker</h2>
-        <ul>Interesting options to turn on which are off by default:
-            <li>-t, --tuple        all unused local variables, including tuples [off]
-            <li>-9, --members      all unused class data members [off]
-            <li>-q, --stdlib       ignore warnings from files under standard library [off]
-            <li>-b, --blacklist    ignore warnings from the list of modules
+        <p>Interesting options to turn on which are off by default:
+<pre><code>
+-t, --tuple        all unused local variables, including tuples [off]
+-9, --members      all unused class data members [off]
+-q, --stdlib       ignore warnings from files under standard library [off]
+-b, --blacklist    ignore warnings from the list of modules
+</pre></code>
         </ul> 
         <p>Poor code example examples/Listing1.py was adapted from <a target="_blank" href="http://doughellmann.com/2008/03/01/static-code-analizers-for-python.html">Doug Hellman</a>
         <p>What can you spot as an error, bad practice, or poor style?
@@ -164,9 +167,11 @@ Serving HTTP on 0.0.0.0 port 8000 ...
 
     <section class="slide">
         <h2>pylint</h2>
-        <ul>Interesting options:
-            <li>-d (msg ids), --disable=(msg ids)  Disable the messages identified in the messages table
-            <li>--generate-rcfile/--rcfile  Saves/restores a configuration 
+        <p>Interesting options:
+<pre><code>
+-d (msg ids), --disable=(msg ids)      Disable the messages identified in the messages table
+--generate-rcfile/--rcfile             Saves/restores a configuration 
+</pre></code>
         </ul> 
         <p class="slide">Now let's see what pylint Listing1.py has to say
         <p class="slide">Note the more verbose output, but did pychecker have any information not contained in pylint?
@@ -187,11 +192,11 @@ Serving HTTP on 0.0.0.0 port 8000 ...
     <section class="slide">
         <h2>pep8</h2>
         <p>Only checks style
-        <ul>Interesting options:
-            <li>--statistics         count errors and warnings
-            <li>--count              print total number of errors and warnings to standard
-                       error and set exit code to 1 if total is not null
-        </ul>
+        <p>Interesting options:
+<pre><code>
+--statistics         count errors and warnings
+--count              print total number of errors and warnings to standard error and set exit code to 1 if total is not null
+</code></pre>
         <p class="slide">Now let's see what pep8 Listing1.py has to say
         <p class="slide">What's the overlap in pep8's output versus the other two tools?
 
@@ -203,6 +208,11 @@ Serving HTTP on 0.0.0.0 port 8000 ...
         <p>
             <a target="_blank" href="http://nedbatchelder.com/blog/200803/python_code_complexity_microtool.html">mccabe</a> is a "microtool" written by Ned Batchelder (author of coverage) for assessing
             <a target="_blank" href="http://en.wikipedia.org/wiki/Cyclomatic_complexity">Cyclomatic Complexity</a>
+        <p>Interesting options:
+        <pre><code>
+--max-complexity=N    McCabe complexity threshold 
+        </code></pre>
+
         <p class="slide">Now let's see what flake8 Listing1.py has to say
         <p class="slide">What's the overlap in flake8 output versus the other two tools?
 

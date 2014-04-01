@@ -1,5 +1,5 @@
 #!/usr/bin/env python
-# encoding: utf-8
+# coding: utf-8
 """
 """
 
@@ -11,7 +11,11 @@ module_variable = 0
 
 float = 1.0
 
-long = "loooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooong"
+long = "loooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooong"        
+
+
+
+
 
 def functionName(self, int):
     local = 5 + 5
@@ -74,4 +78,4 @@ def f(x):
     elif x is 5:
         return x
 
-print f()
+print f(5)
