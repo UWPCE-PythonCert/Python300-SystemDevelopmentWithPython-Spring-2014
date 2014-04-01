@@ -452,7 +452,9 @@ If you don't like the default looks, there are a number of other options, or you
 
 http://sphinx-doc.org/theming.html
 
+In ``conf.py``::
 
+ html_theme = "default"
 
 
 Of course, this is the primary source of how to use Sphinx itself:

@@ -1,0 +1,163 @@
+
+<!DOCTYPE html>
+
+
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>__new__ &mdash; __new__</title>
+    
+    <link rel="stylesheet" href="_static/basic.css" type="text/css" />
+    <link rel="stylesheet" href="_static/styles.css" type="text/css" />
+    <link rel="stylesheet" href="_static/single.css" type="text/css" />
+    
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '',
+        VERSION:     '2014.03.31',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="_static/common.js"></script>
+    
+    <script type="text/javascript" src="_static/slides.js"></script>
+    <script type="text/javascript" src="_static/sync.js"></script>
+    <script type="text/javascript" src="_static/controller.js"></script>
+    <script type="text/javascript" src="_static/init.js"></script>
+    
+    
+    <link rel="top" title="__new__" href="index.html" /> 
+  </head>
+  <body>
+
+<section
+   id="slide_container"
+   class='slides layout-regular'>
+
+
+  
+<article class="slide level-1" id="new">
+
+<h1>__new__</h1>
+
+<p>Chris Barker</p>
+<p><tt class="docutils literal"><span class="pre">PythonCHB&#64;gmail.com</span></tt></p>
+<div class="toctree-wrapper compound">
+<ul class="simple">
+</ul>
+</div>
+
+
+
+
+</article>
+<article class="slide level-2" id="class-creation">
+
+<h2>Class Creation</h2>
+
+<p>What happens when a class instance is created?</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="k">class</span> <span class="nc">Class</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">arg1</span><span class="p">,</span> <span class="n">arg2</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">arg1</span> <span class="o">=</span> <span class="n">arg1</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">arg2</span> <span class="o">=</span> <span class="n">arg2</span>
+        <span class="o">.....</span>
+</pre></div>
+</div>
+<ul class="simple">
+<li>A new instance is created</li>
+<li><tt class="docutils literal"><span class="pre">__init__</span></tt> is called</li>
+<li>The code in <tt class="docutils literal"><span class="pre">__init__</span></tt> is run to initialize the instance</li>
+</ul>
+
+
+
+
+</article>
+<article class="slide level-2" id="id1">
+
+<h2>Class Creation</h2>
+
+<p>What if you need to do something before creation?</p>
+<p>Enter: <tt class="docutils literal"><span class="pre">__new__</span></tt></p>
+<div class="highlight-python"><div class="highlight"><pre><span class="k">class</span> <span class="nc">Class</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">__new__</span><span class="p">(</span><span class="n">cls</span><span class="p">,</span> <span class="n">arg1</span><span class="p">,</span> <span class="n">arg2</span><span class="p">):</span>
+        <span class="n">some_code_here</span>
+        <span class="k">return</span> <span class="n">cls</span><span class="p">()</span>
+        <span class="o">.....</span>
+</pre></div>
+</div>
+<ul class="simple">
+<li><tt class="docutils literal"><span class="pre">__new__</span></tt> is called: it returns a new instance</li>
+<li>The code in <tt class="docutils literal"><span class="pre">__new__</span></tt> is run to pre-initialize</li>
+<li><tt class="docutils literal"><span class="pre">__init__</span></tt> is called</li>
+<li>The code in <tt class="docutils literal"><span class="pre">__init__</span></tt> is run to initialize the instance</li>
+</ul>
+
+
+
+
+</article>
+<article class="slide level-2" id="id2">
+
+<h2>Class Creation</h2>
+
+<p><tt class="docutils literal"><span class="pre">__new__</span></tt> is a static method -- but it must be called with a class object as the first argument. And it should return a class instance:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="k">class</span> <span class="nc">Class</span><span class="p">(</span><span class="n">superclass</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">__new__</span><span class="p">(</span><span class="n">cls</span><span class="p">,</span> <span class="n">arg1</span><span class="p">,</span> <span class="n">arg2</span><span class="p">):</span>
+        <span class="n">some_code_here</span>
+        <span class="k">return</span> <span class="n">superclass</span><span class="o">.</span><span class="n">__new__</span><span class="p">(</span><span class="n">cls</span><span class="p">)</span>
+        <span class="o">.....</span>
+</pre></div>
+</div>
+<p>When would  you need to use it:</p>
+<ul class="simple">
+<li>subclassing an immutable type:\<ul>
+<li>It's too late to change it once you get to <tt class="docutils literal"><span class="pre">__init__</span></tt></li>
+</ul>
+</li>
+<li>When <tt class="docutils literal"><span class="pre">__init__</span></tt> is not called:<ul>
+<li>unpickling</li>
+<li>copying</li>
+</ul>
+</li>
+</ul>
+<p>You may need to put some code in <tt class="docutils literal"><span class="pre">__new__</span></tt> to make sure things go right</p>
+<p>More detail here:</p>
+<p>url{<a class="reference external" href="http://www.python.org/download/releases/2.2/descrintro/#__new__">http://www.python.org/download/releases/2.2/descrintro/#__new__</a>
+end{frame</p>
+
+
+
+
+</article>
+<article class="slide level-2" id="lab">
+
+<h2>LAB</h2>
+
+<p>Demo: <tt class="docutils literal"><span class="pre">code/__new__/new_example.py</span></tt></p>
+<p>Write a subclass of int that will always be an even number: round the input to the closest even number</p>
+<p><tt class="docutils literal"><span class="pre">code/__new__/even_int.py</span></tt></p>
+
+
+
+
+</article>
+
+</section>
+
+<section id="slide_notes">
+
+</section>
+
+  </body>
+</html>

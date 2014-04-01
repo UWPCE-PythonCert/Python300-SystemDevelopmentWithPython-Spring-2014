@@ -156,7 +156,6 @@ The Limits of Reference Counting
 ==================================
 
 Circular references
---------------------
 
 If a python object references another object that references the first object: You have a circular reference:
 
