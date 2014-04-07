@@ -85,23 +85,24 @@ April 1st
 - PEP-8 (pylint/pychecker/pyflakes): Joseph
 - Documentation (docstrings, sphinx): Chris
 - Debugging (print, logging, pdb/ipdb, winpdb, eclipse): Joseph
-- Weak references: Chris
+
 
 
 ### Week 3
 April 8th
 
 #### Topics
+- Weak references: Chris
 - "advanced OO"
-  - \__new()__, super(): Chris
+  - \__new__(), super(): Chris
   - mixins, type, metaclasses: Joseph
-  - Abstract Base Classes: Chris
 
 ### Week 4
 
 April 15th
 
 #### Topics 
+- Abstract Base Classes: Chris
 - Databases (DB-API w/ sqlite, postgres, mysql): Joseph
 - Non-relational DBs (zdb, Riak, MongoDB, couchDB, BSDdb): Chris
 - code reviews begin
