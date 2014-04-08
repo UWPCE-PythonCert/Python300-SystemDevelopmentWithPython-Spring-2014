@@ -110,7 +110,7 @@
 
 <h2>Class Creation</h2>
 
-<p><tt class="docutils literal"><span class="pre">__new__</span></tt> is a static method -- but it must be called with a class object as the first argument. And it should return a class instance:</p>
+<p><tt class="docutils literal"><span class="pre">__new__</span></tt> is a static method -- but it must be called with a class object as the first argument.</p>
 <div class="highlight-python"><div class="highlight"><pre><span class="k">class</span> <span class="nc">Class</span><span class="p">(</span><span class="n">superclass</span><span class="p">):</span>
     <span class="k">def</span> <span class="nf">__new__</span><span class="p">(</span><span class="n">cls</span><span class="p">,</span> <span class="n">arg1</span><span class="p">,</span> <span class="n">arg2</span><span class="p">):</span>
         <span class="n">some_code_here</span>
@@ -118,6 +118,10 @@
         <span class="o">.....</span>
 </pre></div>
 </div>
+<p><tt class="docutils literal"><span class="pre">cls</span></tt> is the class object.</p>
+<p>The arguments (arg1, arg2) are what's passed in when calling the class.</p>
+<p>It needs to return a class instance -- usually by directly calling the superclass <tt class="docutils literal"><span class="pre">__new__</span></tt></p>
+<p>If nothing else, you can call <tt class="docutils literal"><span class="pre">object.__new__</span></tt></p>
 
 
 
@@ -151,9 +155,15 @@
 
 <h2>LAB</h2>
 
-<p>Demo: <tt class="docutils literal"><span class="pre">code/new_example.py</span></tt></p>
-<p>Write a subclass of int that will always be an even number: round the input to the closest even number</p>
-<p><tt class="docutils literal"><span class="pre">code/__new__/even_int.py</span></tt></p>
+<p><strong>Demo:</strong></p>
+<blockquote>
+<div><tt class="docutils literal"><span class="pre">code/new_example.py</span></tt></div></blockquote>
+<p><strong>Exercise:</strong></p>
+<p>Write a subclass of int that will always be an even number: round the input to the closest even number:</p>
+<blockquote>
+<div><p><tt class="docutils literal"><span class="pre">code/__new__/even_int.py</span></tt></p>
+<p><tt class="docutils literal"><span class="pre">code/__new__/test_even_int.py</span></tt></p>
+</div></blockquote>
 
 
 

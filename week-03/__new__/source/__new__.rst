@@ -56,7 +56,7 @@ Enter: ``__new__``
 Class Creation
 ================
 
-``__new__`` is a static method -- but it must be called with a class object as the first argument. And it should return a class instance:
+``__new__`` is a static method -- but it must be called with a class object as the first argument.
 
 ::
 
@@ -65,6 +65,15 @@ Class Creation
 	        some_code_here
 	        return superclass.__new__(cls)
 	        .....
+
+``cls`` is the class object.
+
+The arguments (arg1, arg2) are what's passed in when calling the class.
+
+It needs to return a class instance -- usually by directly calling the superclass ``__new__``
+
+If nothing else, you can call ``object.__new__``
+
 
 When to use ``__new__``
 ========================
@@ -91,10 +100,15 @@ http://www.python.org/download/releases/2.2/descrintro/#__new__
 LAB
 ====
 
-Demo: ``code/new_example.py``
+**Demo:**
 
-Write a subclass of int that will always be an even number: round the input to the closest even number
+ ``code/new_example.py``
 
-``code/__new__/even_int.py``
+**Exercise:**
+
+Write a subclass of int that will always be an even number: round the input to the closest even number:
+
+  ``code/__new__/even_int.py``
 
 
+  ``code/__new__/test_even_int.py``
