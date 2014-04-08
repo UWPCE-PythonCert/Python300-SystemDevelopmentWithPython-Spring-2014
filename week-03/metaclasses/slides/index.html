@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta name="viewport" content="width=1024, user-scalable=no">
+
+  <title>Python300 week 03, metaclasses</title>
+
+  <!-- Required stylesheet -->
+  <link rel="stylesheet" media="screen" href="core/deck.core.css">
+
+  <!-- Extension CSS files go here. Remove or add as needed. -->
+  <link rel="stylesheet" media="screen" href="extensions/goto/deck.goto.css">
+  <link rel="stylesheet" media="screen" href="extensions/menu/deck.menu.css">
+  <link rel="stylesheet" media="screen" href="extensions/navigation/deck.navigation.css">
+  <link rel="stylesheet" media="screen" href="extensions/status/deck.status.css">
+  <link rel="stylesheet" media="screen" href="extensions/scale/deck.scale.css">
+
+  <!-- Style theme. More available in /themes/style/ or create your own. -->
+  <link rel="stylesheet" media="screen" href="themes/style/swiss.css">
+  <!-- Transition theme. More available in /themes/transition/ or create your own. -->
+  <link rel="stylesheet" media="screen" href="themes/transition/horizontal-slide.css">
+
+  <!-- Basic black and white print styles -->
+  <link rel="stylesheet" media="print" href="core/print.css">
+
+  <!-- Required Modernizr file -->
+  <script src="modernizr.custom.js"></script>
+</head>
+<body>
+  <div class="deck-container">
+
+    <!-- Begin slides. Just make elements with a class of slide. -->
+    <section class="slide">
+        <h2>System Development with Python</h2>
+        <h3>Week 1 :: Project proposals</h3>
+        <p>Joseph Sheedy</p>
+        <p><i>joseph.sheedy@gmail.com</i></p>
+        <p>Git repository:  <a href="https://github.com/UWPCE-PythonCert/Python300-SystemDevelopmentWithPython-Spring-2014" target="_blank">https://github.com/UWPCE-PythonCert/Python300-SystemDevelopmentWithPython-Spring-2014</a></p>
+    </section>
+<section class="slide">
+    <h2>Old and New classes</h2>
+    <p>Python is an evolving language.   As of Python 2.2, we have old-style and new-style classes.  The distinction disappears in Python 3.  
+    <p>New-style classes were introduced to unify user defined classes and built-in types.
+    <p>This allows the extension of built-in types, for instance 
+    <pre><code>
+class MyInt(int): pass
+</code></pre>
+
+
+    <p>To make a new-style class, derive from any other new-style class, or <i>object</i></p>
+<pre>
+<code>
+class C(object):
+    def __init__(self):
+        # wham, new style class
+        pass
+
+</code>
+</pre>
+    <p>You almost always want new-style classes.  
+    <p>super(), for instance, doesn't work with old-style classes.  
+</section>
+
+<section class="slide">
+<h2>A closer look</h2>
+
+<p>Now look for yourself the differences between new-style and old-style classes:
+<ul>
+    <li>define a class of each type
+    <li>instantiate each class
+    <li>run dir(instance) to see the attributes of each object
+</ul>
+    <p>
+        <a target="_blank" href="http://www.python.org/doc/newstyle/">http://www.python.org/doc/newstyle/</a>
+        <br />
+        <a target="_blank" href="http://docs.python.org/2/reference/datamodel.html">http://docs.python.org/2/reference/datamodel.html</a>
+        <br />
+        <a target="_blank" href="http://stackoverflow.com/questions/54867/old-style-and-new-style-classes-in-python">http://stackoverflow.com/questions/54867/old-style-and-new-style-classes-in-python</a>
+    </p>
+</section>
+
+<section class="slide">
+    <h2>New Style</h2>
+    <p style="font-size:2em">New Style: everything is an object, including classes  
+    <p>All per-object data in instance attributes is stored in __dict__
+    <p>Class definition is stored in __class__
+    <p>Class attributes are accessible through the instance
+    <p>Reference counting, weak references, and cyclic garbage collection are handled for you
+</section>
+<section class="slide">
+    <h2>Mixins</h2>
+    <p>mixins are classes containing methods and properties with the intent of blending them into a new class definition.
+    <p>Implemented in Python via multiple inheritance
+  
+<pre><code>
+class BaseClass(object):
+    x = 10
+
+class Mixin1(object):
+    def method1(self):
+        print "called method1, x = %s" % self.x
+
+class Mixin2(object):
+    def method2(self):
+        print "called method2, x = %s" % self.x
+
+
+class MyClass(Mixin2, Mixin1, BaseClass):
+    pass
+</code></pre>
+    <p>Order is important, of course 
+
+    <ul>
+        <li>Methods you want to pull in are already defined.
+        <li>But in a non-trivial class hierarchy, be careful what you get </li>
+    </ul>
+
+</section>
+
+<section class="slide">
+    <h2>Multiple Inheritance and the Diamond Problem</h2>
+    <p>The order of inheritance affects the behavior of the class, so understanding method resolution order (MRO) is important</p>
+    <p>When calling a method on an object, Python first checks to see if the method name is defined in the class.  If not, it climbs up the class hierarchy until it either finds it or reaches the top without locating it, which will result in an AttributeError exception being thrown.</p>
+    <p>You can explicitly call the method as defined in a parent using super().</p>
+<pre>
+<code>
+class A(object): pass
+
+class B(A): pass
+
+class C(A): pass
+
+class D(B, C):
+    def meth(self, arg):
+        super(D, self).meth(arg)
+</code>
+</pre>
+    <img src="images/Diamond_inheritance.png" />
+
+</section>
+
+<section class="slide">
+    <h2>MRO</h2>
+    <p>The MRO of the previous diagram is [D,B,C,A], and is defined by the C3 linearization algorithm: <a target="_blank" href="http://en.wikipedia.org/wiki/C3_linearization">http://en.wikipedia.org/wiki/C3_linearization</a>
+    <p>Not so difficult for trivial examples, can lead to difficult bugs in complex hierarchies</p>
+    <p>classic classes maintain their original method resolution order, depth first and then left to right.</p>
+    <p>In C3, only the last occurance is retained</p>
+    <p>
+        <a target="_blank" href="http://www.python.org/download/releases/2.2.2/descrintro/#mro">http://www.python.org/download/releases/2.2.2/descrintro/#mro</a>, the classic description of modern MRO by Guido.
+    </p>
+    <p>
+        <a target="_blank" href="http://www.python.org/download/releases/2.3/mro/">http://www.python.org/download/releases/2.3/mro/</a>
+    </p>
+</section>
+
+
+
+<section class="slide">
+    <h2>since a class is just an object, what is its' class?</h2>
+</section>
+
+<section class="slide">
+    <h2>New Style</h2>
+    <p>The class of Class is a metaclass
+    <p>a metaclass can be used to dynamically create a class
+    <p>the metaclass, being a class, has a metaclass
+    <p>The base metaclass is type
+</section>
+
+<section class="slide">
+    <h2>type</h2>
+    <p>
+<pre>
+type?
+Type:       type
+String Form:<type 'type'>
+Namespace:  Python builtin
+Docstring:
+type(object) -> the object's type
+type(name, bases, dict) -> a new type
+</pre>
+
+<p class="slide"> So what type is type?
+</p>
+<p class="slide"> Hold on...
+</p>
+<pre class="slide">
+type(type)
+Out[1]: type
+</pre>
+</p>
+    
+</section>
+
+<section class="slide">
+    <h2>type magic</h2>
+    <p>With one argument, type() returns the type of the argument
+    <p>With 3 arguments, type() returns a new class
+<pre>
+  type(name of the class,
+ 
+       tuple of the parent class (for inheritance, can be empty),
+ 
+       dictionary containing attributes names and values)
+</pre>
+
+</section>
+
+<section class="slide">
+<h2>using type() to build a class</h2>
+<p>using the class keyword is more syntactic sugar, we can get by without it
+<pre><code>
+class MyClass(object):
+    x = 1
+</code></pre>
+<p>OR
+<p>
+<pre><code>
+MyClass = type('MyClass', (), {'x': 1})
+</code></pre>
+
+</section>
+
+<section class="slide">
+<h2>adding methods to a class built with type()</h2>
+<p>Just define a function with the correct signature and add it to the attr dictionary
+<pre><code>
+def my_method(self):
+    print "called my_method, x = %s" % self.x
+
+MyClass = type('MyClass',(), {'x': 1, 'my_method': my_method})
+o = MyClass()
+o.my_method()
+</code></pre>
+</section>
+
+<section class="slide">
+    <h2>Metaclass example</h2>
+<p>Consider wanting a metaclass which mangles all attribute names to provide uppercase and lower case attributes</p>
+</section>
+
+<section class="slide">
+<h2>Metaclass example</h2>
+<p>
+<pre><code>
+class Foo(object):
+    __metaclass__ = NameMangler
+    x = 1
+
+f = Foo()
+print f.X
+print f.x
+
+</code></pre>
+</section>
+
+<section class="slide">
+<h2>NameMangler</h2>
+<pre><code>
+class NameMangler(type):
+
+    def __new__(cls, clsname, bases, dct):
+
+        uppercase_attr = {}
+        for name, val in dct.items():
+            if not name.startswith('__'):
+                uppercase_attr[name.upper()] = val
+                uppercase_attr[name] = val
+            else:
+                uppercase_attr[name] = val
+
+        return super(NameMangler, cls).__new__(cls, clsname, bases, uppercase_attr)
+
+class Foo(object):
+    __metaclass__ = NameMangler
+    x = 1
+</code></pre>
+</section>
+
+<section class="slide">
+    <h2>working with NameMangler</h2>
+    <p>In the repository, find and run week-03/metaclasses/examples/mangler.py
+    <p>Do you understand what's happening?
+    <p>Modify the NameManger metaclass such that setting an attribute f.x also sets f.xx
+</section>
+
+    <!-- End slides. -->
+
+    <!-- Begin extension snippets. Add or remove as needed. -->
+
+    <!-- deck.navigation snippet -->
+    <div aria-role="navigation">
+      <a href="#" class="deck-prev-link" title="Previous">&#8592;</a>
+      <a href="#" class="deck-next-link" title="Next">&#8594;</a>
+    </div>
+
+    <!-- deck.status snippet -->
+    <p class="deck-status" aria-role="status">
+      <span class="deck-status-current"></span>
+      /
+      <span class="deck-status-total"></span>
+    </p>
+
+    <!-- deck.goto snippet -->
+    <form action="." method="get" class="goto-form">
+      <label for="goto-slide">Go to slide:</label>
+      <input type="text" name="slidenum" id="goto-slide" list="goto-datalist">
+      <datalist id="goto-datalist"></datalist>
+      <input type="submit" value="Go">
+    </form>
+
+    <!-- End extension snippets. -->
+  </div>
+
+<!-- Required JS files. -->
+<script src="jquery.min.js"></script>
+<script src="core/deck.core.js"></script>
+
+<!-- Extension JS files. Add or remove as needed. -->
+<script src="extensions/menu/deck.menu.js"></script>
+<script src="extensions/goto/deck.goto.js"></script>
+<script src="extensions/status/deck.status.js"></script>
+<script src="extensions/navigation/deck.navigation.js"></script>
+<script src="extensions/scale/deck.scale.js"></script>
+
+<!-- Initialize the deck. You can put this in an external file if desired. -->
+<script>
+  $(function() {
+    $.deck('.slide');
+  });
+</script>
+</body>
+</html>
