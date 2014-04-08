@@ -1,3 +1,5 @@
+#!/usr/bin/env python
+
 class NameMangler(type):
 
     def __new__(cls, clsname, bases, dct):

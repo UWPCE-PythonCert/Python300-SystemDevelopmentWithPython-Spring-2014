@@ -34,7 +34,7 @@
     <!-- Begin slides. Just make elements with a class of slide. -->
     <section class="slide">
         <h2>System Development with Python</h2>
-        <h3>Week 1 :: Project proposals</h3>
+        <h3>Week 3 :: Advanced OO</h3>
         <p>Joseph Sheedy</p>
         <p><i>joseph.sheedy@gmail.com</i></p>
         <p>Git repository:  <a href="https://github.com/UWPCE-PythonCert/Python300-SystemDevelopmentWithPython-Spring-2014" target="_blank">https://github.com/UWPCE-PythonCert/Python300-SystemDevelopmentWithPython-Spring-2014</a></p>
@@ -44,10 +44,6 @@
     <p>Python is an evolving language.   As of Python 2.2, we have old-style and new-style classes.  The distinction disappears in Python 3.  
     <p>New-style classes were introduced to unify user defined classes and built-in types.
     <p>This allows the extension of built-in types, for instance 
-    <pre><code>
-class MyInt(int): pass
-</code></pre>
-
 
     <p>To make a new-style class, derive from any other new-style class, or <i>object</i></p>
 <pre>
@@ -60,105 +56,14 @@ class C(object):
 </code>
 </pre>
     <p>You almost always want new-style classes.  
-    <p>super(), for instance, doesn't work with old-style classes.  
-</section>
-
-<section class="slide">
-<h2>A closer look</h2>
-
-<p>Now look for yourself the differences between new-style and old-style classes:
-<ul>
-    <li>define a class of each type
-    <li>instantiate each class
-    <li>run dir(instance) to see the attributes of each object
-</ul>
-    <p>
-        <a target="_blank" href="http://www.python.org/doc/newstyle/">http://www.python.org/doc/newstyle/</a>
-        <br />
-        <a target="_blank" href="http://docs.python.org/2/reference/datamodel.html">http://docs.python.org/2/reference/datamodel.html</a>
-        <br />
-        <a target="_blank" href="http://stackoverflow.com/questions/54867/old-style-and-new-style-classes-in-python">http://stackoverflow.com/questions/54867/old-style-and-new-style-classes-in-python</a>
-    </p>
-</section>
-
-<section class="slide">
-    <h2>New Style</h2>
-    <p style="font-size:2em">New Style: everything is an object, including classes  
-    <p>All per-object data in instance attributes is stored in __dict__
-    <p>Class definition is stored in __class__
-    <p>Class attributes are accessible through the instance
-    <p>Reference counting, weak references, and cyclic garbage collection are handled for you
-</section>
-<section class="slide">
-    <h2>Mixins</h2>
-    <p>mixins are classes containing methods and properties with the intent of blending them into a new class definition.
-    <p>Implemented in Python via multiple inheritance
-  
-<pre><code>
-class BaseClass(object):
-    x = 10
-
-class Mixin1(object):
-    def method1(self):
-        print "called method1, x = %s" % self.x
-
-class Mixin2(object):
-    def method2(self):
-        print "called method2, x = %s" % self.x
-
-
-class MyClass(Mixin2, Mixin1, BaseClass):
-    pass
-</code></pre>
-    <p>Order is important, of course 
-
-    <ul>
-        <li>Methods you want to pull in are already defined.
-        <li>But in a non-trivial class hierarchy, be careful what you get </li>
-    </ul>
-
-</section>
-
-<section class="slide">
-    <h2>Multiple Inheritance and the Diamond Problem</h2>
-    <p>The order of inheritance affects the behavior of the class, so understanding method resolution order (MRO) is important</p>
-    <p>When calling a method on an object, Python first checks to see if the method name is defined in the class.  If not, it climbs up the class hierarchy until it either finds it or reaches the top without locating it, which will result in an AttributeError exception being thrown.</p>
-    <p>You can explicitly call the method as defined in a parent using super().</p>
-<pre>
-<code>
-class A(object): pass
-
-class B(A): pass
-
-class C(A): pass
-
-class D(B, C):
-    def meth(self, arg):
-        super(D, self).meth(arg)
-</code>
-</pre>
-    <img src="images/Diamond_inheritance.png" />
-
-</section>
-
-<section class="slide">
-    <h2>MRO</h2>
-    <p>The MRO of the previous diagram is [D,B,C,A], and is defined by the C3 linearization algorithm: <a target="_blank" href="http://en.wikipedia.org/wiki/C3_linearization">http://en.wikipedia.org/wiki/C3_linearization</a>
-    <p>Not so difficult for trivial examples, can lead to difficult bugs in complex hierarchies</p>
-    <p>classic classes maintain their original method resolution order, depth first and then left to right.</p>
-    <p>In C3, only the last occurance is retained</p>
-    <p>
-        <a target="_blank" href="http://www.python.org/download/releases/2.2.2/descrintro/#mro">http://www.python.org/download/releases/2.2.2/descrintro/#mro</a>, the classic description of modern MRO by Guido.
-    </p>
-    <p>
-        <a target="_blank" href="http://www.python.org/download/releases/2.3/mro/">http://www.python.org/download/releases/2.3/mro/</a>
-    </p>
+    <p>properties, super(), etc. do not work with old-style classes.  
 </section>
 
 
 
+
 <section class="slide">
-    <h2>since a class is just an object, what is its' class?</h2>
+    <h2>A class is just an object: what is its class?</h2>
 </section>
 
 <section class="slide">
@@ -166,8 +71,19 @@ class D(B, C):
     <p>The class of Class is a metaclass
     <p>a metaclass can be used to dynamically create a class
     <p>the metaclass, being a class, has a metaclass
-    <p>The base metaclass is type
+    <p>The base metaclass is <code>type</code>
 </section>
+
+
+<section class="slide">
+    <h2>a "metaclass"?</h2>
+    <p>Fancy word, but you can think of it this way:
+    <ul>
+      <li> a class is something that makes instances.</li>
+      <li> a metaclass is something that makes classes</li>
+    </ul>
+</section>
+
 
 <section class="slide">
     <h2>type</h2>
@@ -196,14 +112,15 @@ Out[1]: type
 
 <section class="slide">
     <h2>type magic</h2>
-    <p>With one argument, type() returns the type of the argument
-    <p>With 3 arguments, type() returns a new class
+    <p>With one argument, <code>type()</code> returns the type of the argument
+    <p>With 3 arguments, <code>type()</code> returns a new class
 <pre>
-  type(name of the class,
+  type(name_of_the_class,
  
-       tuple of the parent class (for inheritance, can be empty),
+       tuple_of_the_parent_classes
+       # (for inheritance, can be empty),
  
-       dictionary containing attributes names and values)
+       dict_containing_attribute_names_and_values)
 </pre>
 
 </section>
@@ -221,10 +138,13 @@ class MyClass(object):
 MyClass = type('MyClass', (), {'x': 1})
 </code></pre>
 
+<p> (<code>object</code> is automatically a superclass)
+
+
 </section>
 
 <section class="slide">
-<h2>adding methods to a class built with type()</h2>
+<h2>Adding methods to a class built with <code>type()</code></h2>
 <p>Just define a function with the correct signature and add it to the attr dictionary
 <pre><code>
 def my_method(self):
@@ -258,11 +178,8 @@ print f.x
 
 <section class="slide">
 <h2>NameMangler</h2>
-<pre><code>
-class NameMangler(type):
-
+<pre><code>class NameMangler(type):
     def __new__(cls, clsname, bases, dct):
-
         uppercase_attr = {}
         for name, val in dct.items():
             if not name.startswith('__'):
@@ -280,10 +197,10 @@ class Foo(object):
 </section>
 
 <section class="slide">
-    <h2>working with NameMangler</h2>
+    <h2>Working with NameMangler</h2>
     <p>In the repository, find and run week-03/metaclasses/examples/mangler.py
     <p>Do you understand what's happening?
-    <p>Modify the NameManger metaclass such that setting an attribute f.x also sets f.xx
+    <p>Modify the NameMangler metaclass such that setting an attribute f.x also sets f.xx
 </section>
 
     <!-- End slides. -->

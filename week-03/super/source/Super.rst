@@ -30,7 +30,7 @@ Multiple inheritance:
 	        Super2.__init__(self, ......)        
 	        Super3.__init__(self, ......)        
 
-(calls to the super classes ``__init__`` are optional  case dependent)
+(calls to the super classes ``__init__`` are optional and case dependent)
 
 
 Multiple Inheritance
@@ -57,14 +57,6 @@ Method Resolution Order  left to right
 
 ( This can get complicated...more on that later...)
 
-The Diamond Problem 
-=====================
-
-Pull from Joseph's slides here...
-
-
-
-
 Mix-ins
 =========
 
@@ -90,6 +82,64 @@ Where do you put a Platypus or an Armadillo?
 Real World Example: ``wxPython FloatCanvas``
 
 
+The Diamond Problem 
+=====================
+
+::
+
+	class A(object):
+	    def do_your_stuff(self):
+	        print "doing A's stuff"
+	    
+	class B(A):
+	    def do_your_stuff(self):
+	        A.do_your_stuff(self)
+	        print "doing B's stuff"
+	    
+	class C(A):
+	    def do_your_stuff(self):
+	        A.do_your_stuff(self)
+	        print "doing C's stuff"
+
+	class D(B,C):    
+	    def do_your_stuff(self):
+	        B.do_your_stuff(self)
+	        C.do_your_stuff(self)
+	        print "doing D's stuff"
+
+
+The Diamond Problem 
+=====================
+
+Multiple paths to the same superclass:
+
+.. image:: /_static/Diamond_inheritance.png
+    :align: center
+    :height: 400px
+
+A's methods can get called twice.
+
+(demo: ``code/diamond.py``)
+
+The Method Resolution Order
+============================
+
+Python's The Method Resolution Order ( MRO ) is defined by the C3 linearization algorithm:
+
+http://en.wikipedia.org/wiki/C3_linearization.
+
+In C3, only the last occurrence of a given class is retained.
+
+In short: corrects the multiple calls to the same method problem
+
+The classic description of modern MRO by Guido:
+http://www.python.org/download/releases/2.2.2/descrintro/#mro, 
+
+And one more:
+http://www.python.org/download/releases/2.3/mro/
+
+demo: ``__mro__``
+
 super()
 ========
 
@@ -103,9 +153,9 @@ Getting the superclass: ::
 	        Vehicle.__init__(self, position, velocity, icon)
 
 
-not DRY
+``Vehicle`` is repeated here -- what if we wanted to change the superclass?
 
-also, what if we had a bunch of references to superclass?
+And there were a bunch of references to Vehicle?
 
  
 super()
@@ -122,19 +172,21 @@ Getting the superclass: ::
 
 
 
-but super is about more than just DRY...
+``super`` is about more than just making it easier to refactor.
 
-Remember the method resolution order?
+Remember the method resolution order? 
+
+And the diamond problem?
  
 
 
 What does super() do?
 ======================
 
-``super`` returns a "proxy object" that delegates method calls
+``super`` returns a "proxy object" that delegates method calls.
 
 
-It's not returning the object itself -- but you can call methods on it
+It's not returning the object itself -- but you can call methods on it.
 
 
 It runs through the method resolution order (MRO) to find the method you call.
@@ -149,11 +201,7 @@ http://docs.python.org/2/library/functions.html#super
 What does super() do?
 ======================
 
-Not the same as calling one superclass method...
-
-
-``super()`` will call all the sibling superclass methods: ::
-
+Not the same as calling one superclass method: ``super()`` will call all the sibling superclass methods: ::
 
 	class D(C, B, A):
 	    def __init__(self):
@@ -167,8 +215,8 @@ same as::
 	       B.__init__()
 	       A.__init__()
 
-
-you may not want that...
+| You may not want that --
+| demo: ``code /super_test.ipnb``
 
 super()
 =======
@@ -183,8 +231,7 @@ Two seminal articles about ``super()``:
 https://fuhm.net/super-harmful
 
 
-
-"*super() Considered Super!*
+"*super() Considered Super!*"
 
   - Raymond Hettinger 
 
@@ -200,18 +247,26 @@ super() issues...
 
 Both actually say similar things:
 
-
 * The method being called by super() needs to exist
 * Every occurrence of the method needs to use super():
 
   - Use it consistently, and document that you use it, as it is part of the external interface for your class, like it or not.
 
-* The caller and callee need to have a matching argument signature:
-  
-   - Never call super with anything but the exact arguments you received, unless you really know what you're doing.
-   - When you use it on methods whose acceptable arguments can be altered on a subclass via addition of more optional arguments, always accept ``*args``, ``**kwargs``, and call super like ``super(MyClass, self).method(args_declared, *args, **kwargs)``.
-  
+calling super():
+=================
 
+The caller and callee need to have a matching argument signature:
+  
+Never call super with anything but the exact arguments you received, unless you really know what you're doing.
+
+If you add one or more optional arguments, always accept::
+
+	*args, **kwargs
+
+and call super like::
+
+	super(MyClass, self).method(args_declared, *args, **kwargs)
+  
 
 Wrap Up
 =========
@@ -224,7 +279,6 @@ Think about what makes sense for your code:
 * Code re-use
 * Clean APIs
 * ... 
-
 
 
 Don't be a slave to what OO is *supposed to look like*.
