@@ -95,7 +95,7 @@ April 8th
 - Weak references: Chris
 - "advanced OO"
   - \__new__(), super(): Chris
-  - mixins, type, metaclasses: Joseph
+  - type, metaclasses: Joseph
 
 ### Week 4
 
