@@ -102,7 +102,6 @@ April 8th
 April 15th
 
 #### Topics 
-- Abstract Base Classes: Chris
 - Databases (DB-API w/ sqlite, postgres, mysql): Joseph
 - Non-relational DBs (zdb, Riak, MongoDB, couchDB, BSDdb): Chris
 - code reviews begin
