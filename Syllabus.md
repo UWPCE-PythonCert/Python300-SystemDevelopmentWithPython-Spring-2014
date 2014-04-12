@@ -98,12 +98,11 @@ April 8th
   - type, metaclasses: Joseph
 
 ### Week 4
-
 April 15th
 
 #### Topics 
 - Databases (DB-API w/ sqlite, postgres, mysql): Joseph
-- Non-relational DBs (zdb, Riak, MongoDB, couchDB, BSDdb): Chris
+- Non-relational DBs (ZODB, MongoDB, couchDB, BSDdb, Redis): Chris
 - code reviews begin
 
 
