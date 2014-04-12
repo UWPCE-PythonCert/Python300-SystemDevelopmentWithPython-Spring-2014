@@ -39,3 +39,6 @@ def test_string_odd():
 def test_string_even():
     assert EvenInt("12") == 12
 
+def test_string_float():
+    assert EvenInt("4.45") == 4
+
