@@ -3,7 +3,7 @@
 """
 sample data for NOSQL examples
 
-This version has some real structure to it: A more complicated data model
+This version has a non-trival data model
 
 """
 
@@ -13,21 +13,33 @@ class Person(object):
     """
     def __init__(self,
                  last_name,
-                 first_name=''
-                 middle_name=''
-                 cell_phone=''
-                 home=None.
-                 work=None,
+                 first_name='',
+                 middle_name='',
+                 cell_phone='',
+                 email='',
                  ):
         """
         initialize a Person object:
         """ 
-        self.first_name = first_name
-        self.last_name = last_name
-        self.middle_name = middle_name
-        self.cell_phone = cell_phone
-        self.home = home
-        self.work = business
+        self.first_name = first_name.strip()
+        self.last_name = last_name.strip()
+        self.middle_name = middle_name.strip()
+        self.cell_phone = cell_phone.strip()
+        self.email = email.strip()
+
+    @property
+    def name(self):
+        return " ".join([self.first_name, self.middle_name, self.last_name])
+
+    def __str__(self):
+        msg = '{first_name} {middle_name} {last_name}'.format(**self.__dict__)
+        return msg
+    def __repr__(self):
+        """
+        not a good ___repr__, but want to have something here
+        """
+        return self.__str__()
+
 
 class Address(object):
     """
@@ -37,24 +49,22 @@ class Address(object):
                  line_1='',
                  line_2='',
                  city='',
-                 state=''
-                 zip='',
-                 )
-    self.line_1=line_1
-    self.line_2=line_2
-    self.city=city
-    self.state=state
-    self.zip_code=zip_code
+                 state='',
+                 zip_code='',
+                 ):
+        """
+        initialize an address
+        """
 
-class Location(object):
-    """
-    class that represents a location: home or business
-    """
-    def __init__(self,
-                 address=None,
-                 email=None,
-                 phone=None,
-                 )
+        self.line_1=line_1.strip()
+        self.line_2=line_2.strip()
+        self.city=city.strip()
+        self.state=state.strip()
+        self.zip_code=str(zip_code).strip()
+
+    def __str__(self):
+        msg = "{line_1}\n{line_2}\n{city} {state} {zip_code}\n".format(**self.__dict__)
+        return msg
 
 class Household(object):
     """
@@ -63,51 +73,182 @@ class Household(object):
     A household has one or more people, and a Location
     """
 
-    def _init__(self,
-                people=(),
-                location=None,
-                ):
-    people = list(people)
-    location = location
+    def __init__(self,
+                 name = '',
+                 people=(),
+                 address=None,
+                 phone=''
+                 ):
+        self.name = name.strip()
+        self.people = list(people)
+        self.address = address
+
+    def __str__(self):
+        msg =  [self.name+":"]
+        msg += ["  "+ person.name for person in self.people]
+        msg += [str(self.address)]
+        return "\n".join(msg)
+    def __repr__(self):
+        return self.__str__()
+
+class Business(Household):
+    """
+    Class that represents a Business
+
+    A business has one or more people,
+    and address and a phone number
+    """
+    # Same as household now, but you never know.
+    pass
 
 
-AddressBook = [ {'first_name': "Chris",
-                 'last_name': "Barker",
-                 'address' : {'line_1':"835 NE 33rd St",
-                              'line_2' : "",
-                              'city' : "Seattle",
-                              'state': "WA",
-                              'zip': "96543"},
-                 'email' : "PythonCHB@gmail.com",
-                 'home_phone' : "206-555-1234",
-                 'office_phone' : "123-456-7890",
-                 'cell_phone' : "234-567-8901",
-                 },
-                
-                {'first_name': "Fred",
-                 'last_name': "Jones",
-                 'address' : {'line_1':"123 SE 13th St",
-                              'line_2' : "Apt. 43",
-                              'city' : "Tacoma",
-                              'state': "WA",
-                              'zip': "93465"},
-                 'email' : "FredJones@some_company.com",
-                 'home_phone' : "510-555-1234",
-                 'office_phone' : "564-466-7990",
-                 'cell_phone' : "403-561-8911",
-                 },
-                
-                {'first_name': "Nancy",
-                 'last_name': "Wilson",
-                 'address' : {'line_1':"8654 Walnut St",
-                              'line_2' : "Suite 567",
-                              'city' : "Pasadena",
-                              'state': "CA",
-                              'zip': "12345"},
-                 'email' : "Wilson.Nancy@gmail.com",
-                 'home_phone' : "423-321-9876",
-                 'office_phone' : "123-765-9877",
-                 'cell_phone' : "432-567-8466",
-                 },
-                ]
+class AddressBook(object):
+    """
+    And address book -- has people, households, businesses.
+
+    All fully cross-referenced
+    """
+
+    def __init__(self,
+                 people=(),
+                 businesses=(),
+                 households=(),
+                 ):
+        self.people = list(people)
+        self.businesses = list(businesses)
+        self.households = list(households)
+
+    def __str__(self):
+        msg = ["An Address Book:"]
+        msg += ["People:"]
+        msg += ["  "+person.name for person in self.people]
+        msg += ["Households:"]
+        msg += ["  "+house.name for house in self.households]
+        msg += ["Businesses:"]
+        msg += ["  "+bus.name for bus in self.businesses]
+
+        return "\n".join(msg)
+
+    @property
+    def locations(self):
+        return self.households+self.businesses
+
+    def find_people(self, name=''):
+        """
+        find all the people with name in their name somewhere
+        """
+        return [person for person in self.people if name.lower() in person.name.lower()]
+
+    def find_zip_codes(self, zip_code):
+        """
+        find all the locations with this zip_code
+        """
+        return [location for location in self.locations if location.address.zip_code == str(zip_code).strip()]
+
+    def find_state(self, state):
+        """
+        find all the locations in this state
+        """
+        return [location for location in self.locations if location.address.state == state]
+
+
+def create_sample():
+    """
+    Create a sample Address Book
+    """
+    
+    chris = Person(last_name = 'Barker',
+                   first_name='Chris',
+                   middle_name='H',
+                   cell_phone='(123) 555-7890',
+                   email = 'PythonCHB@gmail.com',
+                   )
+
+    emma = Person(last_name = 'Barker',
+                   first_name='Emma',
+                   middle_name='L',
+                   cell_phone='(345) 555-9012',
+                   email = 'emma@something.com',
+                   )
+
+    donna = Person(last_name = 'Barker',
+                   first_name='Donna',
+                   middle_name='L',
+                   cell_phone='(111) 555-1111',
+                   email = 'dbarker@something.com',
+                   )
+
+    barker_address = Address(line_1='123 Some St',
+                 line_2='Apt 1234',
+                 city='Seattle',
+                 state='WA',
+                 zip_code='98000',)
+
+    the_barkers = Household(name="The Barkers",
+                                 people=(chris, donna, emma),
+                                 address = barker_address)
+
+
+    joseph = Person(last_name = 'Sheedy',
+                    first_name='Joseph',
+                    cell_phone='(234) 555-8910',
+                    email = 'js@some_thing.com',
+                    )
+
+    cris = Person(last_name = 'Ewing',
+                  first_name='Cris',
+                  cell_phone='(345) 555-6789',
+                  email = 'cris@a_fake_domain.com',
+                  )
+
+    fulvio = Person(last_name = 'Casali',
+                    first_name= 'Fulvio',
+                    cell_phone='(345) 555-1234',
+                    email = 'fulvio@a_fake_domain.com',
+                    )
+
+    fred = Person(first_name="Fred",
+                  last_name="Jones",
+                  email='FredJones@some_company.com',
+                  cell_phone="403-561-8911",
+                  )
+
+    python_cert_address = Address('UW Professional and Continuing Education',
+                                  line_2='4333 Brooklyn Ave. NE',
+                                  city='Seattle',
+                                  state='WA',
+                                  zip_code='98105',
+                                  )
+
+    python_cert = Business(name = 'Python Certification Program',
+                           people=(chris, joseph, cris, fulvio),
+                           address = Address('UW Professional and Continuing Education',
+                                             line_2='4333 Brooklyn Ave. NE',
+                                             city='Seattle',
+                                             state='WA',
+                                             zip_code='98105',
+                                             )
+                           )
+
+
+    address_book = AddressBook(people = (chris,
+                                         donna,
+                                         emma,
+                                         cris,
+                                         joseph,
+                                         fulvio,
+                                         ),
+                                 households=(the_barkers,),
+                                 businesses=(python_cert,),
+                                 )
+
+
+    return address_book
+
+if __name__ == "__main__":
+    address_book = create_sample() 
+
+    print "Here is the address book"
+    print address_book
+
 
