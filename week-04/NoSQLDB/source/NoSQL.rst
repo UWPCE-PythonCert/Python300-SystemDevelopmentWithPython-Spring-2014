@@ -279,6 +279,15 @@ http://www.mongodb.org/downloads
 Simple copy and paste install (at least on OS-X)
  (drop the files from ``bin`` into ``usr/local/bin`` or similar)
 
+Create a dir for the database:
+
+``$ mkdir mongo_data``
+
+And start it up:
+
+``$ mongod --dbpath=mongo_data/
+
+
 
 
 

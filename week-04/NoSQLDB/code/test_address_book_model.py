@@ -5,7 +5,7 @@ test code for address book model code
 """
 
 import address_book_model as model
-import address_book_zodb as model
+#import address_book_zodb as model
 
 
 a_book = model.create_sample()
