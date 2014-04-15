@@ -5,6 +5,8 @@ test code for address book model code
 """
 
 import address_book_model as model
+import address_book_zodb as model
+
 
 a_book = model.create_sample()
 
@@ -15,7 +17,6 @@ def test_name_search():
 
     assert people[0].first_name == 'Chris'
     assert people[0].last_name == 'Barker'
-
 
 def test_name_search2():
     people = a_book.find_people('barKer')

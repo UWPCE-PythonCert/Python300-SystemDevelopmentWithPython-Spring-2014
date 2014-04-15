@@ -3,11 +3,14 @@
 """
 sample data for NOSQL examples
 
-This version has a non-trival data model
+This version uses ZODB for the data management.
 
 """
 
-class Person(object):
+import persistent # from ZODB
+from persistent.list import PersistentList
+
+class Person(persistent.Persistent):
     """
     class to represent an individual person
     """
@@ -41,7 +44,7 @@ class Person(object):
         return self.__str__()
 
 
-class Address(object):
+class Address(persistent.Persistent):
     """
     class that represents an address
     """
@@ -66,7 +69,7 @@ class Address(object):
         msg = "{line_1}\n{line_2}\n{city} {state} {zip_code}\n".format(**self.__dict__)
         return msg
 
-class Household(object):
+class Household(persistent.Persistent):
     """
     Class that represents a Household.
 
@@ -103,7 +106,7 @@ class Business(Household):
     pass
 
 
-class AddressBook(object):
+class AddressBook(persistent.Persistent):
     """
     And address book -- has people, households, businesses.
 
@@ -115,9 +118,9 @@ class AddressBook(object):
                  businesses=(),
                  households=(),
                  ):
-        self.people = list(people)
-        self.businesses = list(businesses)
-        self.households = list(households)
+        self.people = PersistentList(people)
+        self.businesses = PersistentList(businesses)
+        self.households = PersistentList(households)
 
     def __str__(self):
         msg = ["An Address Book:"]
@@ -155,9 +158,23 @@ class AddressBook(object):
 
 def create_sample():
     """
-    Create a sample Address Book
+    Create a sample Address Book 
+
+    Uses the ZODB single file storage
+    
+    There are other storage options:
+     *  In-memory
+     *  Client/Server Model
     """
     
+    import ZODB
+
+    db = ZODB.DB('address_book_zodb.fs')
+    connection = db.open()
+    root = connection.root
+    import transaction
+
+    ## now create some data.
     chris = Person(last_name = 'Barker',
                    first_name='Chris',
                    middle_name='H',
@@ -232,19 +249,34 @@ def create_sample():
                            )
 
 
-    address_book = AddressBook()
+    root.address_book = AddressBook()
 
-    address_book.people.append(chris)
-    address_book.people.append(donna)
-    address_book.people.append(emma)
-    address_book.people.append(cris)
-    address_book.people.append(joseph)
-    address_book.people.append(fulvio)
+    root.address_book.people.append(chris)
+    root.address_book.people.append(donna)
+    root.address_book.people.append(emma)
+    root.address_book.people.append(cris)
+    root.address_book.people.append(joseph)
+    root.address_book.people.append(fulvio)
 
-    address_book.households.append(the_barkers)
-    address_book.businesses.append(python_cert)
+    transaction.commit()
 
-    return address_book
+    root.address_book.households.append(the_barkers)
+    root.address_book.businesses.append(python_cert)
+
+    transaction.commit()
+
+    ## close the db
+    db.close()
+
+    ## now open it again
+
+    db = ZODB.DB('address_book_zodb.fs')
+    connection = db.open()
+    root = connection.root
+
+    return root.address_book
+
+
 
 if __name__ == "__main__":
     address_book = create_sample() 
