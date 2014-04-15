@@ -27,7 +27,6 @@ address_book = create_sample()
 
 for person in address_book.people:
     insert_statement = "INSERT INTO Person(first_name, last_name, middle_name, cell_phone, email) VALUES (?,?,?,?,?)"
-    # cursor.executemany(insert_statement, [(
     row = ( person.first_name, 
             person.last_name,
             person.middle_name,
@@ -37,5 +36,7 @@ for person in address_book.people:
     cursor.execute(insert_statement, row)
     print cursor.rowcount
     conn.commit()
+
+# TODO: also insert Addresses, Businesses, AddressBook, and relationships between them.
 
 conn.close()

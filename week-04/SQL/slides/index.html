@@ -1523,10 +1523,8 @@ will be immediately committed
 
 
 <pre><code>
-with sqlite3.connect(DB_FILENAME,
-                     isolation_level=None) as conn1:
-    with sqlite3.connect(DB_FILENAME,
-                         isolation_level=None) as conn2:
+with sqlite3.connect(DB_FILENAME, isolation_level=None) as conn1:
+    with sqlite3.connect(DB_FILENAME, isolation_level=None) as conn2:
 
 </code></pre>
 
