@@ -71,24 +71,33 @@ NoSQL in Python:
 Three Categories:
 
 1. Simple key-value object store:
+
    - shelve
    - anydbm
-   (we talked about these last fall...)
    - Can store (almost) any Python object
    - Only provides storage and retrieval 
 
+NoSQL in Python:
+================
+
 2. External NOSQL system:
+
   - Python bindings to external NOSQL system
   - Doesn't store full Python objects
   - Generally stores arbitrary collections of data (but not classes)
-  - CAn be simple key-value stores
+  - Can be simple key-value stores
      - Redis
   - Or a more full featured document database: 
      in-database searching, etc.
 
+NoSQL in Python:
+================
+
 3. Python object database:
+
   - Stores and retrieves arbitrary Python objects.
   - ZODB is the only robust maintained system (I know of)
+
 
 Why a DB at all?
 =================
@@ -99,12 +108,6 @@ Reasons to use a database:
   - May need to have multiple apps accessing the same data
   - May need to scale -- have the DB running on a separate server(s)
   - May need to access data from systems written in different languages.
-
-
-A Data Storage Problem
-======================
-
-An address book:
 
 
 
@@ -159,14 +162,20 @@ Redis
 Advanced key-value store.
 
  * Operates fully in memory 
+
    * caches to disk for persistence
+
    * very fast
+
 Can contain:
  * strings, hashes, lists, sets and sorted sets.
 
 Supports:
+
   * Transactions
+
   * Pub/Sub
+
   * Sharding
 
 http://redis.io/
@@ -238,7 +247,7 @@ Solution:
 ``code/address_book_zodb.py``
 
 mongoDB
-=====
+=======
 
 Essentially a key-value store, but the values are JSON-like objects. (Actually BSON (binary JSON) )
 
@@ -269,7 +278,7 @@ There are also various tools for integrating mongoDB with FRameworks:
  * Flask-PyMongo
  * others...
 
-getting started with mongoDB 
+Getting started with mongoDB 
 =============================
 
 mongoDB is separate program. Installers here:
@@ -285,7 +294,7 @@ Create a dir for the database:
 
 And start it up:
 
-``$ mongod --dbpath=mongo_data/
+``$ mongod --dbpath=mongo_data/``
 
 
 

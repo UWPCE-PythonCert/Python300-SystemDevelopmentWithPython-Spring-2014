@@ -60,10 +60,10 @@
 <h2>What is a Database?</h2>
 
 <blockquote>
-<div>A database is an organized collection of data. The data are typically organized to model relevant aspects of reality in a way that supports processes requiring this information.</div></blockquote>
-<p>Usually a way to persist and recover that organised data.</p>
+<div>&quot;A database is an organized collection of data. The data are typically organized to model relevant aspects of reality in a way that supports processes requiring this information.</div></blockquote>
+<p>Usually a way to persist and recover that organized data.</p>
 <p>These days, when you say &quot;Database&quot; almost everyone thinks &quot;Relational Database&quot;, and SQL is the standard way to do that.</p>
-<p>SQL RDBMS systems are robust, powerful, scalable and very well optimised.</p>
+<p>SQL RDBMS systems are robust, powerful, scalable and very well optimized.</p>
 <p>But: They require you to adapt the relational data model.</p>
 
 
@@ -81,7 +81,9 @@
 <dd><ul class="first last simple">
 <li>&quot;schema less&quot;
 - Document oriented</li>
-<li>Map/Reduce</li>
+<li>More direct mapping to an object model.</li>
+<li>Highly Scalable
+- Easier to distribute / parallelize:</li>
 </ul>
 </dd>
 </dl>
@@ -97,11 +99,11 @@
 <dl class="docutils">
 <dt>Schema:</dt>
 <dd><p class="first">A database schema is the organization of data, and description of how a database is constructed: Divided into database tables, and relationships: foreign keys, etc...</p>
-<p class="last">Includes what fields in what tables, what data tyeps each fiels is, normalization of shared data, etc.</p>
+<p class="last">Includes what fields in what tables, what data types each field is, normalization of shared data, etc.</p>
 </dd>
 </dl>
 <p>This requires a fair bit of work up-front, and can be hard to adapt as the system requirements change.</p>
-<p>It also can be a bit ugly to map your programming data model to a the schema.</p>
+<p>It also can be a bit ugly to map your programming data model to the schema.</p>
 
 
 
@@ -111,7 +113,359 @@
 
 <h2>Schemaless</h2>
 
-<p>Schemaless databases are</p>
+<p>Schemaless databases generally follow a &quot;document model&quot;.</p>
+<dl class="docutils">
+<dt>Each entry in the database is a &quot;document&quot;:</dt>
+<dd><ul class="first last simple">
+<li>essentially an arbitrary collection of fields.</li>
+<li>often looks like a Python dict.</li>
+</ul>
+</dd>
+</dl>
+<p>Not every entry has to have exactly the same structure.</p>
+<p>Maps well to dynamic programming languages.</p>
+<p>Adapts well as the system changes.</p>
+
+
+
+
+</article>
+<article class="slide level-2" id="nosql-in-python">
+
+<h2>NoSQL in Python:</h2>
+
+<p>Three Categories:</p>
+<ol class="arabic simple">
+<li>Simple key-value object store:<ul>
+<li>shelve</li>
+<li>anydbm</li>
+<li>Can store (almost) any Python object</li>
+<li>Only provides storage and retrieval</li>
+</ul>
+</li>
+</ol>
+
+
+
+
+</article>
+<article class="slide level-2" id="id1">
+
+<h2>NoSQL in Python:</h2>
+
+<ol class="arabic simple" start="2">
+<li>External NOSQL system:</li>
+</ol>
+<blockquote>
+<div><ul>
+<li><p class="first">Python bindings to external NOSQL system</p>
+</li>
+<li><p class="first">Doesn't store full Python objects</p>
+</li>
+<li><p class="first">Generally stores arbitrary collections of data (but not classes)</p>
+</li>
+<li><dl class="first docutils">
+<dt>Can be simple key-value stores</dt>
+<dd><ul class="first last simple">
+<li>Redis</li>
+</ul>
+</dd>
+</dl>
+</li>
+<li><dl class="first docutils">
+<dt>Or a more full featured document database:</dt>
+<dd><p class="first last">in-database searching, etc.</p>
+</dd>
+</dl>
+</li>
+</ul>
+</div></blockquote>
+
+
+
+
+</article>
+<article class="slide level-2" id="id2">
+
+<h2>NoSQL in Python:</h2>
+
+<ol class="arabic simple" start="3">
+<li>Python object database:</li>
+</ol>
+<blockquote>
+<div><ul class="simple">
+<li>Stores and retrieves arbitrary Python objects.</li>
+<li>ZODB is the only robust maintained system (I know of)</li>
+</ul>
+</div></blockquote>
+
+
+
+
+</article>
+<article class="slide level-2" id="why-a-db-at-all">
+
+<h2>Why a DB at all?</h2>
+
+<dl class="docutils">
+<dt>Reasons to use a database:</dt>
+<dd><ul class="first last simple">
+<li>Need to persist the data your application uses</li>
+<li>May need to store more data than you can hold in memory</li>
+<li>May need to have multiple apps accessing the same data</li>
+<li>May need to scale -- have the DB running on a separate server(s)</li>
+<li>May need to access data from systems written in different languages.</li>
+</ul>
+</dd>
+</dl>
+
+
+
+
+</article>
+<article class="slide level-2" id="a-data-storage-problem">
+
+<h2>A Data Storage Problem</h2>
+
+<p>An address book:</p>
+
+
+
+
+</article>
+<article class="slide level-2" id="zodb">
+
+<h2>ZODB</h2>
+
+<p>The Zope Object Data Base: A native object database for Python</p>
+<p>Stored full python objects, including their references to each other. Automatically swaps from memory to disk and back.</p>
+<blockquote>
+<div><ul class="simple">
+<li>Transparent persistence for Python objects</li>
+<li>Full ACID-compatible transaction support (including savepoints)</li>
+<li>History/undo ability</li>
+<li>Efficient support for binary large objects (BLOBs)</li>
+<li>Pluggable storages</li>
+<li>Scalable architecture</li>
+</ul>
+</div></blockquote>
+<p><a class="reference external" href="http://http://www.zodb.org/">http://http://www.zodb.org/</a></p>
+
+
+
+
+</article>
+<article class="slide level-2" id="mongodb">
+
+<h2>MongoDB</h2>
+
+<p>Agile and Scalable</p>
+<dl class="docutils">
+<dt>Document-Oriented Storage</dt>
+<dd><ul class="first last simple">
+<li>JSON-style documents with dynamic schemas offer simplicity and power.</li>
+</ul>
+</dd>
+<dt>Full Index Support</dt>
+<dd><ul class="first last simple">
+<li>Index on any attribute, just like you're used to.</li>
+</ul>
+</dd>
+<dt>Replication &amp; High Availability</dt>
+<dd><ul class="first last simple">
+<li>Mirror across LANs and WANs for scale and peace of mind.</li>
+</ul>
+</dd>
+<dt>Auto-Sharding</dt>
+<dd><ul class="first last simple">
+<li>Scale horizontally without compromising functionality.</li>
+</ul>
+</dd>
+<dt>Querying</dt>
+<dd><ul class="first last simple">
+<li>Rich, document-based queries.</li>
+</ul>
+</dd>
+<dt>Fast In-Place Updates</dt>
+<dd><ul class="first last simple">
+<li>Atomic modifiers for contention-free performance.</li>
+</ul>
+</dd>
+<dt>Map/Reduce</dt>
+<dd><ul class="first last simple">
+<li>Flexible aggregation and data processing.</li>
+</ul>
+</dd>
+</dl>
+<p><a class="reference external" href="https://www.mongodb.org/">https://www.mongodb.org/</a></p>
+
+
+
+
+</article>
+<article class="slide level-2" id="redis">
+
+<h2>Redis</h2>
+
+<p>Advanced key-value store.</p>
+<blockquote>
+<div><ul class="simple">
+<li>Operates fully in memory<ul>
+<li>caches to disk for persistence</li>
+<li>very fast</li>
+</ul>
+</li>
+</ul>
+</div></blockquote>
+<dl class="docutils">
+<dt>Can contain:</dt>
+<dd><ul class="first last simple">
+<li>strings, hashes, lists, sets and sorted sets.</li>
+</ul>
+</dd>
+</dl>
+<p>Supports:</p>
+<blockquote>
+<div><ul class="simple">
+<li>Transactions</li>
+<li>Pub/Sub</li>
+<li>Sharding</li>
+</ul>
+</div></blockquote>
+<p><a class="reference external" href="http://redis.io/">http://redis.io/</a></p>
+<p>(not much Windows support!)</p>
+
+
+
+
+</article>
+<article class="slide level-2" id="a-data-model">
+
+<h2>A Data Model</h2>
+
+<p>An Address Book with a not quite trivial data model.</p>
+<p>There are people:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="bp">self</span><span class="o">.</span><span class="n">first_name</span>
+<span class="bp">self</span><span class="o">.</span><span class="n">last_name</span>
+<span class="bp">self</span><span class="o">.</span><span class="n">middle_name</span>
+<span class="bp">self</span><span class="o">.</span><span class="n">cell_phone</span>
+<span class="bp">self</span><span class="o">.</span><span class="n">email</span>
+</pre></div>
+</div>
+<p>There are households:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="bp">self</span><span class="o">.</span><span class="n">name</span>
+<span class="bp">self</span><span class="o">.</span><span class="n">people</span>
+<span class="bp">self</span><span class="o">.</span><span class="n">address</span>
+<span class="bp">self</span><span class="o">.</span><span class="n">phone</span>
+</pre></div>
+</div>
+<p>(similarly businesses)</p>
+<p><tt class="docutils literal"><span class="pre">address_book_model.py</span></tt></p>
+
+
+
+
+</article>
+<article class="slide level-2" id="using-zodb">
+
+<h2>Using ZODB</h2>
+
+<p>ZODB stored Python objects.</p>
+<p>To make an object persistent:</p>
+<div class="highlight-python"><div class="highlight"><pre>import persistent
+
+class Something(persistent.Persistent):
+    def __init__(self):
+        self.a_field = &#39;&#39;
+        self.another_field &#39;&#39;
+</pre></div>
+</div>
+<p>When a change is made to the fields, the DB will keep it updated.</p>
+<p><tt class="docutils literal"><span class="pre">code/address_book_zodb.py</span></tt></p>
+
+
+
+
+</article>
+<article class="slide level-2" id="mutable-attributes">
+
+<h2>Mutable Attributes</h2>
+
+<p><tt class="docutils literal"><span class="pre">Something.this</span> <span class="pre">=</span> <span class="pre">that</span></tt> will trigger a DB action</p>
+<p>But:</p>
+<p><tt class="docutils literal"><span class="pre">Something.a_list.append</span></tt> will not trigger anything.</p>
+<p>The DB doesn't know that that the list has been altered.</p>
+<p>Solution:</p>
+<blockquote>
+<div><tt class="docutils literal"><span class="pre">self.a_list</span> <span class="pre">=</span> <span class="pre">PersistentList()</span></tt></div></blockquote>
+<p>(also <tt class="docutils literal"><span class="pre">PersistantDict()</span></tt> )</p>
+<p>(or write getters and setters...)</p>
+<p><tt class="docutils literal"><span class="pre">code/address_book_zodb.py</span></tt></p>
+
+
+
+
+</article>
+<article class="slide level-2" id="id3">
+
+<h2>mongoDB</h2>
+
+<p>Essentially a key-value store, but the values are JSON-like objects. (Actually BSON (binary JSON) )</p>
+<dl class="docutils">
+<dt>So you can store any object that can look like JSON:</dt>
+<dd><ul class="first last simple">
+<li>dicts</li>
+<li>lists</li>
+<li>numbers</li>
+<li>strings</li>
+<li>richer than JSON.</li>
+</ul>
+</dd>
+</dl>
+
+
+
+
+</article>
+<article class="slide level-2" id="mongodb-and-python">
+
+<h2>mongoDB and Python</h2>
+
+<p>mongoDB is written in C++ -- can be accesses by various language drivers.</p>
+<p>( <a class="reference external" href="http://docs.mongodb.org/manual/applications/drivers/">http://docs.mongodb.org/manual/applications/drivers/</a> )</p>
+<p>For Python: <tt class="docutils literal"><span class="pre">PyMongo</span></tt></p>
+<p><a class="reference external" href="http://api.mongodb.org/python/current/tutorial.html">http://api.mongodb.org/python/current/tutorial.html</a></p>
+<p>(<tt class="docutils literal"><span class="pre">pip</span> <span class="pre">install</span> <span class="pre">pymongo</span></tt> - but may need a copmiler!)</p>
+<dl class="docutils">
+<dt>There are also various tools for integrating mongoDB with FRameworks:</dt>
+<dd><ul class="first last simple">
+<li>Django MongoDB Engine</li>
+<li>mongodb_beaker</li>
+<li>MongoLog: Python logging handler</li>
+<li>Flask-PyMongo</li>
+<li>others...</li>
+</ul>
+</dd>
+</dl>
+
+
+
+
+</article>
+<article class="slide level-2" id="getting-started-with-mongodb">
+
+<h2>Getting started with mongoDB</h2>
+
+<p>mongoDB is separate program. Installers here:</p>
+<p><a class="reference external" href="http://www.mongodb.org/downloads">http://www.mongodb.org/downloads</a></p>
+<dl class="docutils">
+<dt>Simple copy and paste install (at least on OS-X)</dt>
+<dd>(drop the files from <tt class="docutils literal"><span class="pre">bin</span></tt> into <tt class="docutils literal"><span class="pre">usr/local/bin</span></tt> or similar)</dd>
+</dl>
+<p>Create a dir for the database:</p>
+<p><tt class="docutils literal"><span class="pre">$</span> <span class="pre">mkdir</span> <span class="pre">mongo_data</span></tt></p>
+<p>And start it up:</p>
+<p><tt class="docutils literal"><span class="pre">$</span> <span class="pre">mongod</span> <span class="pre">--dbpath=mongo_data/</span></tt></p>
 
 
 
