@@ -6,6 +6,7 @@ test code for address book model code
 
 import address_book_model as model
 #import address_book_zodb as model
+#import address_book_mongo as model
 
 
 a_book = model.create_sample()
@@ -15,6 +16,7 @@ def test_name_search():
 
     people = a_book.find_people('chris')
 
+    assert len(people) == 1
     assert people[0].first_name == 'Chris'
     assert people[0].last_name == 'Barker'
 
@@ -29,6 +31,7 @@ def test_name_search2():
 def test_zip_search():
     locations = a_book.find_zip_codes(98105)
 
+    assert len(locations) == 1
     assert locations[0].name == 'Python Certification Program'
 
 def test_state_search():
@@ -37,4 +40,5 @@ def test_state_search():
 
     assert "The Barkers" in names
     assert "Python Certification Program" in names
+
 
