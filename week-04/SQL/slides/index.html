@@ -5,7 +5,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
   <meta name="viewport" content="width=1024, user-scalable=no">
 
-  <title>Python300 week 03, SQL databases</title>
+  <title>Python300 week 04, SQL databases</title>
 
   <!-- Required stylesheet -->
   <link rel="stylesheet" media="screen" href="core/deck.core.css">
@@ -400,7 +400,16 @@ The syntax of SQL can be broken into constructs:
 
 <p>
 SQL statements can be thought of as belonging to one of several subsets
+    <ul>
+        <li>Data Definition
+        <li>Data Manipulation
+        <li>Data Query
+    </ul>
+</section>
 
+<section class="slide">
+
+<h2>SQL Syntax - Subsets</h2>
 <h3>Data Definition</h3>
 <p>
   Statements in this subset concern the structure of the database itself:
@@ -653,7 +662,7 @@ These can be used to tailor your program's expectations
 <h2>A Constructor</h2>
 
 <p>
-DB API provides a constructor connect, which returns a Connection
+DB API provides a constructor, connect(), which returns a Connection
 object:
 
 
@@ -1514,10 +1523,8 @@ will be immediately committed
 
 
 <pre><code>
-with sqlite3.connect(DB_FILENAME,
-                     isolation_level=None) as conn1:
-    with sqlite3.connect(DB_FILENAME,
-                         isolation_level=None) as conn2:
+with sqlite3.connect(DB_FILENAME, isolation_level=None) as conn1:
+    with sqlite3.connect(DB_FILENAME, isolation_level=None) as conn2:
 
 </code></pre>
 
