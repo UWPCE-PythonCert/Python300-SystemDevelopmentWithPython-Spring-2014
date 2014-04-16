@@ -80,15 +80,18 @@ Three Categories:
 NoSQL in Python:
 ================
 
-2. External NOSQL system:
+2. External NoSQL system:
 
-  - Python bindings to external NOSQL system
+  - Python bindings to external NoSQL system
   - Doesn't store full Python objects
   - Generally stores arbitrary collections of data (but not classes)
   - Can be simple key-value stores
-     - Redis
+     - Redis, etc...
   - Or a more full featured document database: 
      in-database searching, etc.
+     - mongoDB, etc...
+  - Or a Map/Reduce engine:
+     - Hadoop
 
 NoSQL in Python:
 ================
@@ -96,6 +99,7 @@ NoSQL in Python:
 3. Python object database:
 
   - Stores and retrieves arbitrary Python objects.
+    - Don't need to adapt your data model at all.
   - ZODB is the only robust maintained system (I know of)
 
 
@@ -105,18 +109,15 @@ Why a DB at all?
 Reasons to use a database:
   - Need to persist the data your application uses
   - May need to store more data than you can hold in memory
-  - May need to have multiple apps accessing the same data
+  - May need to have multiple apps (or multiple instances) accessing the same data
   - May need to scale -- have the DB running on a separate server(s)
   - May need to access data from systems written in different languages.
-
 
 
 ZODB
 =====
 
 The Zope Object Data Base: A native object database for Python
-
-Stored full python objects, including their references to each other. Automatically swaps from memory to disk and back.
 
  * Transparent persistence for Python objects
  * Full ACID-compatible transaction support (including savepoints)
@@ -129,8 +130,6 @@ http://http://www.zodb.org/
 
 MongoDB
 =======
-
-Agile and Scalable
 
 Document-Oriented Storage
  * JSON-style documents with dynamic schemas offer simplicity and power.
@@ -147,40 +146,24 @@ Auto-Sharding
 Querying
  * Rich, document-based queries.
 
-Fast In-Place Updates
- * Atomic modifiers for contention-free performance.
-
-Map/Reduce
- * Flexible aggregation and data processing.
-
 https://www.mongodb.org/
 
 
-Redis
-=====
+Other Options to Consider:
+==========================
 
-Advanced key-value store.
+Redis: Advanced, Scalable  key-value store.
 
- * Operates fully in memory 
+ - http://redis.io/
 
-   * caches to disk for persistence
+Riak: High availablity/scalablity (but not so good for small)
+ - http://docs.basho.com/riak/latest/dev/taste-of-riak/python/
 
-   * very fast
+HyperDex: "Next generation key-value store"
+ - http://hyperdex.org/
 
-Can contain:
- * strings, hashes, lists, sets and sorted sets.
-
-Supports:
-
-  * Transactions
-
-  * Pub/Sub
-
-  * Sharding
-
-http://redis.io/
-
-(not much Windows support!)
+Apache Cassandra: A more schema-based NoSQL solution
+ - http://pycassa.github.io/pycassa/
 
 
 A Data Model
@@ -296,10 +279,39 @@ And start it up:
 
 ``$ mongod --dbpath=mongo_data/``
 
+Creating a DB:
+==============
 
+::
 
+  # create the DB
+  from pymongo import MongoClient
 
+  client = MongoClient('localhost', 27017)
+  store = client.store_name # creates a Database
+  people = store.people # creates a collection
 
+mongo will link to the given database ans collection, or create new ones if they don't exist.
+
+Adding some stuff::
+
+    people.insert({'first_name': 'Fred',
+                 'last_name': 'Jones'})
+
+Pulling Stuff Out:
+==================
+
+And reading it back::
+
+  In [16]: people.find_one({'first_name':"Fred"})
+  Out[16]: 
+    {u'_id': ObjectId('534dcdcb5c84d28b596ad15e'),
+     u'first_name': u'Fred',
+     u'last_name': u'Jones'}
+
+Note that it adds an ObjectID for you.
+
+``/code/address_book_mongo.py
 
 
 
