@@ -1,0 +1,462 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta name="viewport" content="width=1024, user-scalable=no">
+
+  <title>Python300 week 05, Serialization and XML</title>
+
+  <!-- Required stylesheet -->
+  <link rel="stylesheet" media="screen" href="core/deck.core.css">
+
+  <!-- Extension CSS files go here. Remove or add as needed. -->
+  <link rel="stylesheet" media="screen" href="extensions/goto/deck.goto.css">
+  <link rel="stylesheet" media="screen" href="extensions/menu/deck.menu.css">
+  <link rel="stylesheet" media="screen" href="extensions/navigation/deck.navigation.css">
+  <link rel="stylesheet" media="screen" href="extensions/status/deck.status.css">
+  <link rel="stylesheet" media="screen" href="extensions/scale/deck.scale.css">
+
+  <!-- Style theme. More available in /themes/style/ or create your own. -->
+  <link rel="stylesheet" media="screen" href="themes/style/swiss.css">
+  <!-- Transition theme. More available in /themes/transition/ or create your own. -->
+  <link rel="stylesheet" media="screen" href="themes/transition/horizontal-slide.css">
+
+  <!-- Basic black and white print styles -->
+  <link rel="stylesheet" media="print" href="core/print.css">
+
+  <!-- Required Modernizr file -->
+  <script src="modernizr.custom.js"></script>
+</head>
+<body>
+  <div class="deck-container">
+
+    <!-- Begin slides. Just make elements with a class of slide. -->
+    <section class="slide">
+        <h2>System Development with Python</h2>
+        <h3>Week 5 :: Serialization and XML</h3>
+        <p>Joseph Sheedy</p>
+        <p><i>joseph.sheedy@gmail.com</i></p>
+        <p>Git repository:  <a href="https://github.com/UWPCE-PythonCert/Python300-SystemDevelopmentWithPython-Spring-2014" target="_blank">https://github.com/UWPCE-PythonCert/Python300-SystemDevelopmentWithPython-Spring-2014</a></p>
+</section>
+
+<section class="slide">
+    <h2>Today's topics</h2>
+    <ul>
+        <li>Serialization Review
+        <li>XML
+        <li>lambda functions, functional programming
+        <li>immutable kwargs
+        <li>itertools
+    </ul>
+</section>
+
+<section class="slide">
+    <h2>Serialization</h2>
+    <p>is the process of converting data structures into a format that can be transmitted or stored
+    <p>The reverse process to reconstruct a stream of bytes to the original data structure is called deserialization.
+    <p>Sometimes referred to as marshalling / unmarshalling in Python world, but the definitions are slightly different.  Marshalling refers to transformation for the purpose of RPC
+    <img width="100%" src="img/Serialization-deserialization.JPG" />
+</section>
+
+<section class="slide">
+    <h2>Some common Python serialization protocols</h2>
+    <ul>
+        <li>pickle (protocols 0, 1, and 2)
+        <li><a target="_blank" href="http://trac.mystic.cacr.caltech.edu/project/pathos/wiki/dill">dill</a>
+        <li>JSON
+        <li>YAML
+        <li>XML
+</section>
+
+<section class="slide">
+    <h2>Not every object is serializable</h2>
+    <p>In example:
+    <p>pickle will raise PicklingError if an object <a target="_blank" href="https://docs.python.org/2/library/pickle.html#what-can-be-pickled-and-unpickled">can not be pickled</a> (see examples/unpickleable.py)
+    <p>json will raise errors if it detects circular references (see examples/json_circular.py)
+    <p>..and many more.   There's no magic serialization bullet, but some have more magic than others.
+</section>
+    
+
+<section class="slide">
+    <h2>XML</h2>
+    <p>Extensible Markup Language (XML) defines a set of rules for encoding documents in a format that is both human- and machine-readable.
+    <p>It's been around since about 1996, so all major platforms have good support
+    <p>Robust validation frameworks
+    <p>Subject to <a target="_blank" href="http://docs.python.org/2/library/xml.html#xml-vulnerabilities">vulnerabilities</a>.  (<a target="_blank" href="http://en.wikipedia.org/wiki/Billion_laughs">For example</a> examples/billion_lolz.py)
+    
+</section>
+
+<section class="slide">
+    <h2>Wikipedia example</h2>
+    <p>In the repository you'll find a random portion of the wikipedia database, found in examples/data/enwiki-latest-pages-articles1.xml-p000000010p000010000-shortened.bz2
+    <p>Original source is here <a href="http://dumps.wikimedia.org/enwiki/latest/enwiki-latest-pages-articles1.xml-p000000010p000010000.bz2">
+    http://dumps.wikimedia.org/enwiki/latest/enwiki-latest-pages-articles1.xml-p000000010p000010000.bz2</a>, but it's pretty big so we'll just use a subset of it.
+    </p>
+    <p>We'll parse this using several of the tools presented.
+</section>
+
+<section class="slide">
+    <h2>SAX versus DOM</h2>
+    <h3>SAX - Simple API for XML</h3>
+    <ul>
+        <li>Document is processed element by element, so efficient for large documents
+        <li>Bookkeeping gets tricky
+        <li>Not efficient for random access
+    </ul>
+
+    <h3>DOM - Document Object Model</h3>
+    <ul>
+        <li>Easy to find elements with DOM methods, XPath, etc.
+        <li>Docment is usually stored in memory, so not suitable for large documents
+        <li>More efficient for random access 
+    </ul>
+</section>
+
+<section class="slide">
+    <h2><a target="_blank" href="https://docs.python.org/2/library/xml.sax.html">xml.sax</a> — </h2>
+    <p>The xml.sax package provides a number of modules which implement the Simple API for XML (SAX) interface for Python
+    <p> xml.parsers.expat is an implementation
+</section>
+
+<section class="slide">
+    <h2><a target="_blank" href="https://docs.python.org/2/library/xml.dom.html#module-xml.dom">xml.dom</a> — </h2>
+    <p>The xml.dom package provides a number of modules which implement the Document Object Model API
+    <p>A reference implementation is in <a target="_blank" href="https://docs.python.org/2/library/xml.dom.minidom.html#module-xml.dom.minidom">xml.dom.minidom</a> - Minimal DOM implementation
+    <p>For creating partial documents <a target="_blank" href="https://docs.python.org/2/library/xml.dom.pulldom.html">xml.dom.pulldom</a>
+    <p>xml.dom.minidom.parse(filename_or_file[, parser[, bufsize]])</p>
+    <p>xml.dom.minidom.parseString(string[, parser])</p>
+</section>
+
+<section class="slide">
+    <h2><a target="_blank" href="https://docs.python.org/2/library/xml.etree.elementtree.html">xml.etree.ElementTree</a> — The ElementTree XML API</h2>
+    <p>xml.etree.cElementTree is a C implementation, thus faster
+</section>
+
+<section class="slide">
+    <h2><a target="_blank" href="http://lxml.de/">lxml</a></h2>
+    <p>lxml is Python binding for the C libraries libxml2 and libxslt
+    <p>provides an interface similar to ElementTree</p>
+</section>
+
+
+
+<section class="slide">
+    <h2>functional programming with Python</h2>
+    <p>Functional programming is a paradigm that treats computation as the evaluation of mathematical functions</p>
+    <p>Avoids state, which has debugging and performance implications</p>
+    <p>Contrasts with object oriented programming which models computation by objects which maintain state and interact via interfaces</p>
+</section>
+
+<section class="slide">
+    <h2>functional programming in Python</h2>
+    <p>The functools module is for higher-order functions: functions that act on or return other functions</p>
+    <p> In general, any callable object can be treated as a function for the purposes of this module.</p>
+    <p>functional programming helpers in Python:</p>
+    <ul>
+        <li>filter(func, sequence) - returns only the values from sequence for which func evaluates to true
+        <li>map(func, sequence) - returns a list of the results of applying func to the elements of sequence
+        <li>reduce() - applies a function of two arguments cumulatively to the elements of a sequence
+        <p>i.e. reduce(lambda x, y: x+y, xrange(6)) calculates ((((1+2)+3)+4)+5)</p>
+    </ul>
+    <p>
+    In Python3, reduce has been downgraded from a builtin keyword, use functools.reduce()
+    <a href="http://docs.python.org/3.0/library/functools.html#functools.reduce">http://docs.python.org/3.0/library/functools.html#functools.reduce</a>
+    </p>
+</section>
+
+<section class="slide">
+    <h2>lambda functions</h2>
+    <p><span style="font-size:8em">Λ, λ</span></p>
+    <p>also known as an anonymous function or function literal, a lambda function is a function defined without being bound to an identifier 
+    <p>useful if you need to pass a function into a function just once
+    <p>Useful as arguments to higher order functions, which are functions which take functions as arguments.   
+    <p>Common use cases include callback handlers and functional arguments such as specifying a sorting algorithm
+    <p>they're not magic, these definitions are equivalent:
+<code>
+<pre>
+add = lambda x,y : x+y
+
+# OR
+
+def add(x,y):
+    return x+y
+
+
+</pre>
+</code>
+</section>
+
+<section class="slide">
+    <h2>Using lambda to create a closure</h2>
+    <p>The argument passed to a lambda function persists to functions that refer to the lambda function</p>
+    <p>This allows us to bind data to a function at runtime, creating a <a target="_blank" href="http://en.wikipedia.org/wiki/Closure_(computer_programming)">closure</a>, which is a function or reference to a function which is bound to a "referencing environment" i.e. a local scope that can be referenced later from outside that scope.
+<code>
+<pre>
+def add_const_factory(y):
+    return lambda x: x+y
+
+add_one = add_const_factory(1)
+add_threeseventhreethreeseven = add_const_factory(37337)
+
+print add_one(1)
+print add_threeseventhreethreeseven(1)
+
+print add_const_factory(1)(2)
+</pre>
+</code>
+</section>
+
+<section class="slide">
+    <h2>lambda function utility</h2>
+    <ul>
+        <li>Callback functions
+        <li>Functions that operate on functions
+        <li>A common use: sort function keyword arg
+    </ul>
+</section>
+
+<section class="slide">
+    <h2>functional examples</h2>
+<code>
+<pre>
+data = [(1,1), (2,2), (3,4), (37337, 10**9)]
+print map(lambda x: x[0]==x[1], data)
+print filter(lambda x: x[0]==x[1], data)
+print reduce(lambda x,y: (x[0]+y[0], x[1]+y[1]), data)
+</pre>
+</code>
+</section>
+
+<section class="slide">
+    <h2>sorting</h2>
+    <p>
+<pre>
+<code>
+l = [5,3,9,10,1]
+sorted_l = sorted(l)
+# or in place
+l.sort()
+</code>
+</pre>
+</p>
+<ul>
+<li>sorted() works on any iterable
+<li>list.sort() may be more efficient
+<li>both take a kwarg "key" which is a function which returns the key to sort on for each record
+<li>add "reverse=True" to sort that way
+</ul>
+
+</section>
+
+<section class="slide">
+    <h2>sort example</h2>
+    <p>
+<pre>
+<code>
+data = [
+    (1,9),
+    (2,2),
+    (3,0),
+    (37337, 10**9)
+]
+print sorted(data, key=lambda x: x[1])
+print sorted(data, key=lambda x: x[0])
+</code>
+</pre>
+</p>
+<p>This pattern is so common, we have a shortcut: from operator import itemgetter, attrgetter.  </p>
+<p>itemgetter(2) will return x[2].    It can accept multiple arguments for multiple levels of sorting.
+</section>
+
+<section class="slide">
+    <h2>now your turn</h2>
+    <ul>
+        <li>open the file "/usr/share/dict/words"</li>
+        <li>read each word into a list</li>
+        <li>sort the list first by the second character, then by the first character in reverse.</li>
+        <li>what are the last two words in this list?</li>
+    </ul>
+</section>
+
+
+
+<section class="slide">
+    <h2>On the dangers of mutable kwargs</h2>
+    <p>keyword arguments to functions can be given a default value.  That value can be nearly anything.
+<pre><code>
+def add_plus_one(values=[]):
+    """adds the values in values together, plus 1"""
+    values.append(1)
+    return sum(values)
+
+</code></pre>
+    <p>See examples/mutable.py
+</section>
+
+<section class="slide">
+    <h2>The problem with mutable kwargs</h2>
+    <p>The default value of the keyword argument is created once, on function definition.   Any calls to that function will reference a single object.  So if the object gets modified, all calls to that function will observe that new value.
+
+    <p><a target="_blank" href="http://stackoverflow.com/questions/1132941/least-astonishment-in-python-which-scope-is-the-mutable-default-argument-in">“Least Astonishment” in Python: which scope is the Mutable Default Argument in?</a>
+    <p>It comes simply from the fact that functions in Python are first-class objects, and not only a piece of code.
+    <p>A function is an object being evaluated on its definition; default parameters are kind of "member data" and therefore their state may change from one call to the other - exactly as in any other object. (<a target="_blank" href="http://stackoverflow.com/a/1145781/958118">http://stackoverflow.com/a/1145781/958118</a>)</p>
+    <p>This behavior can be useful, for instance in recursion or caching/memoization.  But be careful!
+    <p>A good description of the issue is at <a target="_blank" href="http://effbot.org/zone/default-values.htm">http://effbot.org/zone/default-values.htm</a>
+</section>
+
+<section class="slide">
+    <h1>itertools</h1>
+</section>
+
+<section class="slide">
+    <h2>first, an iterator review</h2>
+</section>
+<section class="slide">
+    <h2>Iterators</h2>
+    <p>Iterators are objects which support a concept of iteration over a collection
+<pre><code>
+# looping over the lines in a file is done via an iterator:
+f = open("file.dat")
+for line in f:
+    print line
+
+# and you can create your own
+for x in foo():
+    print x
+</code></pre>
+    <p class="slide">An iterator is an object which follows the Python iterator protocol
+    <p class="slide">An iterator defines two required methods in order to iterate
+    <ul class="slide">
+        <li>__iter__() returns the iterator itself
+        <li>next() returns the next item in the sequence
+    </ul>
+    <p class="slide">
+        <a href="http://docs.python.org/2/library/stdtypes.html#iterator-types">http://docs.python.org/2/library/stdtypes.html#iterator-types</a>
+    </p>
+
+</section>
+
+<section class="slide">
+    <h2>Demonstration iterator</h2>
+<pre><code>
+class CountToTen(object):
+    data = range(10)
+    i = -1
+
+    def __iter__(self):
+        return self
+
+    def next(self):
+        self.i += 1
+        if self.i >= len(self.data):
+            raise StopIteration
+        else:
+            return self.data[self.i]
+</code></pre>
+</p>
+</section>
+
+<section class="slide">
+    <h2>Now let's build an iterator</h2>
+    <p>Calculate the first 20 values in the Fibonacci sequence: [0, 1, 1, 2, 3, 5, ... ] using an iterator like this:
+<pre><code>
+for x in FibonacciIterator(20):
+    print x
+</code></pre>
+    <p>Call out the final value in the sequence when you've calculated a solution!</p>
+</section>
+
+<section class="slide">
+<h2>Sometimes there is an easier way</h2>
+<pre><code>
+def count_to_10():
+    for i in range(10):
+        yield i
+</code></pre>
+<p>(3500 upvotes on this one, yield is confusing at first)</p>
+<a target="_blank" href="http://stackoverflow.com/questions/231767/the-python-yield-keyword-explained">http://stackoverflow.com/questions/231767/the-python-yield-keyword-explained</a>
+</section>
+
+<section class="slide">
+<h2>Sometimes there is an easier easier way, with generators</h2>
+<pre><code>
+count_to_10 = lambda: (i for i in range(10))
+</code></pre>
+<a target="_blank" href="https://wiki.python.org/moin/Generators">https://wiki.python.org/moin/Generators</a>
+</section>
+
+<section class="slide">
+    <h2><a target="_blank" href="https://docs.python.org/2.7/library/itertools.html">itertools</a></h2>
+    <p>the itertools module contains a set of tools for building efficient operations on iterators
+    <p>infinite iterators:
+    <ul>
+        <li>count(N,2)
+        <li>cycle([3,6,9])
+        <li>repeat(x, N)
+    </ul>
+    <p>noninfinite iterators:
+    <ul>
+        <li>chain(*iterables) # combines multiple iterators into one
+        <li>ifilter(predicate, iterable) # if predicate evaluates true, return it
+        <li>groupby(iterable, keyfunc)
+        <li>islice(iterable, start, stop, step)
+        <li>imap(function, p, q [,..]) # imap(pow, (2,3,10), (5,2,3)) --> 32 9 1000
+        <li>izip(p, q [,..]) # izip('ABCD', 'xy') --> Ax By
+    </ul>
+
+</section>
+
+<section class="slide">
+    <h2>The End</h2>
+    <h2>Questions?</h2>
+</section>
+
+
+    <!-- End slides. -->
+
+    <!-- Begin extension snippets. Add or remove as needed. -->
+
+    <!-- deck.navigation snippet -->
+    <div aria-role="navigation">
+      <a href="#" class="deck-prev-link" title="Previous">&#8592;</a>
+      <a href="#" class="deck-next-link" title="Next">&#8594;</a>
+    </div>
+
+    <!-- deck.status snippet -->
+    <p class="deck-status" aria-role="status">
+      <span class="deck-status-current"></span>
+      /
+      <span class="deck-status-total"></span>
+    </p>
+
+    <!-- deck.goto snippet -->
+    <form action="." method="get" class="goto-form">
+      <label for="goto-slide">Go to slide:</label>
+      <input type="text" name="slidenum" id="goto-slide" list="goto-datalist">
+      <datalist id="goto-datalist"></datalist>
+      <input type="submit" value="Go">
+    </form>
+
+    <!-- End extension snippets. -->
+  </div>
+
+<!-- Required JS files. -->
+<script src="jquery.min.js"></script>
+<script src="core/deck.core.js"></script>
+
+<!-- Extension JS files. Add or remove as needed. -->
+<script src="extensions/menu/deck.menu.js"></script>
+<script src="extensions/goto/deck.goto.js"></script>
+<script src="extensions/status/deck.status.js"></script>
+<script src="extensions/navigation/deck.navigation.js"></script>
+<script src="extensions/scale/deck.scale.js"></script>
+
+<!-- Initialize the deck. You can put this in an external file if desired. -->
+<script>
+  $(function() {
+    $.deck('.slide');
+  });
+</script>
+</body>
+</html>
