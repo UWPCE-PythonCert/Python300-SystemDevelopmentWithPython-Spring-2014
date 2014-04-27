@@ -5,7 +5,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>Intro to Numpy &mdash; numpy</title>
+    <title>Intro to Numpy / Scipy &mdash; numpy</title>
     
     <link rel="stylesheet" href="_static/basic.css" type="text/css" />
     <link rel="stylesheet" href="_static/styles.css" type="text/css" />
@@ -45,10 +45,47 @@
 
 
   
-<article class="slide level-1" id="intro-to-numpy">
+<article class="slide level-1" id="intro-to-numpy-scipy">
 
-<h1>Intro to Numpy</h1>
+<h1>Intro to Numpy / Scipy</h1>
 
+<ul class="simple">
+<li>Chris Barker</li>
+</ul>
+<p>(April 29, 2014)</p>
+
+
+
+
+</article>
+<article class="slide level-2" id="scipy">
+
+<h2>Scipy</h2>
+
+<p>The scipy &quot;Stack&quot; is a collection of core packages used for scientific / numerical computing.</p>
+<p><a class="reference external" href="http://www.scipy.org/stackspec.html">http://www.scipy.org/stackspec.html</a></p>
+<p>Many other domain-specific packages area available:</p>
+<blockquote>
+<div>Core &quot;stack&quot; is what most people will want, regardless of domain.</div></blockquote>
+
+
+
+
+</article>
+<article class="slide level-2" id="what-s-in-the-scipy-stack">
+
+<h2>What's in the scipy stack?</h2>
+
+<ul class="simple">
+<li>Python (<a class="reference external" href="http://www.python.org">http://www.python.org</a>)</li>
+<li>NumPy (<a class="reference external" href="http://www.numpy.org">http://www.numpy.org</a>)</li>
+<li>SciPy library (<a class="reference external" href="http://www.scipy.org">http://www.scipy.org</a>)</li>
+<li>Matplotlib (<a class="reference external" href="http://matplotlib.org/">http://matplotlib.org/</a>)</li>
+<li>IPython (<a class="reference external" href="http://ipython.org/">http://ipython.org/</a>)</li>
+<li>nose (<a class="reference external" href="https://nose.readthedocs.org">https://nose.readthedocs.org</a>)</li>
+<li>pandas (<a class="reference external" href="http://pandas.pydata.org/">http://pandas.pydata.org/</a>)</li>
+<li>Sympy (<a class="reference external" href="http://sympy.org/">http://sympy.org/</a>)</li>
+</ul>
 
 
 
@@ -58,20 +95,11 @@
 
 <h2>numpy</h2>
 
-<p>numpy</p>
+<p>numpy is the core package that the rest of the scipy stack is built on. Mostly what I'll talk about here.</p>
 <p>Not just for lots of numbers!
 (but it's great for that!)</p>
-<p><a class="reference external" href="http://www.numpy.org/">http://www.numpy.org/</a>}</p>
-
-
-
-
-</article>
-<article class="slide level-2" id="what-is-numpy">
-
-<h2>what is numpy?</h2>
-
-<p>An N-Dimensional array object}</p>
+<p><a class="reference external" href="http://www.numpy.org/">http://www.numpy.org/</a></p>
+<p>An N-Dimensional array object</p>
 <p>A whole pile of tools for operations on/with that object.</p>
 
 
@@ -160,7 +188,7 @@
 </li>
 </ul>
 </div></blockquote>
-<p>demos: <tt class="docutils literal"><span class="pre">memory.py</span></tt>  and <tt class="docutils literal"><span class="pre">structure.py</span></tt></p>
+<p>demo: <tt class="docutils literal"><span class="pre">mem_struct.ipynb</span></tt></p>
 
 
 
@@ -196,11 +224,7 @@
 </dd>
 </dl>
 </li>
-<li><dl class="first docutils">
-<dt>Bool</dt>
-<dd><p class="first last">8 bit</p>
-</dd>
-</dl>
+<li><p class="first">Bool --  8 bit</p>
 </li>
 <li><dl class="first docutils">
 <dt>Python Object</dt>
@@ -210,21 +234,21 @@
 </li>
 </ul>
 </div></blockquote>
-<p>demo: <tt class="docutils literal"><span class="pre">object.py</span></tt> }</p>
+<p>demo: <tt class="docutils literal"><span class="pre">object.ipnb</span></tt></p>
 
 
 
 
 </article>
-<article class="slide level-2" id="compund-dtypes">
+<article class="slide level-2" id="compound-dtypes">
 
-<h2>Compund dtypes</h2>
+<h2>Compound dtypes</h2>
 
 <blockquote>
 <div><ul>
 <li><dl class="first docutils">
 <dt>Can define any combination of other types</dt>
-<dd><p class="first last">Still Homogenous:  Array of structs.</p>
+<dd><p class="first last">Still Homogeneous:  Array of structs.</p>
 </dd>
 </dl>
 </li>
@@ -246,15 +270,24 @@
 
 <h2>Array Constructors:</h2>
 
-<p>From scratch:</p>
-<p><tt class="docutils literal"><span class="pre">ones(),</span> <span class="pre">zeros(),</span> <span class="pre">empty(),</span> <span class="pre">arange(),</span> <span class="pre">linspace(),</span> <span class="pre">logspace()</span></tt></p>
-<p>( Default dtype: <tt class="docutils literal"><span class="pre">np.float64</span></tt> )</p>
-<p>From sequences:</p>
-<p><tt class="docutils literal"><span class="pre">array(),</span> <span class="pre">asarray()</span></tt></p>
-<p>( Build from any sequence )</p>
-<blockquote>
-<div>From binary data:</div></blockquote>
-<p><tt class="docutils literal"><span class="pre">fromstring(),</span> <span class="pre">frombuffer(),</span> <span class="pre">fromfile()</span></tt></p>
+<dl class="docutils">
+<dt>From scratch:</dt>
+<dd><ul class="first simple">
+<li><tt class="docutils literal"><span class="pre">ones(),</span> <span class="pre">zeros(),</span> <span class="pre">empty(),</span> <span class="pre">arange(),</span> <span class="pre">linspace(),</span> <span class="pre">logspace()</span></tt></li>
+</ul>
+<p class="last">( Default dtype: <tt class="docutils literal"><span class="pre">np.float64</span></tt> )</p>
+</dd>
+<dt>From sequences:</dt>
+<dd><ul class="first last simple">
+<li><tt class="docutils literal"><span class="pre">array(),</span> <span class="pre">asarray()</span></tt> ( Build from any sequence )</li>
+</ul>
+</dd>
+<dt>From binary data:</dt>
+<dd><ul class="first last simple">
+<li><tt class="docutils literal"><span class="pre">fromstring(),</span> <span class="pre">frombuffer(),</span> <span class="pre">fromfile()</span></tt></li>
+</ul>
+</dd>
+</dl>
 <p>Assorted linear algebra standards:</p>
 <p><tt class="docutils literal"><span class="pre">eye(),</span> <span class="pre">diag()</span></tt>, etc.</p>
 <p>demo: <tt class="docutils literal"><span class="pre">constructors.py</span></tt></p>
@@ -333,18 +366,44 @@ Out[17]: array([1, 2, 5, 4])
 
 
 </article>
-<article class="slide level-2" id="numpy-persistance">
+<article class="slide level-2" id="text-file-i-o">
 
-<h2>numpy persistance:</h2>
+<h2>Text File I/O</h2>
 
-<p><tt class="docutils literal"><span class="pre">.tofile()</span> <span class="pre">/</span> <span class="pre">fromfile()</span></tt></p>
+<p>Loading from text (CSV, etc):</p>
+<blockquote>
+<div><ul class="simple">
+<li><tt class="docutils literal"><span class="pre">np.loadtxt</span></tt></li>
+<li><tt class="docutils literal"><span class="pre">np.genfromtxt</span></tt> ( a few more features )</li>
+</ul>
+</div></blockquote>
+<p>Saving as text (CSV):</p>
+<blockquote>
+<div><ul class="simple">
+<li><tt class="docutils literal"><span class="pre">np.savetxt()</span></tt></li>
+</ul>
+</div></blockquote>
+
+
+
+
+</article>
+<article class="slide level-2" id="numpy-persistence">
+
+<h2>Numpy Persistence:</h2>
+
+<p><tt class="docutils literal"><span class="pre">np.tofile()</span> <span class="pre">/</span> <span class="pre">np.fromfile()</span></tt></p>
 <blockquote>
 <div>-- Just the raw bytes, no metadata</div></blockquote>
 <p>pickle</p>
-<p><tt class="docutils literal"><span class="pre">savez()</span></tt>  -- numpy zip format</p>
+<p><tt class="docutils literal"><span class="pre">np.savez()</span></tt>  -- numpy zip format</p>
 <p>Compact: binary dump plus metadata</p>
-<p>netcdf</p>
 <dl class="docutils">
+<dt>netcdf</dt>
+<dd><ul class="first last simple">
+<li>NetCDF4</li>
+</ul>
+</dd>
 <dt>Hdf</dt>
 <dd><ul class="first last simple">
 <li>Pyhdf</li>

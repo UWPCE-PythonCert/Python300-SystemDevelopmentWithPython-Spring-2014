@@ -3,9 +3,13 @@
    hieroglyph-quickstart on Sun Apr 27 15:13:20 2014.
 
 
-***************
-Intro to Numpy
-***************
+**********************
+Intro to Numpy / Scipy
+**********************
+
+- Chris Barker
+
+(April 29, 2014)
 
 .. Contents:
 
@@ -13,22 +17,42 @@ Intro to Numpy
 ..    :maxdepth: 2
 
 
+Scipy
+-----
 
+The scipy "Stack" is a collection of core packages used for scientific / numerical computing.
+
+http://www.scipy.org/stackspec.html
+
+Many other domain-specific packages area available:
+
+  Core "stack" is what most people will want, regardless of domain.
+
+What's in the scipy stack?
+--------------------------
+
+* Python (http://www.python.org)
+* NumPy (http://www.numpy.org)
+* SciPy library (http://www.scipy.org)
+* Matplotlib (http://matplotlib.org/)
+* IPython (http://ipython.org/)
+
+* nose (https://nose.readthedocs.org)
+* pandas (http://pandas.pydata.org/)
+* Sympy (http://sympy.org/)
 
 numpy
 -----
 
-numpy
+numpy is the core package that the rest of the scipy stack is built on. Mostly what I'll talk about here.
 
 Not just for lots of numbers!
 (but it's great for that!)
 
-http://www.numpy.org/}
+http://www.numpy.org/
 
-what is numpy?
---------------
 
-An N-Dimensional array object}
+An N-Dimensional array object
 
 A whole pile of tools for operations on/with that object.
 
@@ -84,7 +108,8 @@ What is an nd array?
     * PEP 3118 -- Revising the buffer protocol
   
 
-demos: ``memory.py``  and ``structure.py``
+demo: ``mem_struct.ipynb``
+
 
 Built-in Data Types
 -------------------
@@ -97,51 +122,46 @@ Built-in Data Types
         64, 128, 192, 256 bits
   * String and unicode
         Static length
-  * Bool 
-        8 bit
+  * Bool --  8 bit
   * Python Object 
         Really a pointer
 
+demo: ``object.ipynb``
 
-demo: ``object.py`` }
 
-Compund dtypes
+Compound dtypes
 --------------
 
 
   * Can define any combination of other types 
-        Still Homogenous:  Array of structs.
+        Still Homogeneous:  Array of structs.
   * Can name the fields
   * Can be like a database table
   * Useful for reading binary data
 
 
-demo: ``dtypes.py``
+demo: ``dtypes.ipynb``
 
 Array Constructors:
 -------------------
 
 From scratch:
+ * ``ones(), zeros(), empty(), arange(), linspace(), logspace()``
 
-``ones(), zeros(), empty(), arange(), linspace(), logspace()`` 
-
-( Default dtype: ``np.float64`` )
+ ( Default dtype: ``np.float64`` )
 
 From sequences:
+ * ``array(), asarray()`` ( Build from any sequence )
 
-``array(), asarray()`` 
-
-( Build from any sequence )
-
- From binary data:
-
-``fromstring(), frombuffer(), fromfile()`` 
+From binary data:
+ * ``fromstring(), frombuffer(), fromfile()`` 
 
 Assorted linear algebra standards:
 
 ``eye(), diag()``, etc. 
 
-demo: ``constructors.py``
+demo: ``constructors.ipynb``
+
 
 Broadcasting:
 -------------
@@ -159,7 +179,7 @@ Simple case: scalar and array:
 
 Great for functions of more than one variable on a grid
 
-demo: ``broadcasting.py``
+demo: ``broadcasting.ipynb``
 
 Slicing -- views:
 -----------------
@@ -180,7 +200,7 @@ a slice is a "view" on the array -- new object, but shares memory:
     # a and b share data
 
 
-demo: ``slice.py``
+demo: ``slice.ipynb``
 
 Working with compiled code
 ---------------------------
@@ -202,20 +222,34 @@ Tools:
 
 Example of numpy+cython: http://wiki.cython.org/examples/mandelbrot
 
-numpy persistance:
+Text File I/O
+--------------
+
+Loading from text (CSV, etc):
+
+  * ``np.loadtxt``
+  * ``np.genfromtxt`` ( a few more features )
+
+Saving as text (CSV):
+
+  * ``np.savetxt()``
+
+
+Numpy Persistence:
 ------------------
 
-``.tofile() / fromfile()``
+``np.tofile() / np.fromfile()``
 
  -- Just the raw bytes, no metadata
 
 pickle
 
-``savez()``  -- numpy zip format
+``np.savez()``  -- numpy zip format
 
 Compact: binary dump plus metadata
 
 netcdf
+  * NetCDF4
 
 Hdf
   * Pyhdf
