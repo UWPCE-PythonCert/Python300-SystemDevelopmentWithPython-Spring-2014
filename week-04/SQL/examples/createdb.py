@@ -1,15 +1,26 @@
 import os
 import sqlite3
 
+from utils import show_table_metadata
+
 DB_FILENAME = 'books.db'
-DB_IS_NEW = not os.path.exists(DB_FILENAME)
 
 def main():
+    DB_IS_NEW = not os.path.exists(DB_FILENAME)
+
     conn =  sqlite3.connect(DB_FILENAME)
     if DB_IS_NEW:
-        print 'Need to create database and schema'
+        print 'creating database and schema'
+        with open('ddl.sql') as f:
+            schema = f.read()
+            conn.executescript(schema)
     else:
-        print 'Database exists, assume schema does, too.'
+        print "Database exists, introspecting:"
+        tablenames = ['author', 'book']
+        cursor = conn.cursor()
+        for name in tablenames:
+            print "\n"
+            show_table_metadata(cursor, name)            
     conn.close()
 
 if __name__ == '__main__':

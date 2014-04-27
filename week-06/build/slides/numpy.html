@@ -1,0 +1,411 @@
+<!DOCTYPE html>
+
+
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Intro to Numpy &mdash; numpy</title>
+    
+    <link rel="stylesheet" href="_static/basic.css" type="text/css" />
+    <link rel="stylesheet" href="_static/styles.css" type="text/css" />
+    <link rel="stylesheet" href="_static/single.css" type="text/css" />
+    
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '2014.04.27',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="_static/common.js"></script>
+    
+    <script type="text/javascript" src="_static/slides.js"></script>
+    <script type="text/javascript" src="_static/sync.js"></script>
+    <script type="text/javascript" src="_static/controller.js"></script>
+    <script type="text/javascript" src="_static/init.js"></script>
+    
+    
+    <link rel="top" title="numpy" href="index.html" /> 
+  </head>
+  <body>
+
+<section
+   id="slide_container"
+   class='slides layout-regular'>
+
+
+  
+<article class="slide level-1" id="intro-to-numpy">
+
+<h1>Intro to Numpy</h1>
+
+
+
+
+
+</article>
+<article class="slide level-2" id="numpy">
+
+<h2>numpy</h2>
+
+<p>numpy</p>
+<p>Not just for lots of numbers!
+(but it's great for that!)</p>
+<p><a class="reference external" href="http://www.numpy.org/">http://www.numpy.org/</a>}</p>
+
+
+
+
+</article>
+<article class="slide level-2" id="what-is-numpy">
+
+<h2>what is numpy?</h2>
+
+<p>An N-Dimensional array object}</p>
+<p>A whole pile of tools for operations on/with that object.</p>
+
+
+
+
+</article>
+<article class="slide level-2" id="why-numpy">
+
+<h2>Why numpy?</h2>
+
+<p>Classic answer: Lots of numbers</p>
+<blockquote>
+<div><ul class="simple">
+<li>Faster</li>
+<li>Less memory</li>
+<li>More data types</li>
+</ul>
+</div></blockquote>
+<p>Even if you don't have lot of numbers:</p>
+<blockquote>
+<div><ul class="simple">
+<li>N-d array slicing</li>
+<li>Vector operations</li>
+<li>Flexible data types</li>
+</ul>
+</div></blockquote>
+
+
+
+
+</article>
+<article class="slide level-2" id="id1">
+
+<h2>Why numpy?</h2>
+
+<p>Wrapper for a block of memory:</p>
+<blockquote>
+<div><ul class="simple">
+<li>Interfacing with C libs</li>
+<li>PyOpenGL</li>
+<li>GDAL</li>
+<li>NetCDF4</li>
+<li>Shapely</li>
+</ul>
+</div></blockquote>
+<p>Image processing:</p>
+<blockquote>
+<div><ul class="simple">
+<li>PIL</li>
+<li>WxImage</li>
+<li>ndimage</li>
+</ul>
+</div></blockquote>
+
+
+
+
+</article>
+<article class="slide level-2" id="what-is-an-nd-array">
+
+<h2>What is an nd array?</h2>
+
+<blockquote>
+<div><ul>
+<li><p class="first">N-dimensional (up to 32!)</p>
+</li>
+<li><p class="first">Homogeneous array:</p>
+<ul>
+<li><dl class="first docutils">
+<dt>Every element is the same type</dt>
+<dd><p class="first last">(but that type can be a pyObject)</p>
+</dd>
+</dl>
+</li>
+<li><p class="first">Int, float, char -- more exotic types</p>
+</li>
+</ul>
+</li>
+<li><p class="first">&quot;rank&quot; – number of dimensions</p>
+</li>
+<li><p class="first">Strided data:</p>
+<ul class="simple">
+<li>Describes how to index into block of memory</li>
+<li>PEP 3118 -- Revising the buffer protocol</li>
+</ul>
+</li>
+</ul>
+</div></blockquote>
+<p>demos: <tt class="docutils literal"><span class="pre">memory.py</span></tt>  and <tt class="docutils literal"><span class="pre">structure.py</span></tt></p>
+
+
+
+
+</article>
+<article class="slide level-2" id="built-in-data-types">
+
+<h2>Built-in Data Types</h2>
+
+<blockquote>
+<div><ul>
+<li><dl class="first docutils">
+<dt>Signed and unsigned Integers</dt>
+<dd><p class="first last">8, 16, 32, 64 bits</p>
+</dd>
+</dl>
+</li>
+<li><dl class="first docutils">
+<dt>Floating Point</dt>
+<dd><p class="first last">32, 64, 96, 128 bits (not all platforms)</p>
+</dd>
+</dl>
+</li>
+<li><dl class="first docutils">
+<dt>Complex</dt>
+<dd><p class="first last">64, 128, 192, 256 bits</p>
+</dd>
+</dl>
+</li>
+<li><dl class="first docutils">
+<dt>String and unicode</dt>
+<dd><p class="first last">Static length</p>
+</dd>
+</dl>
+</li>
+<li><dl class="first docutils">
+<dt>Bool</dt>
+<dd><p class="first last">8 bit</p>
+</dd>
+</dl>
+</li>
+<li><dl class="first docutils">
+<dt>Python Object</dt>
+<dd><p class="first last">Really a pointer</p>
+</dd>
+</dl>
+</li>
+</ul>
+</div></blockquote>
+<p>demo: <tt class="docutils literal"><span class="pre">object.py</span></tt> }</p>
+
+
+
+
+</article>
+<article class="slide level-2" id="compund-dtypes">
+
+<h2>Compund dtypes</h2>
+
+<blockquote>
+<div><ul>
+<li><dl class="first docutils">
+<dt>Can define any combination of other types</dt>
+<dd><p class="first last">Still Homogenous:  Array of structs.</p>
+</dd>
+</dl>
+</li>
+<li><p class="first">Can name the fields</p>
+</li>
+<li><p class="first">Can be like a database table</p>
+</li>
+<li><p class="first">Useful for reading binary data</p>
+</li>
+</ul>
+</div></blockquote>
+<p>demo: <tt class="docutils literal"><span class="pre">dtypes.py</span></tt></p>
+
+
+
+
+</article>
+<article class="slide level-2" id="array-constructors">
+
+<h2>Array Constructors:</h2>
+
+<p>From scratch:</p>
+<p><tt class="docutils literal"><span class="pre">ones(),</span> <span class="pre">zeros(),</span> <span class="pre">empty(),</span> <span class="pre">arange(),</span> <span class="pre">linspace(),</span> <span class="pre">logspace()</span></tt></p>
+<p>( Default dtype: <tt class="docutils literal"><span class="pre">np.float64</span></tt> )</p>
+<p>From sequences:</p>
+<p><tt class="docutils literal"><span class="pre">array(),</span> <span class="pre">asarray()</span></tt></p>
+<p>( Build from any sequence )</p>
+<blockquote>
+<div>From binary data:</div></blockquote>
+<p><tt class="docutils literal"><span class="pre">fromstring(),</span> <span class="pre">frombuffer(),</span> <span class="pre">fromfile()</span></tt></p>
+<p>Assorted linear algebra standards:</p>
+<p><tt class="docutils literal"><span class="pre">eye(),</span> <span class="pre">diag()</span></tt>, etc.</p>
+<p>demo: <tt class="docutils literal"><span class="pre">constructors.py</span></tt></p>
+
+
+
+
+</article>
+<article class="slide level-2" id="broadcasting">
+
+<h2>Broadcasting:</h2>
+
+<p>Element-wise operations among two different rank arrays:</p>
+<p>Simple case: scalar and array:</p>
+<div class="highlight-python"><div class="highlight"><pre>In [37]: a
+Out[37]: array([1, 2, 3])
+In [38]: a*3
+Out[38]: array([3, 6, 9])
+</pre></div>
+</div>
+<p>Great for functions of more than one variable on a grid</p>
+<p>demo: <tt class="docutils literal"><span class="pre">broadcasting.py</span></tt></p>
+
+
+
+
+</article>
+<article class="slide level-2" id="slicing-views">
+
+<h2>Slicing -- views:</h2>
+
+<p>a slice is a &quot;view&quot; on the array -- new object, but shares memory:</p>
+<div class="highlight-python"><div class="highlight"><pre>In [12]: a = np.array((1,2,3,4))
+In [13]: b = a[:]
+# for lists -- [:] means copy -- not for arrays!
+In [15]: a is b
+Out[15]: False
+# it&#39;s new array, but...
+In [16]: b[2] = 5
+In [17]: a
+Out[17]: array([1, 2, 5, 4])
+# a and b share data
+</pre></div>
+</div>
+<p>demo: <tt class="docutils literal"><span class="pre">slice.py</span></tt></p>
+
+
+
+
+</article>
+<article class="slide level-2" id="working-with-compiled-code">
+
+<h2>Working with compiled code</h2>
+
+<p>Wrapper around a C pointer to a block of data}</p>
+<blockquote>
+<div><ul class="simple">
+<li>Some code can't be vectorized</li>
+<li>Interface with existing libraries</li>
+</ul>
+</div></blockquote>
+<p>Tools:</p>
+<blockquote>
+<div><ul class="simple">
+<li>C API: you don't want to do that!</li>
+<li>Cython: typed arrays</li>
+<li>Ctypes</li>
+<li>SWIG: numpy.i</li>
+<li>Boost: boost array</li>
+<li>f2py</li>
+</ul>
+</div></blockquote>
+<p>Example of numpy+cython: <a class="reference external" href="http://wiki.cython.org/examples/mandelbrot">http://wiki.cython.org/examples/mandelbrot</a></p>
+
+
+
+
+</article>
+<article class="slide level-2" id="numpy-persistance">
+
+<h2>numpy persistance:</h2>
+
+<p><tt class="docutils literal"><span class="pre">.tofile()</span> <span class="pre">/</span> <span class="pre">fromfile()</span></tt></p>
+<blockquote>
+<div>-- Just the raw bytes, no metadata</div></blockquote>
+<p>pickle</p>
+<p><tt class="docutils literal"><span class="pre">savez()</span></tt>  -- numpy zip format</p>
+<p>Compact: binary dump plus metadata</p>
+<p>netcdf</p>
+<dl class="docutils">
+<dt>Hdf</dt>
+<dd><ul class="first last simple">
+<li>Pyhdf</li>
+<li>pytables</li>
+</ul>
+</dd>
+</dl>
+
+
+
+
+</article>
+<article class="slide level-2" id="other-stuff">
+
+<h2>Other stuff:</h2>
+
+<blockquote>
+<div><ul class="simple">
+<li>Masked arrays</li>
+<li>Memory-mapped files</li>
+<li>Set operations: unique, etc</li>
+<li>Random numbers</li>
+<li>Polynomials</li>
+<li>FFT</li>
+<li>Sorting and searching</li>
+<li>Linear Algebra</li>
+<li>Statistics</li>
+</ul>
+</div></blockquote>
+<p>(And all of scipy!)</p>
+
+
+
+
+</article>
+<article class="slide level-2" id="numpy-docs">
+
+<h2>numpy docs:</h2>
+
+<dl class="docutils">
+<dt>www.numpy.org</dt>
+<dd>-- Numpy reference Downloads, etc</dd>
+<dt>www.scipy.org</dt>
+<dd>-- lots of docs</dd>
+</dl>
+<p>Scipy cookbook:</p>
+<blockquote>
+<div><a class="reference external" href="http://www.scipy.org/Cookbook">http://www.scipy.org/Cookbook</a></div></blockquote>
+<p>&quot;The Numpy Book&quot;</p>
+<p><a class="reference external" href="http://www.tramy.us/numpybook.pdf">http://www.tramy.us/numpybook.pdf</a></p>
+
+
+
+
+</article>
+
+</section>
+
+<section id="slide_notes">
+
+</section>
+
+  </body>
+</html>
