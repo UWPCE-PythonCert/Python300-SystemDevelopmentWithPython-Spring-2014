@@ -5,7 +5,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
   <meta name="viewport" content="width=1024, user-scalable=no">
 
-  <title>Python300 week 05, Serialization and XML</title>
+  <title>Python300 week 06, datetime/time/pytz</title>
 
   <!-- Required stylesheet -->
   <link rel="stylesheet" media="screen" href="core/deck.core.css">
@@ -42,30 +42,62 @@
 
 <section class="slide">
     <h2>datetime, time, pytz</h2>
-    <p>What's so hard about representing time?
-    </p>
-    <p>The primary difficulty lies in the fact that humans are mostly accustomed to dictating data in their local timezone.  If your application doesn't span timezones, it's easier.   Even in that case, what happens when you deploy your application to a server running in a different timezone?
+    <h3>What's so hard about representing time? </h3>
+    <p>Humans are mostly accustomed to communicating in their local timezone.  
+    <p>There are hundreds of them, whose definitions change
+    <p>What happens to your application when it's deployed to a server running in a different timezone?
+    <p>The length of a day is not constant, and <a target="_blank" href="http://en.wikipedia.org/wiki/Leap_second">leap seconds</a> have been inserted frequently
+    <p>Daylight savings time challenges
+</section>
+
+<section class="slide">
+    <h2><a target="_blank" href="http://en.wikipedia.org/wiki/Daylight_saving_time">DST</a></h2>
+    <p>Daylight savings time creates discontinuities in a time series
+    <p>
+        <img width="90%" src="img/6libU.png" />
+    <p>
+        <img width="90%" src="img/FfBuN.png" />
 </section>
 
 <section class="slide">
     <h2>On representing a point in time</h2>
     <ul>
-        <li>There is no universal frame of reference for measuring time
-        <li>A common standard was developed in the UNIX community, known as <a target="_blank" href="http://en.wikipedia.org/wiki/Unix_time">UNIX time</a>
-        <li>UNIX time is represented as the number of seconds from one point in time known as the Epoch, defined to be 00:00 (TZ?) January 1, 1970 UTC, not counting leap seconds
-        <li>Note that UNIX time is based on another relative measurement
-        <li>On 32 bit OSes which store time as a signed 32-bit integer, the largest value that can be stored is 03:14:07 UTC on Tuesday, 19 January 2038.   This is known as the Y2038 problem.   
-        <li>On 64 bit machines, the largest time which can be represented is in the year 292 billion, at which time our universe is predicted to not exist
-        <li>If every digital representation of time was specified in UNIX time, then time and date calculations would be simple arithmetic
-        <li>Things get more complex when translating time coordinate systems used by humans: we communicate time in local coordinate systems, of which there are hundreds which are frequently changing!
+        <li>There are two major time standards which you should understand:
+        <ul>
+            <li><a target="_blank" href="http://en.wikipedia.org/wiki/UTC">UTC: Coordinated Universal Time (French: Temps Universel Coordonné)</a>
+            <li><a target="_blank" href="http://en.wikipedia.org/wiki/Unix_time">UNIX time</a>
+        </ul>
     </ul>
+</section>
+
+<section class="slide">
+    <h2><a target="_blank" href="http://en.wikipedia.org/wiki/Unix_time">UNIX time</a></h2>
+        <ul>
+        <li>UNIX time is represented as the number of seconds from one point in time known as the Epoch, defined to be 00:00 (TZ?) January 1, 1970 UTC, not counting leap seconds
+        <li>Note that UNIX time is based on another time standard
+        <li>On 32 bit OSes which store time as a signed 32-bit integer, the largest value that can be stored is 03:14:07 UTC on Tuesday, 19 January 2038.  One second afterwards, time overflows back to zero.   This is known as the Y2038 problem.   
+        <li>On 64 bit machines, the largest time which can be represented is in the year 292 billion, at which time our universe is predicted to not exist
+    </ul>
+</section>
+
+<section class="slide">
+    <h2><a target="_blank" href="http://en.wikipedia.org/wiki/UTC">UTC: Coordinated Universal Time (French: Temps Universel Coordonné)</a></h2>
+    <p>This is the primary time standard in the world
+    <p>Also known as Zulu Time, as the UTC time zone is sometimes denoted by the letter Z, e.g. 12:59Z
+    <p>It is similar to, but not the same as, Greenwich Mean Time (GMT). UTC is more precisely defined
+    <p>
+<!--
+-->
+        <img width="30%" src="img/Greenwich_clock.jpg" />
 </section>
 
 <section class="slide">
     <h2>timezones and datetime calculations</h2>
     <p>
         <li>Calculating the time between two dates spanning timezones, daylight savings time transitions, and leap seconds is a task prone with error
-        <li>As in <a target="_blank" href="https://docs.python.org/2.7/library/datetime.html">datetime docs</a>, <blockquote>The rules for time adjustment across the world are more political than rational</blockquote>"
+        <li>As in <a target="_blank" href="https://docs.python.org/2.7/library/datetime.html">datetime docs</a>, <blockquote>The rules for time adjustment across the world are more political than rational</blockquote>
+        <li>The <a target="_blank" href="http://en.wikipedia.org/wiki/Tz_database">Olson database</a> is a reference database of the world's timezones.
+        <li>It can be obtained through the IANA <a target="_blank" href="http://www.iana.org/time-zones">here</a>
     </p>
 </section>
 
@@ -117,13 +149,16 @@ ValueError: year is out of range
 </section>
 
 <section class="slide">
-    <p>Getting a string representation of a datetime object
-    <p>t.isoformat()
-    <p>t.strftime("Date: %B %d, %Y.  Time: %H:%M")
+    <h2>Stringifying a datetime</h2>
+    <p>
+<pre><code>from datetime import datetime
+t = datetime.now()
+t.isoformat()
+t.strftime("Date: %B %d, %Y.  Time: %H:%M")
+</code></pre>
     <p>strftime passes format codes to the strftime of the platform's C library.  This may not be standardized!  A list of format directives is <a target="_blank" href="https://docs.python.org/2.7/library/datetime.html#strftime-strptime-behavior">here</a>
     <p>getting the current UNIX time : 
-<pre><code>
-int(datetime.datetime.now().strftime('%s'))
+<pre><code>int(datetime.datetime.now().strftime('%s'))
 # in Python 3.3+:
 datetime.now().timestamp()
 </code></pre>
@@ -134,7 +169,8 @@ datetime.now().timestamp()
     <p>so far we haven't created any datetime objects with associated timezone information, these are known as 'naive' datetimes
     <p>in order to accurately represent a real time, timezone information is required
     <p>Some systems may expect naive times to represent UTC, others may decide on local time zone.  It's usually safer to be explicit.
-    <p>Timezone is specified with the tzinfo attribute, either through the constructor or later
+    <p>Timezone is specified with the tzinfo attribute, through the constructor: datetimes are immutable
+    <p>Change the timezone or another attribute with the replace(*args, **kwargs) method to create a new object with all the same attributes except those specified
     <p>tzinfo is expected to be a subclass of datetime.tzinfo
     <p>However, datetime.tzinfo is an abstract base class, which means you'll need to define your own subclass (fraught with peril) or install the pytz package
     <p>pytz is based on the <a target="_blank" href="http://en.wikipedia.org/wiki/Tz_database">Olson database</a>, a reference database of the world's timezones.
@@ -142,6 +178,8 @@ datetime.now().timestamp()
 
 <section class="slide">
     <h2>pytz</h2>
+<p>A list of all the timezones in pytz is available in pytz.all_timezones
+<p>Timezone is often specified as a UTC offset in hours, e.g. 2019-11-1T11:59-08:00.  Don't use this offset directly to permanently record a user's timezone because it may change with Daylight Savings Time.  Better to obtain the IANA code from the list in pytz and let datetime do the calculations.
 <p>
 <pre><code>
 from datetime import datetime
@@ -158,10 +196,65 @@ t2 = datetime(2019,11,1, tzinfo=us_pacific_tz)
 
 <section class="slide">
     <h2>time calculations</h2>
-    <p>datetime.timedelta([days[, seconds[, microseconds[, milliseconds[, minutes[, hours[, weeks]]]]]]]) represents a time differece
-    <p>all the datetime objects overload the arithmetic operators, such that adding or subtracting dates will return a datetime.timedelta object
+    <p>datetime.timedelta([days[, seconds[, microseconds[, milliseconds[, minutes[, hours[, weeks]]]]]]]) represents a time difference
+    <p>All the datetime objects overload the arithmetic operators, such that adding or subtracting dates will return a datetime.timedelta object
+<pre><code>In [17]: datetime.datetime.now() - datetime.datetime.now()
+Out[17]: datetime.timedelta(-1, 86399, 999987)
+</code></pre>
     <p>adding timedelta to a datetime will result in a new datetime
-    <p>timedelta has a few functions and properties to handle the arithmetic: timedelta.total_seconds(), timedelta.days, timedelta.seconds, timedelta.microseconds
+<pre><code>
+In [19]: datetime.datetime(2019,11,1, tzinfo=pytz.UTC) + datetime.timedelta(days=1)
+Out[19]: datetime.datetime(2019, 11, 2, 0, 0)
+
+# or create a shortcut for creating a UTC timezone aware datetime:
+import functools
+utc = functools.partial(datetime.datetime, tzinfo=pytz.UTC)
+utc(2019,11,1,12,0) + datetime.timedelta(days=1)
+</code></pre>
+    <p>timedelta has a few functions and properties to retrieve the results: timedelta.total_seconds(), timedelta.days, timedelta.seconds, timedelta.microseconds
+    <p>datetimes in the calculations must be all naive or all aware
+<pre><code>
+In [35]: datetime.datetime(2019,11,1,tzinfo=pytz.UTC) - datetime.datetime(2019,10,1)
+---------------------------------------------------------------------------
+TypeError                                 Traceback (most recent call last)
+<ipython-input-35-85c74b5e069b> in <module>()
+TypeError: can't subtract offset-naive and offset-aware datetimes
+</code><pre>
+
+</section>
+
+<section class="slide">
+    <h2>Storing datetimes</h2>
+    <p>Try to deal in UTC as much as possible.  Do not depend on the machine's interpretation of local time.  
+    <p>For instance, my datetime.now() on my Mac will return a naive datetime containing the local time.  Alternatively:
+<pre><code>
+# return the current time as an aware datetime in UTC:
+datetime.datetime.now(pytz.UTC)
+# this will return a naive datetime with the current UTC time
+datetime.datetime.utcnow()
+</code></pre>
+    <p>When storing a datetime in a database, it will need to be translated into the database's native format.   Depending on the database driver, it may or may not accept datetimes.  If it does, it may or may not respect the timezone information
+    <p>Discovering the behavior is part of your database integration work
+</section>
+
+<section class="slide">
+    <h2>datetimes in sqlite3</h2>
+    <p>From the <a target="_blank" href="http://www.sqlite.org/datatype3.html">sqlite3 docs</a>:
+<pre>
+Dates and times in sqlite3 are stored as TEXT, REAL, or INTEGER values
+
+TEXT as ISO8601 strings ("YYYY-MM-DD HH:MM:SS.SSS").
+REAL as Julian day numbers, the number of days since noon in Greenwich on November 24, 4714 B.C. according to the proleptic Gregorian calendar.
+INTEGER as Unix Time, the number of seconds since 1970-01-01 00:00:00 UTC.
+</pre>
+    <p>So Python datetime objects must be translated to these types
+    <p>sqlite3 has support for "adapters" and "converters" to translate types going in and out of the DB
+    <p><a target="_blank" href="https://docs.python.org/2/library/sqlite3.html#default-adapters-and-converters">Default adapters and converters</a> are supplied for date and datetime objects
+    <p>unfortunately, the default implementation does not handle timezone aware datetimes, but they are simply implementable
+    <p>let's look at 
+examples/datetime_naive_to_sqlite.py
+and
+examples/datetime_aware_to_sqlite.py
 </section>
 
 
