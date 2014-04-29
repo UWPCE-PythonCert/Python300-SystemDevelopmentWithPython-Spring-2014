@@ -40,5 +40,24 @@ if __name__ == '__main__':
     if DB_IS_NEW:
         print "Database does not yet exist, please import `createdb` first"
         sys.exit(1)
+
+    with sqlite3.connect(DB_FILENAME) as conn1:
+        print "\nOn conn1, before insert:"
+        show_authors(conn1)
+        
+        authors = ([author] for author in AUTHORS_BOOKS.keys())
+        cur = conn1.cursor()
+        cur.executemany(author_insert, authors)
+        print "\nOn conn1, after insert:"
+        show_authors(conn1)
+        
+        with sqlite3.connect(DB_FILENAME) as conn2:
+            print "\nOn conn2, before commit:"
+            show_authors(conn2)
+            
+            conn1.commit()
+            print "\nOn conn2, after commit:"
+            show_authors(conn2)
+
+
     
-    raise NotImplementedError("Populate DB not implemented")
