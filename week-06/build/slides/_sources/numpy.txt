@@ -126,7 +126,7 @@ Built-in Data Types
   * Python Object 
         Really a pointer
 
-demo: ``object.ipnb``
+demo: ``object.ipynb``
 
 
 Compound dtypes
@@ -140,7 +140,7 @@ Compound dtypes
   * Useful for reading binary data
 
 
-demo: ``dtypes.py``
+demo: ``dtypes.ipynb``
 
 Array Constructors:
 -------------------
@@ -160,7 +160,7 @@ Assorted linear algebra standards:
 
 ``eye(), diag()``, etc. 
 
-demo: ``constructors.py``
+demo: ``constructors.ipynb``
 
 
 Broadcasting:
@@ -179,7 +179,7 @@ Simple case: scalar and array:
 
 Great for functions of more than one variable on a grid
 
-demo: ``broadcasting.py``
+demo: ``broadcasting.ipynb``
 
 Slicing -- views:
 -----------------
@@ -200,7 +200,7 @@ a slice is a "view" on the array -- new object, but shares memory:
     # a and b share data
 
 
-demo: ``slice.py``
+demo: ``slice.ipynb``
 
 Working with compiled code
 ---------------------------
