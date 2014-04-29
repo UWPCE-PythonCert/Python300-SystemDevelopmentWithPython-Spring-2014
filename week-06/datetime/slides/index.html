@@ -69,6 +69,18 @@
         </ul>
     </ul>
 </section>
+<section class="slide">
+    <h2><a target="_blank" href="http://en.wikipedia.org/wiki/UTC">UTC: Coordinated Universal Time (French: Temps Universel Coordonné)</a></h2>
+    <p>This is the primary time standard in the world
+    <p>Provides a consistent reference all other time zones can relate to
+    <p>No daylight savings time
+    <p>Also known as Zulu Time, as the UTC time zone is sometimes denoted by the letter Z, e.g. 12:59Z
+    <p>It is similar to, but not the same as, Greenwich Mean Time (GMT). UTC is more precisely defined
+    <p>
+<!--
+-->
+        <img width="30%" src="img/Greenwich_clock.jpg" />
+</section>
 
 <section class="slide">
     <h2><a target="_blank" href="http://en.wikipedia.org/wiki/Unix_time">UNIX time</a></h2>
@@ -80,24 +92,14 @@
     </ul>
 </section>
 
-<section class="slide">
-    <h2><a target="_blank" href="http://en.wikipedia.org/wiki/UTC">UTC: Coordinated Universal Time (French: Temps Universel Coordonné)</a></h2>
-    <p>This is the primary time standard in the world
-    <p>Also known as Zulu Time, as the UTC time zone is sometimes denoted by the letter Z, e.g. 12:59Z
-    <p>It is similar to, but not the same as, Greenwich Mean Time (GMT). UTC is more precisely defined
-    <p>
-<!--
--->
-        <img width="30%" src="img/Greenwich_clock.jpg" />
-</section>
 
 <section class="slide">
     <h2>timezones and datetime calculations</h2>
     <p>
-        <li>Calculating the time between two dates spanning timezones, daylight savings time transitions, and leap seconds is a task prone with error
-        <li>As in <a target="_blank" href="https://docs.python.org/2.7/library/datetime.html">datetime docs</a>, <blockquote>The rules for time adjustment across the world are more political than rational</blockquote>
+        <li>Calculating the time between two dates spanning timezones, daylight savings time transitions, and leap seconds is a task fraught with error
         <li>The <a target="_blank" href="http://en.wikipedia.org/wiki/Tz_database">Olson database</a> is a reference database of the world's timezones.
         <li>It can be obtained through the IANA <a target="_blank" href="http://www.iana.org/time-zones">here</a>
+        <li>As in <a target="_blank" href="https://docs.python.org/2.7/library/datetime.html">datetime docs</a>, <blockquote>The rules for time adjustment across the world are more political than rational</blockquote>
     </p>
 </section>
 
@@ -149,7 +151,7 @@ ValueError: year is out of range
 </section>
 
 <section class="slide">
-    <h2>Stringifying a datetime</h2>
+    <h2>datetime -> string</h2>
     <p>
 <pre><code>from datetime import datetime
 t = datetime.now()
@@ -162,6 +164,20 @@ t.strftime("Date: %B %d, %Y.  Time: %H:%M")
 # in Python 3.3+:
 datetime.now().timestamp()
 </code></pre>
+</section>
+
+<section class="slide">
+    <h2>string -> datetime</h2>
+    <p>datetime.strptime(string, format)
+<pre><code>
+In [88]: datetime.datetime.strptime?
+Type:        builtin_function_or_method
+String form: <built-in method strptime of type object at 0x10f8536e0>
+Docstring:   string, format -&gt; new datetime parsed from a string (like time.strptime()).
+</code></pre>
+    <p>strptime format strings use the same formatting tokens as strftime
+    <p>If you need to parse arbitrary time strings, or don't want to maintain format strings, there is <a target="_blank" href="http://labix.org/python-dateutil">python-dateutil.parser</a>
+
 </section>
 
 <section class="slide">
