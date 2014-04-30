@@ -201,6 +201,48 @@
 
 
 </article>
+<article class="slide level-2" id="slicing-views">
+
+<h2>Slicing -- views:</h2>
+
+<p>a slice is a &quot;view&quot; on the array -- new object, but shares memory:</p>
+<div class="highlight-python"><div class="highlight"><pre>In [12]: a = np.array((1,2,3,4))
+In [13]: b = a[:]
+# for lists -- [:] means copy -- not for arrays!
+In [15]: a is b
+Out[15]: False
+# it&#39;s new array, but...
+In [16]: b[2] = 5
+In [17]: a
+Out[17]: array([1, 2, 5, 4])
+# a and b share data
+</pre></div>
+</div>
+<p>demo: <tt class="docutils literal"><span class="pre">slice.ipynb</span></tt></p>
+
+
+
+
+</article>
+<article class="slide level-2" id="broadcasting">
+
+<h2>Broadcasting:</h2>
+
+<p>Element-wise operations among two different rank arrays:</p>
+<p>Simple case: scalar and array:</p>
+<div class="highlight-python"><div class="highlight"><pre>In [37]: a
+Out[37]: array([1, 2, 3])
+In [38]: a*3
+Out[38]: array([3, 6, 9])
+</pre></div>
+</div>
+<p>Great for functions of more than one variable on a grid</p>
+<p>demo: <tt class="docutils literal"><span class="pre">broadcasting.ipynb</span></tt></p>
+
+
+
+
+</article>
 <article class="slide level-2" id="what-is-an-nd-array">
 
 <h2>What is an nd array?</h2>
@@ -278,48 +320,6 @@
 </ul>
 </div></blockquote>
 <p>demo: <tt class="docutils literal"><span class="pre">object.ipynb</span></tt></p>
-
-
-
-
-</article>
-<article class="slide level-2" id="slicing-views">
-
-<h2>Slicing -- views:</h2>
-
-<p>a slice is a &quot;view&quot; on the array -- new object, but shares memory:</p>
-<div class="highlight-python"><div class="highlight"><pre>In [12]: a = np.array((1,2,3,4))
-In [13]: b = a[:]
-# for lists -- [:] means copy -- not for arrays!
-In [15]: a is b
-Out[15]: False
-# it&#39;s new array, but...
-In [16]: b[2] = 5
-In [17]: a
-Out[17]: array([1, 2, 5, 4])
-# a and b share data
-</pre></div>
-</div>
-<p>demo: <tt class="docutils literal"><span class="pre">slice.ipynb</span></tt></p>
-
-
-
-
-</article>
-<article class="slide level-2" id="broadcasting">
-
-<h2>Broadcasting:</h2>
-
-<p>Element-wise operations among two different rank arrays:</p>
-<p>Simple case: scalar and array:</p>
-<div class="highlight-python"><div class="highlight"><pre>In [37]: a
-Out[37]: array([1, 2, 3])
-In [38]: a*3
-Out[38]: array([3, 6, 9])
-</pre></div>
-</div>
-<p>Great for functions of more than one variable on a grid</p>
-<p>demo: <tt class="docutils literal"><span class="pre">broadcasting.ipynb</span></tt></p>
 
 
 

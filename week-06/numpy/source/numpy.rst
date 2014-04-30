@@ -125,42 +125,6 @@ Assorted linear algebra standards:
 demo: ``constructors.ipynb``
 
 
-What is an nd array?
---------------------
-
-  * N-dimensional (up to 32!)
-  * Homogeneous array:
-  
-    * Every element is the same type
-          (but that type can be a pyObject)
-    * Int, float, char -- more exotic types
-  
-  * "rank" – number of dimensions
-  * Strided data:
-  
-    * Describes how to index into block of memory
-    * PEP 3118 -- Revising the buffer protocol
-  
-
-demo: ``mem_struct.ipynb``
-
-
-Built-in Data Types
--------------------
-
-  * Signed and unsigned Integers
-        8, 16, 32, 64 bits
-  * Floating Point
-        32, 64, 96, 128 bits (not all platforms)
-  * Complex
-        64, 128, 192, 256 bits
-  * String and unicode
-        Static length
-  * Bool --  8 bit
-  * Python Object 
-        Really a pointer
-
-demo: ``object.ipynb``
 
 Slicing -- views:
 -----------------
@@ -201,6 +165,43 @@ Simple case: scalar and array:
 Great for functions of more than one variable on a grid
 
 demo: ``broadcasting.ipynb``
+
+What is an nd array?
+--------------------
+
+  * N-dimensional (up to 32!)
+  * Homogeneous array:
+  
+    * Every element is the same type
+          (but that type can be a pyObject)
+    * Int, float, char -- more exotic types
+  
+  * "rank" – number of dimensions
+  * Strided data:
+  
+    * Describes how to index into block of memory
+    * PEP 3118 -- Revising the buffer protocol
+  
+
+demo: ``mem_struct.ipynb``
+
+
+Built-in Data Types
+-------------------
+
+  * Signed and unsigned Integers
+        8, 16, 32, 64 bits
+  * Floating Point
+        32, 64, 96, 128 bits (not all platforms)
+  * Complex
+        64, 128, 192, 256 bits
+  * String and unicode
+        Static length
+  * Bool --  8 bit
+  * Python Object 
+        Really a pointer
+
+demo: ``object.ipynb``
 
 
 Text File I/O
