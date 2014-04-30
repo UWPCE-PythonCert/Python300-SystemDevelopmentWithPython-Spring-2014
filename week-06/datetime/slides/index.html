@@ -174,6 +174,10 @@ In [88]: datetime.datetime.strptime?
 Type:        builtin_function_or_method
 String form: <built-in method strptime of type object at 0x10f8536e0>
 Docstring:   string, format -&gt; new datetime parsed from a string (like time.strptime()).
+
+time_string = "2019/11/1 2300"
+format = "%Y/%m/%d %H%M"
+datetime.datetime.strptime(time_string, format)
 </code></pre>
     <p>strptime format strings use the same formatting tokens as strftime
     <p>If you need to parse arbitrary time strings, or don't want to maintain format strings, there is <a target="_blank" href="http://labix.org/python-dateutil">python-dateutil.parser</a>
