@@ -91,6 +91,40 @@ Image processing:
   * ndimage
 
 
+This Talk
+----------
+
+There are a lot of tutorials and documentation out there.
+
+So I'm not going to spend much time on the regualr old "how do you use it" stuff.
+
+Rather, I'm going to cover a bit about the guts and some advanced issues.
+
+This is harder to find expainations for -- and will help you understand what's really going on under the hood.
+
+
+
+Array Constructors:
+-------------------
+
+From scratch:
+ * ``ones(), zeros(), empty(), arange(), linspace(), logspace()``
+
+ ( Default dtype: ``np.float64`` )
+
+From sequences:
+ * ``array(), asarray()`` ( Build from any sequence )
+
+From binary data:
+ * ``fromstring(), frombuffer(), fromfile()`` 
+
+Assorted linear algebra standards:
+
+``eye(), diag()``, etc. 
+
+demo: ``constructors.ipynb``
+
+
 What is an nd array?
 --------------------
 
@@ -128,59 +162,6 @@ Built-in Data Types
 
 demo: ``object.ipynb``
 
-
-Compound dtypes
---------------
-
-
-  * Can define any combination of other types 
-        Still Homogeneous:  Array of structs.
-  * Can name the fields
-  * Can be like a database table
-  * Useful for reading binary data
-
-
-demo: ``dtypes.ipynb``
-
-Array Constructors:
--------------------
-
-From scratch:
- * ``ones(), zeros(), empty(), arange(), linspace(), logspace()``
-
- ( Default dtype: ``np.float64`` )
-
-From sequences:
- * ``array(), asarray()`` ( Build from any sequence )
-
-From binary data:
- * ``fromstring(), frombuffer(), fromfile()`` 
-
-Assorted linear algebra standards:
-
-``eye(), diag()``, etc. 
-
-demo: ``constructors.ipynb``
-
-
-Broadcasting:
--------------
-
-Element-wise operations among two different rank arrays:
-
-Simple case: scalar and array:
-::
-    
-    In [37]: a
-    Out[37]: array([1, 2, 3])
-    In [38]: a*3
-    Out[38]: array([3, 6, 9])
-
-
-Great for functions of more than one variable on a grid
-
-demo: ``broadcasting.ipynb``
-
 Slicing -- views:
 -----------------
 
@@ -202,25 +183,25 @@ a slice is a "view" on the array -- new object, but shares memory:
 
 demo: ``slice.ipynb``
 
-Working with compiled code
----------------------------
 
-Wrapper around a C pointer to a block of data}
+Broadcasting:
+-------------
 
-  * Some code can't be vectorized
-  * Interface with existing libraries
+Element-wise operations among two different rank arrays:
 
-Tools:
-
-  * C API: you don't want to do that!
-  * Cython: typed arrays
-  * Ctypes
-  * SWIG: numpy.i
-  * Boost: boost array
-  * f2py
+Simple case: scalar and array:
+::
+    
+    In [37]: a
+    Out[37]: array([1, 2, 3])
+    In [38]: a*3
+    Out[38]: array([3, 6, 9])
 
 
-Example of numpy+cython: http://wiki.cython.org/examples/mandelbrot
+Great for functions of more than one variable on a grid
+
+demo: ``broadcasting.ipynb``
+
 
 Text File I/O
 --------------
@@ -233,6 +214,19 @@ Loading from text (CSV, etc):
 Saving as text (CSV):
 
   * ``np.savetxt()``
+
+Compound dtypes
+--------------
+
+
+  * Can define any combination of other types 
+        Still Homogeneous:  Array of structs.
+  * Can name the fields
+  * Can be like a database table
+  * Useful for reading binary data
+
+
+demo: ``dtypes.ipynb``
 
 
 Numpy Persistence:
@@ -256,6 +250,26 @@ Hdf
   * pytables
 
 
+Working with compiled code
+---------------------------
+
+Wrapper around a C pointer to a block of data}
+
+  * Some code can't be vectorized
+  * Interface with existing libraries
+
+Tools:
+
+  * C API: you don't want to do that!
+  * Cython: typed arrays
+  * Ctypes
+  * SWIG: numpy.i
+  * Boost: boost array
+  * f2py
+
+
+Example of numpy+cython: http://wiki.cython.org/examples/mandelbrot
+
 Other stuff:
 ------------
 
@@ -269,7 +283,7 @@ Other stuff:
   * Linear Algebra
   * Statistics
 
-(And all of scipy!)
+(And all of scipy, pandas, etc.)
 
 numpy docs:
 -----------
