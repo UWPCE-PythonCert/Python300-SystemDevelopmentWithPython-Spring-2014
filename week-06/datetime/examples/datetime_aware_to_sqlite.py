@@ -20,7 +20,6 @@ def convert_datetime(ts):
 
 sqlite3.register_adapter(datetime.datetime, adapt_datetime)
 sqlite3.register_converter('timestamp', convert_datetime)
-# sqlite3.register_converter(datetime.datetime, convert_datetime)
 
 input_values = []
 
@@ -29,11 +28,7 @@ input_values.append([datetime.datetime(2019,11,1,12,0, tzinfo=pytz.UTC)])
 us_pacific_tz = pytz.timezone('US/Pacific')
 input_values.append([datetime.datetime(2019,11,1, tzinfo=us_pacific_tz)])
 
-# t1 = datetime.datetime.now()
-# t2 = datetime.datetime.now()
-
 conn = sqlite3.connect(":memory:", detect_types=sqlite3.PARSE_DECLTYPES)
-# conn = sqlite3.connect(":memory:")
 
 cursor = conn.cursor()
 

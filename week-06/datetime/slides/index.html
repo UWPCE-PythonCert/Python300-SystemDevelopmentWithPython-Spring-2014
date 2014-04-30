@@ -85,7 +85,7 @@
 <section class="slide">
     <h2><a target="_blank" href="http://en.wikipedia.org/wiki/Unix_time">UNIX time</a></h2>
         <ul>
-        <li>UNIX time is represented as the number of seconds from one point in time known as the Epoch, defined to be 00:00 (TZ?) January 1, 1970 UTC, not counting leap seconds
+        <li>UNIX time is represented as the number of seconds from one point in time known as the Epoch, defined to be 00:00 UTC January 1, 1970, not counting leap seconds
         <li>Note that UNIX time is based on another time standard
         <li>On 32 bit OSes which store time as a signed 32-bit integer, the largest value that can be stored is 03:14:07 UTC on Tuesday, 19 January 2038.  One second afterwards, time overflows back to zero.   This is known as the Y2038 problem.   
         <li>On 64 bit machines, the largest time which can be represented is in the year 292 billion, at which time our universe is predicted to not exist
@@ -188,7 +188,7 @@ Docstring:   string, format -&gt; new datetime parsed from a string (like time.s
     <p>Timezone is specified with the tzinfo attribute, through the constructor: datetimes are immutable
     <p>Change the timezone or another attribute with the replace(*args, **kwargs) method to create a new object with all the same attributes except those specified
     <p>tzinfo is expected to be a subclass of datetime.tzinfo
-    <p>However, datetime.tzinfo is an abstract base class, which means you'll need to define your own subclass (fraught with peril) or install the pytz package
+    <p>However, datetime.tzinfo is an abstract base class, which means you'll need to define your own subclass (filled with peril) or install the pytz package
     <p>pytz is based on the <a target="_blank" href="http://en.wikipedia.org/wiki/Tz_database">Olson database</a>, a reference database of the world's timezones.
 </section>
 
@@ -242,7 +242,7 @@ TypeError: can't subtract offset-naive and offset-aware datetimes
 <section class="slide">
     <h2>Storing datetimes</h2>
     <p>Try to deal in UTC as much as possible.  Do not depend on the machine's interpretation of local time.  
-    <p>For instance, my datetime.now() on my Mac will return a naive datetime containing the local time.  Alternatively:
+    <p>For instance, datetime.now() on my Mac will return a naive datetime containing the local time.  Alternatively:
 <pre><code>
 # return the current time as an aware datetime in UTC:
 datetime.datetime.now(pytz.UTC)
