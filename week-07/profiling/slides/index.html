@@ -198,14 +198,16 @@ import time
 %timeit -n 10000 "f" in "food"
     </code></pre>
     </p>
-    <p>The results of timeit and %timeit are different, why?:
+<!--
+    <p>The results of timeit and %timeit are different:
 <pre><code>
-In [12]: timeit("u is None")
-100000000 loops, best of 3: 15.9 ns per loop
+In [12]: timeit.timeit("None is None")
+Out[17]: 0.05478096008300781
 
-In [13]: %timeit u is None
+In [13]: %timeit None is None
 10000000 loops, best of 3: 51.4 ns per loop
 </code></pre>
+-->
 <!-- add gc.enable() as 2nd arg, as startup option to enable gc which is disabled by default -->
     </p>
     <p>
@@ -262,6 +264,7 @@ timeit.timeit(statement2)
 
     <section class="slide">
         <h2>cProfiler</h2>
+        <p>Or it can be run as a module on an entire application
     <pre><code>python -m cProfile integrate_main.py
 
  11111128 function calls in 8.283 seconds
@@ -280,6 +283,27 @@ timeit.timeit(statement2)
         <li>percall: cumtime / ncalls
         <li>filename:lineno: location of function
     </ul>
+    <p>"primitive" calls are those not induced via recursion
+    <p class="slide">This amount of data is readable, so now we'll look at the output from a more complex application: examples/pygame/swarm.py
+    <p class="slide">A simple way to get data for our own code is
+<pre class="slide">
+python -m cProfile swarm.py  &amp;&gt; /tmp/output.txt
+grep swarm.py /tmp/output.txt
+</pre>
+    </p>
+    </section>
+
+    <section class="slide">
+        <h2>cProfiler</h2>
+        <p>Can run a single line of code similar to timeit:
+<pre><code>
+cProfile.run('None is None')
+</code></pre>
+        <p>Or from our old demo app examples/wikidef :
+<pre><code>
+cProfile.run("Definitions.article('python')")
+</code></pre>
+
     </section>
 
     <section class="slide">
@@ -294,7 +318,22 @@ timeit.timeit(statement2)
 
     <pre><code>python -m pstats
 % read prof_dump
+
+# show stats:
 prof_dump% stats
+
+# only the top 5 results:
+prof_dump% stats 5
+
+# sort by cumulative time:
+prof_dump% sort cumulative
+
+# shorten long filenames for display:
+prof_dump% strip
+
+# show results again:
+prof_dump% stats 5
+
 </code></pre>
 
     <p>
@@ -310,6 +349,16 @@ p.print_stats()
     </p>
 
     </section>
+<section class="slide">
+    <h2>Analyzing profile data</h2>
+    <p>Inspect only your local code with regular expression syntax:
+<pre><code>import pstats
+
+prof = pstats.Stats('wikidef.prof')
+prof.sort_stats('cumulative')
+prof.print_stats('^./[a-z]*.py:')
+</code></pre>
+</section>
 
     <section class="slide">
         <h2>qcachegrind / kcachegrind</h2>
@@ -336,8 +385,7 @@ p.print_stats()
         <p>
     <img src="img/runsnake.png" />
         <p>
-    <pre>
-    <code># on Mac, it's easier to install wxPython via native installer and install runsnakerun into your system Python
+    <pre><code># on Mac, it's easier to install wxPython via native installer and install runsnakerun into your system Python
 # then run the runsnake32 wrapper:
 # runsnake32 dump.profile
 
@@ -353,11 +401,27 @@ runsnake dump.profile
     <p>line_profiler is a module for doing line-by-line profiling of functions
     <p>ships with a script, kernprof.py
     <p>Now decorate the function you want to profile with @profile and run</p>
-    <pre>
-    <code>
-    % kernprof.py -l -v agg.py
+    <pre><code>% kernprof.py -l -v swarm.py
+
+Wrote profile results to swarm.py.lprof
+Timer unit: 1e-06 s
+
+File: swarm.py
+Function: update_v at line 25
+Total time: 0.142978 s
+
+Line #      Hits         Time  Per Hit   % Time  Line Contents
+==============================================================
+    25                                               @profile
+    26                                               def update_v(self, other ):
+    27                                                   """update v with gravitational force of other"""
+    28     12300        38282      3.1     26.8          d = math.sqrt( (self.x - other.x)**2 + (self.y - other.y)**2)
+    29     12300        19128      1.6     13.4          v = ((other.x - self.x), (other.y - self.y))
+    30     12300        53274      4.3     37.3          f = map(lambda x: 200 * x / (d*d), v)
+    31     12300        32294      2.6     22.6          self.v = [self.v[0] + f[0], self.v[1] + f[1]]
     </code>
     </pre>
+
     <a target="_blank" href="http://pythonhosted.org/line_profiler/">http://pythonhosted.org/line_profiler/</a>
     </section>
 
@@ -383,7 +447,7 @@ runsnake dump.profile
             <li>Overhead in function/method runtime lookup can be significant for small frequent calls. 
             inlining code or caching function references might help
             <li>Python string handling idioms: use "".join(list_of_strings) rather than sequential calls to +=
-            <li>using list comprehensions, generator expressions, or map() instead of for loops can be faster
+            <li>using list comprehensions, generator expressions, or map() instead of for loops can be faster (see data_aggregation/loops.py)
             <li>Rewrite expensive code in C (or Cython!)
             <li>Leverage existing C extension libraries, for instance Numpy.
         </ul>
