@@ -1,5 +1,6 @@
+from timer import timer
 
-@profile
+@timer
 def slow():
     s = ""
     with open('/usr/share/dict/words') as f:
@@ -7,13 +8,13 @@ def slow():
             s += l
     return s
     
-@profile
+@timer
 def fast():
     with open('/usr/share/dict/words') as f:
         s = "".join(f)
         return s
 
 if __name__ == "__main__":
-    s1 = slow()
     s2 = fast()
+    s1 = slow()
     assert(s1 == s2)
