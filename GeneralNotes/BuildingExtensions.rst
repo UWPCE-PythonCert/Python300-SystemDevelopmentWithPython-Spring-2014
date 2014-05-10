@@ -45,11 +45,9 @@ you need C and C++ compilers, but not the DB stuff, etc. Chances are you'll get 
 OS-X:
 =========
 
-Apple moves fast with its upgrades, so it's a big of a trick. The latest version of XCode is free, but does not support older systems, and thus won't work (at least not easily) for the python.org python builds.
+Apple moves fast with its upgrades, so it's a bit of a trick. The latest version of XCode is free, but does not support older systems, and thus won't work (at least not easily) for the python.org python builds.
 
-For python.org Python2.7, you need XCode 3.* (latest is 3.2.6) 
-
-If you have a pre-lion (10.6 or below) system, you may have gotten XCode with your install DVDs, on the extras disk or something like that. If so, I'd install from there, it's a big download.
+For python.org Python2.7, you need XCode 4.* (I've got 4.6.3)
 
 for Lion (10.7 and above) -- you'll need to download it. Apple makes it a bit hard to find the older versions, but they can be found at:
 
@@ -57,9 +55,10 @@ for Lion (10.7 and above) -- you'll need to download it. Apple makes it a bit ha
 
 you need to login with an AppleID (or create one), then select "Developer Tools", and search for Xcode -- poke around a bit, and you'll eventually find:
 
-XCode 3.2.6 and iOS SDK
+XCode 4.6.3 
 
 Download and install it (do it with a fast connection -- it's huge)
 
-You should be good to go.
+After installing it, you may need to install the "command line tools". Select preferences, the Downloads, and install the "Command Line Tools" if they are not already installed.
+
 
