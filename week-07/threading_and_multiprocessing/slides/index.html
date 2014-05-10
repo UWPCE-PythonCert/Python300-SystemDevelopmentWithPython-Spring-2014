@@ -154,12 +154,12 @@
 <section class="slide">
     <h2>Poor man's parallel execution example</h2>
 <p>
-Consider the following code from last week
+Consider the following code from week-07/threading_and_multiprocessing/examples/integrate/cheap-hack
 <pre><code>
 def f(x):
     return x**2
 
-def integrate_f(a, b, N):
+def integrate(f, a, b, N):
     s = 0
     dx = (b-a)/N
     for i in xrange(N):
@@ -200,6 +200,132 @@ for thread in threads:
     <li>The process will exit when the last non-daemon thread exits.   
     <li>You can block and wait for a thread to exit with thread.join()   
 </ul>
+</section>
+
+<section class="slide">
+    <h2>Race Conditions</h2>
+
+    <a href="http://en.wikipedia.org/wiki/Race_condition">
+        http://en.wikipedia.org/wiki/Race_condition
+    </a>
+
+    <p>
+    <style>
+        .wikitable {
+            border: 1px solid grey;
+            float: left;
+            font-size: 80%;
+            margin: 20px;
+            text-align: center;
+        }
+        .wikitable td {
+            border: 1px solid grey;
+            padding: 5px;
+        }
+    </style>
+    <table class="wikitable">
+<tbody><tr>
+<th>Thread 1</th>
+<th>Thread 2</th>
+<th></th>
+<th>Integer value</th>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td>0</td>
+</tr>
+<tr>
+<td>read value</td>
+<td></td>
+<td>←</td>
+<td>0</td>
+</tr>
+<tr>
+<td style="background: wheat;">increase value</td>
+<td></td>
+<td></td>
+<td>0</td>
+</tr>
+<tr>
+<td>write back</td>
+<td></td>
+<td>→</td>
+<td>1</td>
+</tr>
+<tr>
+<td></td>
+<td>read value</td>
+<td>←</td>
+<td>1</td>
+</tr>
+<tr>
+<td></td>
+<td style="background: wheat;">increase value</td>
+<td></td>
+<td>1</td>
+</tr>
+<tr>
+<td></td>
+<td>write back</td>
+<td>→</td>
+<td>2</td>
+</tr>
+</tbody></table>
+
+<table class="wikitable">
+<tbody><tr>
+<th>Thread 1</th>
+<th>Thread 2</th>
+<th></th>
+<th>Integer value</th>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td>0</td>
+</tr>
+<tr>
+<td>read value</td>
+<td></td>
+<td>←</td>
+<td>0</td>
+</tr>
+<tr>
+<td></td>
+<td>read value</td>
+<td>←</td>
+<td>0</td>
+</tr>
+<tr>
+<td style="background: wheat;">increase value</td>
+<td></td>
+<td></td>
+<td>0</td>
+</tr>
+<tr>
+<td></td>
+<td style="background: wheat;">increase value</td>
+<td></td>
+<td>0</td>
+</tr>
+<tr>
+<td>write back</td>
+<td></td>
+<td>→</td>
+<td>1</td>
+</tr>
+<tr>
+<td></td>
+<td>write back</td>
+<td>→</td>
+<td>1</td>
+</tr>
+</tbody></table>
+
+<p>
 </section>
 
 <section class="slide">
@@ -442,6 +568,16 @@ if __name__ == '__main__':
 from multiprocessing.pool import ThreadPool
 pool = ThreadPool(processes=4)
 </code></pre>
+</section>
+
+<section class="slide">
+    <h2>Deadlocks</h2>
+    <p>Synchronization and Critical Sections are used to control race conditions</p>
+    <p>But they introduce other potential problems...</p>
+    <p>...like <a href="http://en.wikipedia.org/wiki/Deadlock">Deadlocks</a>!</p>
+    <p>"A deadlock is a situation in which two or more competing actions are each waiting for the other to finish, and thus neither ever does."</p>
+    <p><em>When two trains approach each other at a crossing, both shall come to a full stop and neither shall start up again until the other has gone.</em></p>
+    <p>See also <em>Livelock</em>, and <em>Distributed Deadlock</em></p>
 </section>
 
 <section class="slide">
