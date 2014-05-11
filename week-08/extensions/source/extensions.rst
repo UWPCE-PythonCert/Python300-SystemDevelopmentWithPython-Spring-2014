@@ -291,4 +291,31 @@ LAB 2:
 * This is a different result than a pure Python 1/0, which throws an exception
 * Change the divide method to throw an appropriate exception in the divide-by-zero case
 
+*******
+ctypes
+*******
 
+What is ctypes?
+================
+
+A foreign function interface in Python
+
+Binds functions in shared libraries to Python functions
+
+Benefits:
+ - Ships with Python, since 2.5
+ - No new language to learn, it's all Python
+
+Drawbacks:
+ - Performance hit for on the fly type translation
+ - "thicker" interface in python
+
+Example::
+
+  from ctypes import *
+  add = cdll.LoadLibrary("add.so")
+  print add.add(3,4)
+
+Further reading:
+
+http://docs.python.org/2/library/ctypes.html
