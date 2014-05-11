@@ -9,10 +9,6 @@ divide(PyObject *self, PyObject *args)
 
     if (!PyArg_ParseTuple(args, "dd", &x, &y))
         return NULL;
-    if (y == 0) {
-        PyErr_SetString(PyExc_ZeroDivisionError, "DIVIDE BY ZERO ERROR");
-        return NULL;
-    }
     sts = x/y;
     return Py_BuildValue("d", sts);
 }
@@ -24,20 +20,11 @@ static PyMethodDef DivideMethods[] = {
     {NULL, NULL, 0, NULL}
 };
 
-void initdivide(void) {
+PyMODINIT_FUNC // does the right thing on Windows, Linux, etc.
+initdivide(void) {
     // Module's initialization function
     // Will be called again if you use Python's reload()
 
-    PyImport_AddModule("divide");
     Py_InitModule("divide", DivideMethods);
 }
 
-int main(int argc, char *argv[]) {
-    Py_SetProgramName(argv[0]);
-
-    Py_Initialize();
-
-    initdivide();
-
-    return 0;
-}
