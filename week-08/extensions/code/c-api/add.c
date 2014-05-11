@@ -28,12 +28,12 @@ void initadd(void) {
     Py_InitModule("add", AddMethods);
 }
 
-int main(int argc, char *argv[]) {
-    Py_SetProgramName(argv[0]);
+// int main(int argc, char *argv[]) {
+//     // Py_SetProgramName(argv[0]);
 
-    Py_Initialize();
+//     Py_Initialize();
 
-    initadd();
+//     initadd();
 
-    return 0;
-}
+//     return 0;
+// }
