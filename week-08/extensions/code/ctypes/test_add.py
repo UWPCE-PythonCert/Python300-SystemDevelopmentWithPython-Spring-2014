@@ -40,13 +40,24 @@ libc.printf("An int %d, a double %f\n", 1234, ctypes.c_double(3.14))
 ## prototype for pow():
 ## double pow ( double x, double y )   
 
-print "This should be 81:",
+print "This should be 81.0:",
 print libm.pow(ctypes.c_double(3), ctypes.c_double(4))
 
 ## need to set the return type!
 libm.pow.restype = ctypes.c_double
-print "This should be 81:",
+print "This should be 81.0:",
 print libm.pow(ctypes.c_double(3), ctypes.c_double(4))
+
+## if you are going to call the same function a lot,
+## you can specify the arument types:
+
+libm.pow.restype = ctypes.c_double
+libm.pow.argtypes = [ctypes.c_double, ctypes.c_double]
+print "This should be 81.0:",
+print libm.pow(3, 4.0)
+
+## much easier!
+
 
 
 
