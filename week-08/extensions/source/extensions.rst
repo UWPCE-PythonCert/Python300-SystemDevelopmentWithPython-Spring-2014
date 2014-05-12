@@ -25,9 +25,9 @@ Topics
 
 * ctypes
 
-* SWIG
-
 * Cython
+
+* Auto-generating wrappers
 
 * Others to consider
 
@@ -450,14 +450,12 @@ http://docs.scipy.org/doc/numpy/reference/generated/numpy.ndarray.ctypes.html
 Summary:
 ========
 
-* ``ctypes`` allows you to call shared libraries:
-
+``ctypes`` allows you to call shared libraries:
   - Your own custom libs
   - System libs
   - Proprietary libs
 
-* Supports almost all of C:
- 
+Supports almost all of C:
  - Custom data types
 
    - structs 
@@ -547,10 +545,56 @@ First, install cython with::
 
 Cython files end in the .pyx extension. An example add.pyx::
 
-  def add(int x, int y):
+  def add(x, y):
       cdef int result=0
       result = x + y
       return result
+
+(looks a lot like Python, eh?)
+
+.. nextslide::
+
+To build a cython module: write a setup.py that defines the extension::
+
+   from distutils.core import setup
+   from Cython.Build import cythonize
+
+   setup(name = "cython_example",
+         ext_modules = cythonize(['cy_add.pyx',])
+      )
+
+``cythonize`` is a utility that sets up extension module builds for you in a cython-aware way.
+
+Building a module
+========================
+
+For testing, it's helpful to do::
+
+  python setup.py build_ext --inplace
+
+which builds the extensions, and puts the resulting modules right in with the code.
+
+If you have your setup.py set up for a proper package, you can do::
+
+  python setup.py develop
+   or
+  python setup.py install
+
+Just like for pure-python packages.
+
+.. nextslide::
+
+You can also do only the Cython step by hand at the command line::
+
+  cython a_file.pyx
+
+Produces a: ``a_file.c`` file that you can examine, or compile.
+
+For easier reading, you can generate an annotated html version::
+
+  cython -a a_file.pyx 
+
+Generates a ``a_file.html`` file that is easier to read and gives additional information that is helpful for debugging and performance tuning. More on this later.
 
 
 Basic Cython
@@ -564,40 +608,29 @@ Cython functions can be declared three ways::
   
   cpdef foo # callable from both Cython and Python
 
-Once your .pyx file is created, it is converted to C via
+Inside those functions, you can write virtually any python code.
+
+But the real magic is with the optional type declarations:
+
+Cython Example
+===============
+
+Consider a more expensive function::
+
+  def f(x):
+      return x**2-x
+
+  def integrate_f(a, b, N):
+      s = 0
+      dx = (b-a)/N
+      for i in range(N):
+          s += f(a+i*dx)
+      return s * dx
+
+This works with pure python:
 
 
-cython cy_add.pyx
-Generate "annoted" C code in HTML
 
-
-cython -a cy_add.pyx
-To build your Python extension:
-
-
-python cy_setup.py build_ext --inplace # note Cython defines its' own build_ext in Cython.Distutils.build_ext
-
-Cython can compile pure Python code to C to provide a performance improvement
-
-
-
-::
-
-
-
-
-Consider a more expensive function
-
-
-def f(x):
-    return x**2-x
-
-def integrate_f(a, b, N):
-    s = 0
-    dx = (b-a)/N
-    for i in range(N):
-        s += f(a+i*dx)
-    return s * dx
 
 
 Impovements with static typing

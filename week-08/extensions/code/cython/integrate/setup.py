@@ -2,13 +2,16 @@
 
 from distutils.core import setup
 from distutils.extension import Extension
-from Cython.Distutils import build_ext
+from Cython.Build import cythonize
 
-
-ext_1 = Extension("integrate",   ["lib/integrate.py"])
-
-setup(
-    cmdclass = {'build_ext': build_ext},
-    ext_modules = [ext_1, ]
-)
+setup(name = "cython_example",
+      ext_modules = cythonize(['cy_integrate1.pyx',
+                               'cy_integrate2.pyx',
+                               'cy_integrate3.pyx',
+                               'cy_integrate4.pyx',
+                               'cy_integrate5.pyx',
+                               'cy_integrate6.pyx',
+                               'cy_integrate7.pyx',
+                               ])
+      )
 
