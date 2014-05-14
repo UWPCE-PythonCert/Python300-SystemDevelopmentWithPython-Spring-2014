@@ -560,7 +560,7 @@ To build a cython module: write a setup.py that defines the extension::
    from Cython.Build import cythonize
 
    setup(name = "cython_example",
-         ext_modules = cythonize(['cy_add.pyx',])
+         ext_modules = cythonize(['cy_add1.pyx',])
       )
 
 ``cythonize`` is a utility that sets up extension module builds for you in a cython-aware way.
@@ -610,10 +610,104 @@ Cython functions can be declared three ways::
 
 Inside those functions, you can write virtually any python code.
 
-But the real magic is with the optional type declarations:
+But the real magic is with the optional type declarations: the ``cdef`` lines. Well see this as we go...
 
-Cython Example
-===============
+Calling a C function from Cython
+================================
+
+You need to tell Cython about extenal functions you want to call with ``cdef extern``.
+
+The Cython code::
+
+  # distutils: sources = add.c
+  # This tells cythonize that yoy need that c file.
+
+  # telling cython what the function we want to call looks like.
+  cdef extern from "add.h":
+      # pull in C add function, renaming to c_add for Cython
+      int c_add "add" (int x, int y)
+
+  def add(x, y):
+      # now that cython knows about it -- we can just call it.
+      return c_add(x, y)
+
+.. nextslide::
+
+and the setup.py::
+
+  from distutils.core import setup
+  from Cython.Build import cythonize
+
+  setup(name = "cython_example",
+        ext_modules = cythonize(['cy_add_c.pyx']  )
+        )
+
+.. nextslide::
+
+To build it::
+    
+    $ python setup.py build_ext --inplace
+
+and test it::
+
+    Chris$ python test_cy_add_c.py
+    
+    if you didn't get an assertion, it worked
+
+
+A pure Cython solution
+=======================
+
+Here it is as python code::
+
+  def add(x, y):
+      result = x + y
+      return result
+
+Which we can put in a pyx file and compile with the setup.py::
+
+  #!/usr/bin/env python
+
+  from distutils.core import setup
+  from Cython.Build import cythonize
+
+  setup(name = "cython_example",
+        ext_modules = cythonize(['cy_add1.pyx',
+                                 ])
+        )
+
+.. nextslide::
+
+and build::
+
+  python setup.py build_ext --inplace        
+
+and test::
+
+  Chris$ python test_cy_add1.py 
+
+  if you didn't get an assertion, it worked
+
+.. nextslide:: 
+
+But this is still essentially Python. So let's type define it::
+
+  def add(int x, int y):
+
+      cdef int result=0
+      result = x + y
+
+      return result
+
+now cython knows that x, y, and the result are ints, and can use raw C for that. Build and test again::
+
+  Chris$ python setup.py build_ext --inplace
+
+  Chris$ python test_cy_add2.py 
+  if you didn't get an assertion, it worked
+
+A real Example: the Cython process
+===================================
 
 Consider a more expensive function::
 
@@ -627,28 +721,65 @@ Consider a more expensive function::
           s += f(a+i*dx)
       return s * dx
 
-This works with pure python:
+This is a good candidate for Cython -- an essentially static function called a lot.
+
+Cython from pure Python to C
+=============================
+
+Let's go through the steps one by one. In the ``code/integrate`` directory::
 
 
+  cy_integrate1.pyx
+  cy_integrate2.pyx
+  cy_integrate3.pyx
+  cy_integrate4.pyx
+  cy_integrate5.pyx
+  cy_integrate6.pyx
+  cy_integrate7.pyx
 
+At each step, we'll time and look at the output from::
 
+  $cython -a cy_integrate1.pyx
 
-Impovements with static typing
+************************
+Auto-generated wrappers
+************************
 
-Convert the dynamically typed variables to static types and measure performance improvement before and after
-Can static types and dynamic types be mixed?
-Check the performance in converting the function type to static (see here)
-Use cython -a to compare the generated C code in all cases
+There are few ways to auto-generate wrapper for C/C++ code:
 
-def f(x):
-    return x**2-x
+SWIG
 
-def integrate_f(a, b, N):
-    s = 0
-    dx = (b-a)/N
-    for i in range(N):
-        s += f(a+i*dx)
-    return s * dx
+SIP
 
+XDress
+
+SWIG
+=====
+
+Simple Wrapper Interface Generator
+
+A language agnostic tool for integrating C/C++ code with high level languages
+
+Advantages
+
+Code generation for other environments than Python. Doesn't require modification to your C source.
+
+.. nextslide::
+
+Language interfaces:
+ * Python
+ * Tcl
+ * Perl
+ * Guile (Scheme/Lisp)
+ * Java
+ * Ruby
+
+and a bunch of others:
+
+http://www.swig.org/compat.html#SupportedLanguages
+
+Further reading
+
+http://www.swig.org/Doc1.3/Python.html
 
 
