@@ -753,6 +753,8 @@ SIP
 
 XDress
 
+[also Boost-Python -- nat really a wrapper generator]
+
 SWIG
 =====
 
@@ -782,4 +784,76 @@ Further reading
 
 http://www.swig.org/Doc1.3/Python.html
 
+SWIGifying add()
+================
+
+SWIG doesn't require modification to your C source code
+
+The language interface is defined by an "interface file", usually with a suffix of .i
+
+From there, SWIG can generate interfaces for the languages it supports
+
+The interface file contains ANSI C prototypes and variable declarations
+
+The %module directive defines the name of the module that will be created by SWIG
+
+Creating a wrapper:
+===================
+
+Create ``add.i``::
+
+  %module add
+  %{
+  %}
+  extern int add(int x, int y);
+
+Create distutils ``setup.py``::
+
+  from distutils.core import setup, Extension
+
+  setup(
+      name='add',
+      py_modules=['add'],
+      ext_modules=[
+          Extension('_add', sources=['add.c', 'add.i'])
+      ]
+  )
+
+.. nextslide::
+
+And built it::
+
+  python setup.py build_ext --inplace
+
+then run the code::
+
+  python -c 'import add; print add.add(4,5)'
+
+http://www.swig.org/Doc2.0/SWIGDocumentation.html#Introduction_nn5
+
+***********************
+Decisions, Decisions...
+***********************
+
+So what to use???
+
+My decision tree:
+
+Are you calling a few system library calls?
+ * Use ctypes
+
+Do you have a really big library to wrap?
+  * use a wrapper generator:
+
+    - SWIG (use this is you need to support other languages)
+    - SIP
+    - XDress
+
+Are you writing extensions from scratch?
+ * Cython
+ * Do you love C++
+   - Boost-Python
+
+Do you want a "thick" wrapper around a C/C+= lib:
+  * Cython
 
