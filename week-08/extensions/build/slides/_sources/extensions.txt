@@ -837,7 +837,8 @@ Decisions, Decisions...
 
 So what to use???
 
-My decision tree:
+My decision tree
+=================
 
 Are you calling a few system library calls?
  * Use ctypes
@@ -845,13 +846,13 @@ Are you calling a few system library calls?
 Do you have a really big library to wrap?
   * use a wrapper generator:
 
-    - SWIG (use this is you need to support other languages)
+    - SWIG (other languages?)
     - SIP
     - XDress
 
 Are you writing extensions from scratch?
  * Cython
- * Do you love C++
+ * Do you love C++ ?
    - Boost-Python
 
 Do you want a "thick" wrapper around a C/C+= lib:

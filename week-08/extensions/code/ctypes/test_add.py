@@ -3,7 +3,7 @@
 import sys
 
 lib_ext = ('.so' if ('darwin' in sys.platform or
-                    'linux in sys.platform')
+                    'linux' in sys.platform)
                 else ".dll")
 
 import ctypes
@@ -26,8 +26,8 @@ elif 'linux' in sys.platform:
     libm = ctypes.CDLL("libm.so")
 elif 'win' in sys.platform:
     # Windows can find already loaded dlls by name
-    libc = cdll.msvcrt # lib c and libm are in msvcrt
-    libm = cdll.msvcrt
+    libc = ctypes.cdll.msvcrt # lib c and libm are in msvcrt
+    libm = ctypes.cdll.msvcrt
 
 libc.printf("printed via libc printf()\n")
 

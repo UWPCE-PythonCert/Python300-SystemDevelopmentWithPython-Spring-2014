@@ -31,7 +31,7 @@ run_test("Fifth Cython version:")
 from cy_integrate6 import integrate_f
 run_test("Sixth Cython version:")
 
-from cy_integrate6 import integrate_f
+from cy_integrate7 import integrate_f
 run_test("Seventh Cython version:")
 
 
