@@ -8,7 +8,7 @@ March 25 through May 27th, Tuesday, 6 PM
 
 ### Course Objectives
 
-At the end of the class, students will have completed a project of their own choosing, and been exposed to different advanced topics of the python programming language. Most programming class coursework involves small, self contained, assignments. While this is useful for learning specific concepts, it is hard to develop and understanding of the issues associated with larger software projects. This class gives students a chance to develop a significant project with the guidance of the instructors.
+At the end of the class, students will have completed a project of their own choosing and been exposed to a variety of advanced topics about the python programming language. Most programming class coursework involves small, self contained, assignments. While this is useful for learning specific concepts, it is hard to develop an understanding of the issues associated with larger software projects. This class gives students a chance to develop a significant project with the guidance of the instructors.
 
 ### Course Website
 Lecture notes, sample code, etc will be available in the course github project:
@@ -28,14 +28,14 @@ Students will need a laptop computer with python 2.7.x , a development environme
 
 ##Assessment Criteria & Course Expectations
 
-Students are required to attend 8 out 10 classes, and complete a significant software project in the Python language, either individually or as part of a small group. In addition, each student will present some of their code for an in-class code review.
+Students are required to attend 8 out 10 classes and complete a significant software project in the Python language, either individually or as part of a small group. In addition, each student will be required to present some of their work in progress code for an in-class code review in teh middl eof the quarter.
 
 Courses in this program are arranged sequentially.  To recieve the certificate, students are required to earn a grade of Successful Completion (SC) in this course. Students must have  successfully completed all courses in the program to receive a certificate of completion.
 
 
 ## The class project:
 
-Each student will develop a substantial project throughout the class. It can be an individual project, or a group project with a small group from the class (2-4 students). We suggest that you consider a group project -- it will give you a chance to practice developing with others, as well as give you a built-in way to get code review, folks to bounce ideas off of, etc.
+Each student will develop a substantial project throughout the class. It can be an individual project or a group project with a small group from the class (2-4 students). We suggest that you strongly consider a group project -- it will give you a chance to practice developing with others, as well as give you a built-in way to get code review, folks to bounce ideas off of, etc.
 
 ### Requirements:
 
@@ -49,7 +49,7 @@ We will expect you to use a Revision Control System (likely gitHub), and employ 
 
 You should set it up with good package structure -- ready to share and/or deploy.
 
-Write some docs: Sphinx!
+The project code should be documented: Sphinx!
 
 Conform to PEP8 (unless you have a company style instead)
 
@@ -61,20 +61,19 @@ Use PyChecker and/or PyLint and/or PyFlakes
 
 Each class will involve a lecture interspersed with in-class exercises about the lecture topic. 
 
-Beginning the fourth week, the final hour or so of the class will consist of a code reviews of students' work-in-progress.
+Beginning the fourth week, the final hour or so of the class will consist of code reviews of students' work-in-progress.
 
 In addition, as we work with you on your projects, we will highlight for the class interesting problems and their solutions that come up in class.
 
 
 # Schedule
 
-
 ### Week 1
 March 25th
 
 #### Topics 
 - packaging: Chris
-- unit testing (coverage): Joseph
+- unit testing and coverage: Joseph
 - unicode: Chris
 
 
@@ -85,7 +84,6 @@ April 1st
 - PEP-8 (pylint/pychecker/pyflakes): Joseph
 - Documentation (docstrings, sphinx): Chris
 - Debugging (print, logging, pdb/ipdb, winpdb, eclipse): Joseph
-
 
 
 ### Week 3
@@ -110,7 +108,7 @@ April 15th
 April 22nd
 
 #### Topics 
-- serialization review / XML (Joseph?)
+- serialization review / XML (Joseph)
 - Lambda functions / functional programming / functools
 - use immutable kwargs in function definition
 - itertools
@@ -122,7 +120,7 @@ April 29th
 
 #### Topics 
 
-- datetime,time,pytz: Joseph
+- datetime, time, pytz: Joseph
 - numpy, scipy, pandas, matplotlib, ipython/notebook: Chris
 
 
